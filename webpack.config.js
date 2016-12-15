@@ -205,8 +205,9 @@ module.exports = function makeWebpackConfig() {
       }
     })	,
 	new webpack.ProvidePlugin({
-        jQuery: 'jquery',       
-        jquery: 'jquery'
+        JQ666: 'jquery',       
+        jQuery: 'jquery'	
+		//bootstrap requires jQuery	
      })		 
   ];
 

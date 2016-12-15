@@ -10,6 +10,6 @@ import '@angularclass/hmr';
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 // You can import js, ts, css, sass, ...
-import 'jquery';
-//import * as $ from 'jquery';
+import 'jquery';  //I think this is correct.. 
+//import * as $ from 'jquery/dist/jquery';
 import 'bootstrap/dist/js/bootstrap';
