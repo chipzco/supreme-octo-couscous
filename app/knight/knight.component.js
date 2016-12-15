@@ -14,7 +14,6 @@ var knight_service_1 = require('./knight.service');
 var KnightComponent = (function () {
     function KnightComponent(knightService) {
         this.knightService = knightService;
-        this.myvar = 5;
     }
     KnightComponent.prototype.ngOnInit = function () {
         this.board = new coord_1.Board(8, 8);

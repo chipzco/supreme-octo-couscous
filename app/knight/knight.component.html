@@ -1,24 +1,23 @@
 
 
- <h5>knight move recursive </h5>
- <div class="container board"> 
-		
-		
-		<div class="row" *ngFor="let y of cols">
-			<div *ngFor="let x of rows" [ngClass]=getClass(x,y) (click)="setPath(x,y)">			
-				{{getSq(x,y).alg_not}}
-			</div>
-		</div>
-		
-		<button [disabled]="!squaresSelected()" (click)="showPaths()">Generate Knight Moves!</button>
-		
-	<div>	
-	
-			{{myvar}}   <br/> My Move Number:
-		 <div *ngFor="let t of mymoves; let i=index;">
+
+ <div class="row">		
+	<div class="col-md-8">	
+		<div class="board"> 
+			<div class="row" *ngFor="let y of cols">
+				<div *ngFor="let x of rows" [ngClass]=getClass(x,y) (click)="setPath(x,y)">			
+					{{getSq(x,y).alg_not}}
+				</div>
+			</div>		
+			<button [disabled]="!squaresSelected()" (click)="showPaths()">Generate Knight Moves!</button>
+		</div>			
+	</div>	
+	<div class="col-md-2">		
+		<br/> My Move Number:
+		<div *ngFor="let t of mymoves; let i=index;">
 			Min Num Turns: {{ t.numTurns }}  <br/>
 			<b>{{i}}:</b> <span *ngFor="let sq of t.path; let fin=last">{{ sq.alg_not }} <i *ngIf="!fin">to </i></span> 
-		</div>
+		</div>		
 	</div>	
 </div>
       

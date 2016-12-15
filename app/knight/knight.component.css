@@ -15,7 +15,8 @@
 
 
 
-.square {		
+.square {	
+	padding-left:5px;	
 	width :100px;
 	height:100px;
 	text-align:center;
@@ -23,11 +24,12 @@
 }
 
 .board {
-	width:820px;
+	width:802px;
+	padding-left:15px;	
 	height:820px;	
 	border: 1px black solid;
-	text-align:center;
+	text-align:right;
 	margin-left: auto;
-	margin-right: auto;
+	margin-right: 10px;
 }
 	

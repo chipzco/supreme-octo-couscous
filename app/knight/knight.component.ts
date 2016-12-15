@@ -15,7 +15,7 @@ import { KnightService, TurnsHolder } from './knight.service';
 export class KnightComponent implements OnInit {
 	public mymoves: Array<TurnsHolder>;
 	
-	constructor(private knightService: KnightService) { this.myvar=5; }   
+	constructor(private knightService: KnightService) {  }   
 	
 	board:  Board;	
 	squares: Coord[];
