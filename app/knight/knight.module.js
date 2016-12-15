@@ -9,25 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var my_service_1 = require('./my-service');
-var app_component_1 = require('./app.component');
-var about_component_1 = require('./about.component');
-var app_routing_module_1 = require('./app-routing.module');
-var knight_module_1 = require('./knight/knight.module');
-var AppModule = (function () {
-    function AppModule() {
+var common_1 = require('@angular/common');
+var knight_routing_module_1 = require('./knight-routing.module');
+var knight_component_1 = require('./knight.component');
+var knight_service_1 = require('./knight.service');
+var observe_component_1 = require('./observe.component');
+var observe_service_1 = require('./observe.service');
+var KnightModule = (function () {
+    function KnightModule() {
     }
-    AppModule = __decorate([
+    KnightModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule],
-            declarations: [app_component_1.AppComponent, about_component_1.AboutComponent],
-            bootstrap: [app_component_1.AppComponent],
-            providers: [my_service_1.myService]
+            imports: [common_1.CommonModule, knight_routing_module_1.KnightRoutingModule],
+            declarations: [knight_component_1.KnightComponent, observe_component_1.ObserveComponent],
+            providers: [knight_service_1.KnightService, observe_service_1.ObserveService]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], KnightModule);
+    return KnightModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.KnightModule = KnightModule;
+//# sourceMappingURL=knight.module.js.map

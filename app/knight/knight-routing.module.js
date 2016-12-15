@@ -9,25 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var my_service_1 = require('./my-service');
-var app_component_1 = require('./app.component');
-var about_component_1 = require('./about.component');
-var app_routing_module_1 = require('./app-routing.module');
-var knight_module_1 = require('./knight/knight.module');
-var AppModule = (function () {
-    function AppModule() {
+var router_1 = require('@angular/router');
+var knight_component_1 = require('./knight.component');
+var observe_component_1 = require('./observe.component');
+var KnightRoutingModule = (function () {
+    function KnightRoutingModule() {
     }
-    AppModule = __decorate([
+    KnightRoutingModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule],
-            declarations: [app_component_1.AppComponent, about_component_1.AboutComponent],
-            bootstrap: [app_component_1.AppComponent],
-            providers: [my_service_1.myService]
+            imports: [router_1.RouterModule.forChild([
+                    { path: 'knight', component: knight_component_1.KnightComponent },
+                    { path: 'observe', component: observe_component_1.ObserveComponent },
+                ])],
+            exports: [router_1.RouterModule]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], KnightRoutingModule);
+    return KnightRoutingModule;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.KnightRoutingModule = KnightRoutingModule;
+//# sourceMappingURL=knight-routing.module.js.map

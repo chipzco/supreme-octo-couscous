@@ -9,22 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var my_service_1 = require('./my-service');
-var AppComponent = (function () {
-    function AppComponent(myservice) {
-        this.myservice = myservice;
-        this.name = 'Oct';
-        this.mynum = myservice.checknum();
+var AboutComponent = (function () {
+    function AboutComponent() {
     }
-    AppComponent = __decorate([
+    AboutComponent.prototype.onClick = function () {
+        this.clicked++;
+        var x = this.clicked - 10;
+        console.log(x);
+    };
+    AboutComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
+            selector: 'about',
             moduleId: module.id.toString(),
-            templateUrl: './app.component.html'
+            templateUrl: './about.html'
         }), 
-        __metadata('design:paramtypes', [my_service_1.myService])
-    ], AppComponent);
-    return AppComponent;
+        __metadata('design:paramtypes', [])
+    ], AboutComponent);
+    return AboutComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.AboutComponent = AboutComponent;
+//# sourceMappingURL=about.component.js.map

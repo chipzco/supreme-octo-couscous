@@ -9,22 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var my_service_1 = require('./my-service');
-var AppComponent = (function () {
-    function AppComponent(myservice) {
-        this.myservice = myservice;
-        this.name = 'Oct';
-        this.mynum = myservice.checknum();
+var http_1 = require('@angular/http');
+var ObserveService = (function () {
+    function ObserveService(http) {
+        this.http = http;
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            moduleId: module.id.toString(),
-            templateUrl: './app.component.html'
-        }), 
-        __metadata('design:paramtypes', [my_service_1.myService])
-    ], AppComponent);
-    return AppComponent;
+    ObserveService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], ObserveService);
+    return ObserveService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.ObserveService = ObserveService;
+//# sourceMappingURL=observe.service.js.map

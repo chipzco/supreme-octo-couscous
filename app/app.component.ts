@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { myService } from './my-service';
 @Component({
-  selector: 'my-app',
-  template: `<h1>Hello {{name}}</h1> {{mynum}}`,
+  selector: 'my-app',  
+  moduleId: module.id.toString(),
+  templateUrl: './app.component.html' 
 })
 export class AppComponent  { 
 	mynum:  number;

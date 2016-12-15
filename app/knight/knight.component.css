@@ -1,0 +1,33 @@
+.black {	
+	background-color:black; 
+	color:white;	
+}
+
+.white {	
+	background-color:yellow; 
+	color: black;	
+}
+
+.green {	
+	background-color:green; 
+	color: black;	
+}
+
+
+
+.square {		
+	width :100px;
+	height:100px;
+	text-align:center;
+	line-height: 80px;
+}
+
+.board {
+	width:820px;
+	height:820px;	
+	border: 1px black solid;
+	text-align:center;
+	margin-left: auto;
+	margin-right: auto;
+}
+	
