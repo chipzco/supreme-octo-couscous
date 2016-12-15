@@ -1,20 +1,23 @@
 "use strict";
 var my_service_1 = require('./my-service');
-var testing_1 = require('@angular/core/testing');
 describe('Test MyService', function () {
-    /*
-      beforeEach(function() {
-        this.testService = new myService();
-      });
-    
-      it('should have name property set', function() {
+    beforeEach(function () {
+        this.testService = new my_service_1.myService();
+    });
+    it('should have name property set', function () {
         expect(this.testService.name).toBe('Injected Service');
-      });
-    */
-    beforeEach(function () { return testing_1.addProviders([my_service_1.myService]); });
-    it('should have name property set', testing_1.inject([my_service_1.myService], function (testService) {
-        expect(testService.name).toBe('Injected Service');
+    });
+    it('should give number ', function () {
+        expect(this.testService.checknum()).toBe(-800);
+    });
+    /*
+    beforeEach(() => addProviders([myService]);
+    
+     it('should have name property set', inject([myService], (testService: myService) => {
+      expect(testService.name).toBe('Injected Service');
     }));
+    
+    */
     /*
     it('should give number ', inject([myService], (testService: myService) => {
       expect(testService.checknum()).toBe('-800');

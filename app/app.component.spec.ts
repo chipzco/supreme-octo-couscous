@@ -1,12 +1,12 @@
 import { AppComponent } from './app.component';
 import { myService } from './my-service';
-import { async, ComponentFixture, TestBed, beforeEachProviders, inject, addProviders } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import {setBaseTestProviders} from 'angular/testing';
+
 	
 describe('Test MyService', () => {
-/*
+
   beforeEach(function() {
     this.testService = new myService();
   });
@@ -14,13 +14,18 @@ describe('Test MyService', () => {
   it('should have name property set', function() {
     expect(this.testService.name).toBe('Injected Service');
   });
-*/
-  
+  it('should give number ', function() {
+    expect(this.testService.checknum()).toBe(-800);
+  });
+
+  /*
   beforeEach(() => addProviders([myService]);
   
    it('should have name property set', inject([myService], (testService: myService) => {
     expect(testService.name).toBe('Injected Service');
   })); 
+  
+  */
   /*
   it('should give number ', inject([myService], (testService: myService) => {
     expect(testService.checknum()).toBe('-800');
