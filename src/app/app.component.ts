@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 	
 })
 export class AppComponent  { name = 'Angular'; 
-
-	constructor(private authService: AuthService) {}
+	title: string; 
+	constructor(private authService: AuthService) { this.title="WTF!!!!"; }
 
 }

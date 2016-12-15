@@ -15,6 +15,7 @@ import { DashboardComponent} from './dashboard.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './heroes/in-memory-data.service';
 
+import { AboutComponent  } from './about/about.component';
 @NgModule({
   imports: [ BrowserModule, HttpModule, AppRoutingModule, HeroesModule,
 		//InMemoryWebApiModule.forRoot(InMemoryDataService)
@@ -24,7 +25,8 @@ import { InMemoryDataService }  from './heroes/in-memory-data.service';
 	DealsViewComponent,
 	PrivateDealsComponent,
 	PublicDealsComponent,
-	DashboardComponent
+	DashboardComponent,
+	AboutComponent
    ],
   providers: [ 
 	DealService,

@@ -1,12 +1,46 @@
- <h1>Angular Router</h1>
-  <nav>
-    <a routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a>
-    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
-	<a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>	  
-	<a routerLink="/deals" routerLinkActive="active">Public Deals</a>	  
-	<a routerLink="/special" routerLinkActive="active">Private Deals</a>
-	<a (click)=authService.login() *ngIf="!authService.loggedIn()">Log In</a>
-	<a (click)=authService.logout() *ngIf="authService.loggedIn()">Log Out</a>
+<nav class="navbar navbar-inverse navbar-fixed-top">  
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+            <a class="navbar-brand" href="/dashboard">{{title}}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+			<li><a routerLink="/about" routerLinkActive="active">About</a></li>
+			<li><a routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a></li>
+			<li><a routerLink="/heroes" routerLinkActive="active">Heroes</a></li>
+			<li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>	  
+			<li><a routerLink="/deals" routerLinkActive="active">Public Deals</a></li>	  
+			<li><a routerLink="/special" routerLinkActive="active">Private Deals</a></li>
+			<li><a (click)=authService.login() *ngIf="!authService.loggedIn()">Log In</a></li>
+			<li><a (click)=authService.logout() *ngIf="authService.loggedIn()">Log Out</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+				<li><a routerLink="/repeat" routerLinkActive="active">Repeats</a></li>
+                <li><a routerLink="/observe" routerLinkActive="active">Observer</a></li>
+                <li><a routerLink="/timer" routerLinkActive="active">timer</a></li>
+				<li><a routerLink="/obstry" routerLinkActive="active">obs try</a></li>
+				<li><a routerLink="rating" routerLinkActive="active">Rating</a></li>
+				<li><a routerLink="number/22" routerLinkActive="active">Numbers</a></li>
+				<li><a routerLink="timer" routerLinkActive="active">timer</a></li>					
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><li><a routerLink="/aform" routerLinkActive="active">A Form PHP try</a></li>
+                <li><a routerLink="/deals" routerLinkActive="active">Public Deals</a></li>
+				<li><a *ngIf="authService.loggedIn()" routerLink="/special" routerLinkActive="active">Private Deals</a></li>		
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>  	
   </nav>
+  <h1>Angular Router</h1> 
+  
   <router-outlet></router-outlet>
  

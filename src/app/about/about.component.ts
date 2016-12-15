@@ -6,13 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-
+  
   constructor() {
     // Do stuff
   }
 
   ngOnInit() {
-    console.log('Hello About');
+	
+    console.log('Hello About');	
+	
   }
+  change() {
+	//let $ : JQueryStatic;
+	
+	console.log(jquery); jquery( "button.continue" ).html( "Next Step..." ); 	
 
+ }
 }

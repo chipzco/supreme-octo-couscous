@@ -203,14 +203,11 @@ module.exports = function makeWebpackConfig() {
           })
         ]
       }
-    }),
-	new webpack.ProvidePlugin({   
-        jQuery: 'jquery',
-        $: 'jquery',
-        jquery: 'jquery',
-		"Tether": 'tether',
-        "window.Tether": "tether"
-    })
+    })	,
+	new webpack.ProvidePlugin({
+        jQuery: 'jquery',       
+        jquery: 'jquery'
+     })		 
   ];
 
   if (!isTest && !isProd) {
