@@ -1,0 +1,12 @@
+<div *ngIf="hero">	
+	<h2>{{hero.name}} details!</h2>
+	<div><label>id: </label>{{hero.id}}</div>
+	<div><label>name: </label>
+		<input [(ngModel)]="hero.name" placeholder="name" >
+		<input [(ngModel)]="hero.power" placeholder="power" >
+		<input [(ngModel)]="hero.alterEgo" placeholder="alterEgo" >
+		
+		<button (click)="save()" class="btn-primary">Save</button>
+	</div>
+	<button (click)="gotoHeroes()" class="btn-link">Back</button>
+ </div>

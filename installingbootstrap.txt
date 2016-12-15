@@ -1,0 +1,313 @@
+I just tested it now.
+Step 1: Install both jquery and bootstrap
+
+npm install jquery bootstrap --save
+
+Step 2: Import them in vendor.ts:
+
+import 'jquery';
+import 'bootstrap/dist/js/bootstrap';
+
+Step 3: Go to wepback.common.js in config directory and add this inside plugin section:
+
+plugins:[
+    .....
+    ..... ,
+    new webpack.ProvidePlugin({   
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery'
+    })
+]
+
+This will let bootstrap to find jquery
+
+Step 4: Import bootstrap css, you can do that by importing it in the head of your index.html or from your app.css, I used the second way.
+
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+
+The reason I didn't import it from node_modules folder that It won't load the fonts, however you can fix this by overriding the fonts imports in app.css
+
+After you do these steps you will probably get this error:
+
+Uncaught Error: Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 3
+This is because the current jquery version installed is 3.0.0, so go back and install a previous version of jquery
+@shahzad-0
+shahzad-0 commented on Jun 16
+
+@MurhafSousli Thank you for the help.
+@shahzad-0 shahzad-0 closed this on Jun 16
+@gearlles
+gearlles commented on Jun 22 • edited
+
+@MurhafSousli Is there any way to include bootstrap css without using @import cdn? From step 1 we have bootstrap css in /node_modules, I'd rather use it than making a request. The font problem I will try to solve later.
+
+I tried using relative path:
+
+@import url('/node_modules/bootstrap/dist/css/bootstrap.css');
+
+but it gives me HTTP 404:
+
+GET http://localhost:3000/node_modules/bootstrap/dist/css/bootstrap.css  browser_adapter.js:170
+
+@shahzad-0
+shahzad-0 commented on Jun 22
+
+@gearlles You are getting the 404 because node_modules doesn't get added to your dist folder. If you want to use the bootstrap.css file, then you can put it under src/assets/css/ and in your css file you should be able to import it using @import url('/assets/css/bootstrap.css').
+@gearlles
+gearlles commented on Jun 22
+
+@shahzad-0 Thanks. But I think it's not a good idea, it's harder to maintain. Suppose I want to upgrade bootstrap version in the future, not everyone in the project would know that apart from packages.json, /assets/css/bootstrap.css should be modified.
+
+Note that this problem exists in the @MurhafSousli solution. Both packages.json and app.css should be modified.
+@shahzad-0
+shahzad-0 commented on Jun 22
+
+@gearlles Yes, I agree. That's what I was trying to find out when I created the issue. But since importing the css into vendors.js didn't work, I'm not sure what else can be done.
+
+Please post a solution here when you find one.
+@gearlles
+gearlles commented on Jun 22
+
+@shahzad-0 I will. Would you mind reopening your issue or I should create another issue to discuss this?
+@shahzad-0 shahzad-0 reopened this on Jun 22
+@gearlles
+gearlles commented on Jun 22
+
+@shahzad-0 I don't know your requirements, but I got Bootstrap 3 (sass) working based on #215. Please check if it works for you too.
+1. Install dependencies
+
+npm install jquery bootstrap-sass bootstrap-loader css-loader node-sass resolve-url-loader sass-loader style-loader url-loader --save-dev
+
+Note: I'm not sure if all dependencies are indeed necessary. I used dependencies from #215 and added others to get it working for Bootstrap 3.
+2. Configure Webpack
+
+Edit webpack.common.js to add new loaders and plugin.
+To add loaders, edit loaders:[]
+
+      { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
+      { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'url?limit=10000' },
+      { test: /bootstrap\/dist\/js\/umd\//, loader: 'imports?jQuery=jquery' }
+
+To add the jQuery plugin, edit plugins: []
+
+    new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery'
+    })
+
+3. Import Bootstrap
+
+Edit vendor.browser.ts and add:
+
+import 'jquery';
+import 'bootstrap-loader';
+
+Bootstrap should now work. Reload your application.
+@shahzad-0
+shahzad-0 commented on Jun 22
+
+@gearlles I have a limitation of using less, so I don't think I can use the bootstrap-loader. But I #215 will probably resolve this issue for most people, who are able to use sass. And anyone who can't use the bootstrap-loader, the solution provided by @MurhafSousli should be enough (although your point of having to update the package.json and app.css files for updating bootstrap should be kept in mind).
+@shahzad-0 shahzad-0 closed this on Jun 22
+@MurhafSousli
+MurhafSousli commented on Jun 22
+
+@gearlles to import the style from node_modules
+
+from component:
+
+@Component({
+  selector: 'app',
+  template: require('./app.html'),
+  styles: [
+              require('bootstrap/dist/css/bootstrap'),
+              require('app.scss')
+  ],
+
+or from stylesheet app.scss:
+
+@import url('bootstrap/dist/css/bootstrap');
+
+To get bootstrap glyphicons when importing it locally, the only workaround I found is to copy the fonts folder into assets and then override the fonts from your stylesheet app.scss, something like this:
+
+@font-face {
+  font-family: "some-font";
+  src: url("../assets/bootstrap/fonts/glyphicons-halflings-regular.eot");
+  src: url(".../assets/bootstrap/fonts/glyphicons-halflings-regular.eot#iefix") format("embedded-opentype"),
+  url(".../assets/bootstrap/fonts/glyphicons-halflings-regular.woff") format("woff"),
+  url(".../assets/bootstrap/fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+  url(".../assets/bootstrap/fonts/glyphicons-halflings-regular.svg#rio") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@harunurhan
+Contributor
+harunurhan commented on Jun 27
+
+@gearlles
+
+I did as you described, but still have Module parse error for those font files. How are you doing the import in your own scss file exactly?
+@gearlles
+gearlles commented on Jun 27
+
+@harunurhan I didn't import anything in my .scss. The second loader { test: /\.(woff2?|ttf|eot|svg)$/, loader: 'url?limit=10000' } should handle font files. Perhaps the regex is wrong?
+
+Please try { test: /\.(woff|woff2|ttf|eot|svg)$/, loader: 'url?limit=10000' }
+@harunurhan
+Contributor
+harunurhan commented on Jun 27
+
+@gearlles that doesn't work neither. I also tried using other loaders like file-loader but no luck 😢
+
+Stack trace:
+https://gist.github.com/harunurhan/8eefd35c9f4e7390b38625e9a161b2ae
+@phiphou
+phiphou commented on Jun 27
+
+file-loader solution should work.
+
+Try this :
+
+{
+  test: /\.(woff2?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+  loader: "file?name=fonts/[name].[ext]"
+}
+
+@harunurhan
+Contributor
+harunurhan commented on Jun 27
+
+@phiphou
+Thanks for help but still same errors!
+@phiphou
+phiphou commented on Jun 27
+
+@harunurhan Did you correctly set up the sassLoader?
+
+Here is what I use for Foundation, should be a solution for BootStrap too :
+
+sassLoader: {
+  includePaths: [path.resolve(__dirname, "../../node_modules/foundation-sites/scss")]
+}
+
+@harunurhan
+Contributor
+harunurhan commented on Jun 27 • edited
+
+@phiphou
+I haven't done this, but adding didn't solve it. I think problem isn't because of sass-loader but others (eof, tff, woff, woff2, svg)
+@gearlles
+gearlles commented on Jun 27 • edited
+
+@harunurhan I just tried using fonts and they work. Please check https://github.com/gearlles/angular2-webpack-starter
+
+Looking at your stacktrace, your edited webpack-dev-server.js. Are you sure this is the right place?
+@richyrb00
+richyrb00 commented on Jul 23
+
+@gearlles your solution worked. No issues. i've tried many others floating around the internet and this is the only one that worked. This worked using the default fresh install of this repo.
+@niyazhussain
+niyazhussain commented on Sep 7
+
+@gearlles can you explain how to make Bootstrap 3 (without sass) here ?
+@gearlles
+gearlles commented on Sep 7 • edited
+
+@niyazhussain I'm afraid I can't. At that time, I just tried Sass.
+@hombrew hombrew referenced this issue in FountainJS/generator-fountain-webpack on Sep 22
+Closed
+How to include jQuery and Twitter Bootstrap 3 using Angular 2 and Webpack #58
+@gunnarsireus
+gunnarsireus commented on Nov 7
+
+this one works:
+require('bootstrap/dist/css/bootstrap.css');
+require('bootstrap');
+module: {
+loaders: [
+{ test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot$/, loader: "url" },
+...
+@oli-ver
+oli-ver commented on Nov 13
+
+Cannot get it to work with Release 5.1.1 of angular2-webpack-starter. I tried @gearlles solution, but I am always getting errors of unmet peer dependencies:
+
++-- UNMET PEER DEPENDENCY @angular/common@2.1.1
++-- UNMET PEER DEPENDENCY @angular/core@2.1.1
++-- UNMET PEER DEPENDENCY extract-text-webpack-plugin@<2.0.0
++-- UNMET PEER DEPENDENCY rxjs@5.0.0-rc.2
+`-- UNMET PEER DEPENDENCY tslint@4.0.0-dev.1
+
+Building results in errors, too:
+
+npm run build:dev
+
+> angular2-webpack-starter@5.1.1 prebuild:dev C:\webpack-angular2
+> npm run clean:dist
+
+
+> angular2-webpack-starter@5.1.1 clean:dist C:\webpack-angular2
+> npm run rimraf -- dist
+
+
+> angular2-webpack-starter@5.1.1 rimraf C:\webpack-angular2
+> rimraf "dist"
+
+
+> angular2-webpack-starter@5.1.1 build:dev C:\webpack-angular2
+> webpack --config config/webpack.dev.js --progress --profile
+                                                                                                       69% building modules 711/712 modules 1 active ...ode_modules\bootstrap-loader\no-op.jsTypeError: Path must be a string. Received undefined
+    at assertPath (path.js:7:11)
+    at Object.relative (path.js:536:5)
+    at Object.onRender (C:\webpack-angular2\node_modules\sass-loader\index.js:282:42)
+    at Object.<anonymous> (C:\webpack-angular2\node_modules\sass-loader\node_modules\async\dist\async.js:2414:31)
+    at apply (C:\webpack-angular2\node_modules\sass-loader\node_modules\async\dist\async.js:40:25)
+    at Object.<anonymous> (C:\webpack-angular2\node_modules\sass-loader\node_modules\async\dist\async.js:76:12)
+    at Object.callback (C:\webpack-angular2\node_modules\sass-loader\node_modules\async\dist\async.js:988:16)
+    at options.success (C:\webpack-angular2\node_modules\node-sass\lib\index.js:300:32)
+
+npm ERR! Windows_NT 10.0.14393
+npm ERR! argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "build:dev"
+npm ERR! node v6.0.0
+npm ERR! npm  v3.8.6
+npm ERR! code ELIFECYCLE
+npm ERR! angular2-webpack-starter@5.1.1 build:dev: `webpack --config config/webpack.dev.js --progress --profile`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the angular2-webpack-starter@5.1.1 build:dev script 'webpack --config config/webpack.dev.js --progress --profile'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the angular2-webpack-starter package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     webpack --config config/webpack.dev.js --progress --profile
+npm ERR! You can get information on how to open an issue for this project with:
+npm ERR!     npm bugs angular2-webpack-starter
+npm ERR! Or if that isn't available, you can get their info via:
+npm ERR!     npm owner ls angular2-webpack-starter
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     C:\webpack-angular2\npm-debug.log
+
+Do I miss something?
+@roski
+roski commented on Nov 14
+
+@oli-ver i think you can find answer here. This instruction for bootstrap 4 but you can make same for resolve your problem #1156 (comment)
+@diegochavez diegochavez referenced this issue 16 days ago
+Closed
+how to include bootstrap styles (bootstrap.min.css) #1220
+@zhekaus
+zhekaus commented 10 days ago • edited
+
+@gearlles ,
+I'd simplify your { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] } into simply
+{ test: /\.sass$/, loaders: ['raw', 'sass'] }
+@chipzco
+
+Attach files by dragging & dropping or
+
+.
+Styling with Markdown is supported

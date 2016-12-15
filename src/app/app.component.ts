@@ -1,18 +1,13 @@
 import { Component } from '@angular/core';
-
-import { ApiService } from './shared';
-
-import '../style/app.scss';
-
+import { AuthService } from './auth.service';
 @Component({
-  selector: 'my-app', // <my-app></my-app>
+  selector: 'my-app',
+  moduleId: module.id.toString(), 
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+	
 })
-export class AppComponent {
-  url = 'https://github.com/preboot/angular2-webpack';
+export class AppComponent  { name = 'Angular'; 
 
-  constructor(private api: ApiService) {
-    // Do something with api
-  }
+	constructor(private authService: AuthService) {}
+
 }

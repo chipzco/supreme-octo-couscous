@@ -1,17 +1,12 @@
-<header>
+ <h1>Angular Router</h1>
   <nav>
-    <a [routerLink]="['']">Home</a>
-    <a [routerLink]="['about']">About</a>
+    <a routerLink="/crisis-center" routerLinkActive="active">Crisis Center</a>
+    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
+	<a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>	  
+	<a routerLink="/deals" routerLinkActive="active">Public Deals</a>	  
+	<a routerLink="/special" routerLinkActive="active">Private Deals</a>
+	<a (click)=authService.login() *ngIf="!authService.loggedIn()">Log In</a>
+	<a (click)=authService.logout() *ngIf="authService.loggedIn()">Log Out</a>
   </nav>
-</header>
-<main>
-  <h1>Hello from {{api.title}}!</h1>
-
-  <!-- Images (and assets) are parsed and loaded from within the public directory -->
-  <img src="/img/angular.png">
-
   <router-outlet></router-outlet>
-</main>
-<footer>
-  <a [href]="url">Webpack Angular 2 Starter</a>
-</footer>
+ 

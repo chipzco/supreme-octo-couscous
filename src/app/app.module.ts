@@ -1,48 +1,36 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ApiService } from './shared';
-import { routing } from './app.routing';
-
-import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
+import { AppComponent }  from './app.component';
+import { HeroesModule } from './heroes/heroes.module';
+import { DealService } from './deal.service';
+import { AuthService } from './auth.service';
+import { AppRoutingModule }     from './app-routing.module';
+import { PublicDealsComponent } from './deals.component';
+import { PrivateDealsComponent } from './private-deals.component';
+import { DealsViewComponent} from './deals-view.component';
+import { DashboardComponent} from './dashboard.component';
+// Imports for loading & configuring the in-memory web api
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from './heroes/in-memory-data.service';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    HttpModule,
-    FormsModule,
-    routing
-  ],
+  imports: [ BrowserModule, HttpModule, AppRoutingModule, HeroesModule,
+		//InMemoryWebApiModule.forRoot(InMemoryDataService)
+		],
   declarations: [
-    AppComponent,
-    HomeComponent,
-    AboutComponent
+	AppComponent, 
+	DealsViewComponent,
+	PrivateDealsComponent,
+	PublicDealsComponent,
+	DashboardComponent
+   ],
+  providers: [ 
+	DealService,
+	AuthService,
+	AUTH_PROVIDERS
   ],
-  providers: [
-    ApiService
-  ],
-  bootstrap: [AppComponent]
+  bootstrap:    [ AppComponent ]
 })
-export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
-  hmrOnInit(store) {
-    console.log('HMR store', store);
-  }
-  hmrOnDestroy(store) {
-    let cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    // recreate elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // remove styles
-    removeNgStyles();
-  }
-  hmrAfterDestroy(store) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
-}
+export class AppModule { }
