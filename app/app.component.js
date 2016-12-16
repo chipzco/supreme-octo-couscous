@@ -27,7 +27,9 @@ var AppComponent = (function () {
         // r.url.subscribe((s:UrlSegment[]) => { console.log("url", s); this.currPath=s[0].path; console.log(this.currPath);});	
     }
     AppComponent.prototype.setMyUrlState = function (url) {
-        //this.crumbs.push(x);
+        if (this.crumbs.length > 3)
+            this.crumbs = [];
+        this.crumbs.push(url);
         this.currPath = url;
         console.log(url);
     };

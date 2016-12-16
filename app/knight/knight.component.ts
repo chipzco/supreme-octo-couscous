@@ -1,5 +1,5 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
-import { Coord, Board } from  './coord';
+import { Coord, Square, Board, sqStates, sqColor } from  './coord';
 import { Observable } from 'rxjs/Observable';  
 import { KnightService, TurnsHolder } from './knight.service';
 
@@ -18,17 +18,17 @@ export class KnightComponent implements OnInit {
 	constructor(private knightService: KnightService) {  }   
 	
 	board:  Board;	
-	squares: Coord[];
+	squares: Square[];
 	cols: number[];
 	rows: number[];
-	pathSquares: Coord[];
+	pathSquares: Square[];
 	ngOnInit(): void {		
 		this.board=new Board(8,8);
 		this.squares=this.board.getAllSquares();
 		console.log(this.squares);	
 		this.cols=[7,6,5,4,3,2,1,0];
 		this.rows=[0,1,2,3,4,5,6,7];
-		this.pathSquares=new Array<Coord>();
+		this.pathSquares=new Array<Square>();
 	}
 	getSq(x: number, y: number ) {
 		return this.board.getSquare(x,y);
@@ -41,14 +41,17 @@ export class KnightComponent implements OnInit {
 		//console.log("x=" + x + " y= " +  y + "class = " + classname);
 		return classname;
 	}
-	getClassfromSq(sq: Coord):  string {				
-		return "col-md-1 square " + sq.currColor;		
+	getClassfromSq(sq: Square):  string {				
+		return "col-md-1 square " + sq.getColor();		
 	}
 	setPath(x: number, y: number) {
 		this.clearPathIfSet();			
 		let sq=this.getSq(x,y);
 		if (sq) {
-			sq.currColor="green";
+			if (!this.pathSquares.length)
+				sq.currState=sqStates.Start;
+			else 
+				sq.currState=sqStates.End;
 			this.pathSquares.push(sq);
 		}
 	}
@@ -60,7 +63,7 @@ export class KnightComponent implements OnInit {
 	clearPathIfSet(): void  {
 		if (this.pathSquares.length >=2) {
 			for (let sq of this.pathSquares) {
-				sq.currColor=sq.color;				
+				sq.currState=sqStates.None;				
 			}
 			this.pathSquares=[];
 		}		

@@ -1,17 +1,31 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+(function (sqStates) {
+    sqStates[sqStates["None"] = 0] = "None";
+    sqStates[sqStates["Start"] = 1] = "Start";
+    sqStates[sqStates["End"] = 2] = "End";
+    sqStates[sqStates["Path"] = 3] = "Path";
+    sqStates[sqStates["Selected"] = 4] = "Selected";
+})(exports.sqStates || (exports.sqStates = {}));
+var sqStates = exports.sqStates;
+(function (sqColor) {
+    sqColor[sqColor["white"] = 0] = "white";
+    sqColor[sqColor["black"] = 1] = "black";
+})(exports.sqColor || (exports.sqColor = {}));
+var sqColor = exports.sqColor;
 var Coord = (function () {
-    function Coord(x, y, color) {
-        if (color === void 0) { color = ""; }
+    function Coord(x, y) {
         this.x = x;
         this.y = y;
-        this.color = color;
-        this.currColor = "";
         if (x >= 0 && x < 26)
             this._algebraic_letter = String.fromCharCode(97 + x);
         else
             this._algebraic_letter = "";
         this._algebraic_num = y + 1;
-        this.currColor = this.color;
     }
     Object.defineProperty(Coord.prototype, "alg_not", {
         get: function () {
@@ -23,16 +37,42 @@ var Coord = (function () {
     return Coord;
 }());
 exports.Coord = Coord;
+var Square = (function (_super) {
+    __extends(Square, _super);
+    function Square(x, y, sqcolor) {
+        _super.call(this, x, y);
+        this.x = x;
+        this.y = y;
+        this.sqcolor = sqcolor;
+        this.colors = ['whiteorblack', 'green', 'blue', 'grey', 'orange'];
+        this._currState = sqStates.None;
+    }
+    Square.prototype.getColor = function () {
+        var color = "";
+        if (this._currState == sqStates.None)
+            color = sqColor[this.sqcolor];
+        else
+            color = this.colors[this._currState];
+        return color;
+    };
+    Object.defineProperty(Square.prototype, "currState", {
+        set: function (newstate) { this._currState = newstate; },
+        enumerable: true,
+        configurable: true
+    });
+    return Square;
+}(Coord));
+exports.Square = Square;
 var Board = (function () {
     function Board(_rows, _columns) {
         this._rows = _rows;
         this._columns = _columns;
         this._squares = new Array();
-        var color = "";
+        var color;
         for (var x = 0; x < this._columns; x++) {
             for (var y = 0; y < this._rows; y++) {
                 color = this.getSquareColor(x, y);
-                this._squares.push(new Coord(x, y, color));
+                this._squares.push(new Square(x, y, color));
             }
         }
     }
@@ -52,9 +92,9 @@ var Board = (function () {
     });
     Board.prototype.getSquareColor = function (x, y) {
         if ((x % 2 == 0 && y % 2 == 0) || (x % 2 > 0 && y % 2 > 0))
-            return "black";
+            return sqColor.black;
         else
-            return "white";
+            return sqColor.white;
     };
     Board.prototype.getSquare = function (x, y) {
         return this._squares.find(function (elem) { return elem.x == x && elem.y == y; });

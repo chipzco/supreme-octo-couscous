@@ -35,13 +35,16 @@ var KnightComponent = (function () {
         return classname;
     };
     KnightComponent.prototype.getClassfromSq = function (sq) {
-        return "col-md-1 square " + sq.currColor;
+        return "col-md-1 square " + sq.getColor();
     };
     KnightComponent.prototype.setPath = function (x, y) {
         this.clearPathIfSet();
         var sq = this.getSq(x, y);
         if (sq) {
-            sq.currColor = "green";
+            if (!this.pathSquares.length)
+                sq.currState = coord_1.sqStates.Start;
+            else
+                sq.currState = coord_1.sqStates.End;
             this.pathSquares.push(sq);
         }
     };
@@ -54,7 +57,7 @@ var KnightComponent = (function () {
         if (this.pathSquares.length >= 2) {
             for (var _i = 0, _a = this.pathSquares; _i < _a.length; _i++) {
                 var sq = _a[_i];
-                sq.currColor = sq.color;
+                sq.currState = coord_1.sqStates.None;
             }
             this.pathSquares = [];
         }

@@ -1,11 +1,11 @@
-const enum sqStates {
+export enum sqStates {
 	None,
 	Start,
 	End, 
 	Path, 
 	Selected
 }
-enum sqColor { white, black  }
+export enum sqColor { white, black  }
 
 export class Coord {	
 	protected _algebraic_letter: string;
@@ -23,34 +23,40 @@ export class Coord {
 }
 
 export class Square extends Coord {
-	protected _sqColor: number;	
+	
 	protected _currState: number;
 	colors: Array<string>;
 	constructor(public x: number,public y: number, public sqcolor: number) {
 		super(x,y);		
-		let squareColor=[sqColor[sqcolor];
-		this.colors=[squareColor,'green','Blue','#eeeeee','orange'];				
+		
+		this.colors=['whiteorblack','green','blue','grey','orange'];				
 		this._currState=sqStates.None;
 	}	
-	getColor(): string {
-		color: string="";
-		if (this.)
+	getColor(): string{
+		let color: string="";
+		if (this._currState ==sqStates.None) 
+			color=sqColor[this.sqcolor];
+		else 
+			color=this.colors[this._currState];
+		return color;
 	}
+	set currState(newstate: sqStates) {		this._currState=newstate; }
+	
 }
 
 
 
 export class Board {
-	private _squares: Coord[];
+	private _squares: Square[];
 	
 	
 	constructor (private _rows: number, private _columns: number) {  		
-		this._squares=new Array<Coord>();
-		let color: string="";
+		this._squares=new Array<Square>();
+		let color: sqColor;
 		for (let x=0;  x < this._columns; x ++ ) {
 			for (let y=0; y< this._rows; y++) {
 				color=this.getSquareColor(x,y);					
-				this._squares.push(new Coord(x,y,color));
+				this._squares.push(new Square(x,y,color));
 			}
 		}
 	}	
@@ -60,18 +66,18 @@ export class Board {
 	get columns(): number {
 		return this._columns;
 	}	
-	private  getSquareColor(x: number, y: number): string {
+	private  getSquareColor(x: number, y: number): sqColor {
 		if ((x % 2 ==0  && y % 2 ==0 ) || (x % 2 > 0  && y % 2 >0 )  ) 
-			return "black";
+			return sqColor.black;
 		else 
-			return "white";
+			return sqColor.white;
 	} 
 	
-	getSquare(x: number, y: number): Coord {
+	getSquare(x: number, y: number): Square {
 		return this._squares.find(elem=>elem.x==x && elem.y==y);
 	}
 	
-	getAllSquares(): Coord[] {
+	getAllSquares(): Square[] {
 		return this._squares;
 	}
 }
