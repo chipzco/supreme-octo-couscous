@@ -38,3 +38,5 @@ jspm_packages
 
 #stupid webstorm crap
 .idea
+
+vwd.webinfo
