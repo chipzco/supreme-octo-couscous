@@ -18,7 +18,7 @@ var KnightComponent = (function () {
     KnightComponent.prototype.ngOnInit = function () {
         this.board = new coord_1.Board(8, 8);
         this.squares = this.board.getAllSquares();
-        console.log(this.squares);
+        //console.log(this.squares);	
         this.cols = [7, 6, 5, 4, 3, 2, 1, 0];
         this.rows = [0, 1, 2, 3, 4, 5, 6, 7];
         this.pathSquares = new Array();
@@ -41,6 +41,7 @@ var KnightComponent = (function () {
         this.clearPathIfSet();
         var sq = this.getSq(x, y);
         if (sq) {
+            this.board.clearBoardState(this.pathSquares);
             if (!this.pathSquares.length)
                 sq.currState = coord_1.sqStates.Start;
             else
@@ -65,6 +66,18 @@ var KnightComponent = (function () {
     KnightComponent.prototype.showPaths = function () {
         var _this = this;
         this.knightService.startKnightPath(this.pathSquares[0], this.pathSquares[1]).subscribe(function (a) { return _this.mymoves = a; });
+    };
+    KnightComponent.prototype.colorPath = function (path) {
+        this.board.clearBoardState(this.pathSquares);
+        var x = 0;
+        for (var _i = 0, path_1 = path; _i < path_1.length; _i++) {
+            var c = path_1[_i];
+            if (x != 0 && x != path.length - 1) {
+                var sq = this.board.getSquare(c.x, c.y);
+                sq.currState = coord_1.sqStates.Path;
+            }
+            x++;
+        }
     };
     KnightComponent = __decorate([
         core_1.Component({

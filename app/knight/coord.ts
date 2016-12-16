@@ -79,5 +79,11 @@ export class Board {
 	
 	getAllSquares(): Square[] {
 		return this._squares;
-	}
+    }
+    clearBoardState(skip: Array<Coord> = null): void {
+        this._squares.forEach(sq => {
+            if (!(skip && skip.length > 0 && skip.findIndex((v: Coord) => v.x == sq.x && v.y == sq.y) > -1  ) )              
+                sq.currState = sqStates.None;
+        });
+    }
 }

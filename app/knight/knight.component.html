@@ -12,11 +12,14 @@
 			<button [disabled]="!squaresSelected()" (click)="showPaths()">Generate Knight Moves!</button>
 		</div>			
 	</div>	
-	<div class="col-md-2">		
-		<br/> My Move Number:
+	<div class="col-md-2">				
 		<div *ngFor="let t of mymoves; let i=index;">
-			Min Num Turns: {{ t.numTurns }}  <br/>
-			<b>{{i}}:</b> <span *ngFor="let sq of t.path; let fin=last">{{ sq.alg_not }} <i *ngIf="!fin">to </i></span> 
+            <div (click)="colorPath(t.path)">
+                <b>{{i+1}}:</b>    Min Num Turns: {{ t.numTurns }}
+                <div>
+                    <span *ngFor="let sq of t.path; let fin=last">{{ sq.alg_not }} <i *ngIf="!fin">to </i></span>
+                </div>
+            </div>
 		</div>		
 	</div>	
 </div>

@@ -25,7 +25,7 @@ export class KnightComponent implements OnInit {
 	ngOnInit(): void {		
 		this.board=new Board(8,8);
 		this.squares=this.board.getAllSquares();
-		console.log(this.squares);	
+		//console.log(this.squares);	
 		this.cols=[7,6,5,4,3,2,1,0];
 		this.rows=[0,1,2,3,4,5,6,7];
 		this.pathSquares=new Array<Square>();
@@ -47,7 +47,8 @@ export class KnightComponent implements OnInit {
 	setPath(x: number, y: number) {
 		this.clearPathIfSet();			
 		let sq=this.getSq(x,y);
-		if (sq) {
+        if (sq) {
+            this.board.clearBoardState(this.pathSquares);
 			if (!this.pathSquares.length)
 				sq.currState=sqStates.Start;
 			else 
@@ -71,7 +72,19 @@ export class KnightComponent implements OnInit {
 	showPaths(): void {
 		this.knightService.startKnightPath(this.pathSquares[0],this.pathSquares[1]).subscribe(a=>this.mymoves=a);
 	}	
-	
+
+    colorPath(path: Array<Coord>): void {
+        this.board.clearBoardState(this.pathSquares);
+        let x = 0;
+        for (let c of path) {
+            if (x != 0 && x != path.length-1) {
+                let sq = this.board.getSquare(c.x, c.y);
+                sq.currState = sqStates.Path;
+            }
+            x++;
+        }
+    }
+
 }
 
 

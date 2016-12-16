@@ -102,6 +102,13 @@ var Board = (function () {
     Board.prototype.getAllSquares = function () {
         return this._squares;
     };
+    Board.prototype.clearBoardState = function (skip) {
+        if (skip === void 0) { skip = null; }
+        this._squares.forEach(function (sq) {
+            if (!(skip && skip.length > 0 && skip.findIndex(function (v) { return v.x == sq.x && v.y == sq.y; }) > -1))
+                sq.currState = sqStates.None;
+        });
+    };
     return Board;
 }());
 exports.Board = Board;
