@@ -1,20 +1,45 @@
+const enum sqStates {
+	None,
+	Start,
+	End, 
+	Path, 
+	Selected
+}
+enum sqColor { white, black  }
+
 export class Coord {	
-	private _algebraic_letter: string;
-   	private _algebraic_num: number;
-	public currColor: string="";
-    constructor(public x: number,public y: number, public color: string="") {  
+	protected _algebraic_letter: string;
+   	protected _algebraic_num: number;	
+    constructor(public x: number,public y: number) {  
 		if (x>=0 && x < 26)
 			this._algebraic_letter=String.fromCharCode(97 + x);
 		else 
 			this._algebraic_letter="";
-		this._algebraic_num=y+1;
-		this.currColor=this.color;	
+		this._algebraic_num=y+1;		
 	}
 	get alg_not() {
 		return this._algebraic_letter + this._algebraic_num.toString();
-	}
-	
+	}	
 }
+
+export class Square extends Coord {
+	protected _sqColor: number;	
+	protected _currState: number;
+	colors: Array<string>;
+	constructor(public x: number,public y: number, public sqcolor: number) {
+		super(x,y);		
+		let squareColor=[sqColor[sqcolor];
+		this.colors=[squareColor,'green','Blue','#eeeeee','orange'];				
+		this._currState=sqStates.None;
+	}	
+	getColor(): string {
+		color: string="";
+		if (this.)
+	}
+}
+
+
+
 export class Board {
 	private _squares: Coord[];
 	

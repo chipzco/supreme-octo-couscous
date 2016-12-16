@@ -24,10 +24,14 @@ export class AppComponent  {
 	}
 
 	setMyUrlState(url: string): void  {
-		//this.crumbs.push(x);
+		if (this.crumbs.length >3)
+			this.crumbs=[];
+		this.crumbs.push(url);
 		this.currPath=url;
 		console.log(url);
 	}	
+	
+	
 	
 	ngOnInit() {		
 		//this.router.events.filter(event => event instanceof NavigationEnd).map(url=>url.urlAfterRedirects).subscribe(a=>this.setMyUrlState(a));  			
