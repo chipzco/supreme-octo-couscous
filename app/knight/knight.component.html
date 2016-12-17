@@ -9,10 +9,11 @@
 					{{getSq(x,y).alg_not}}
 				</div>
 			</div>		
-			<button [disabled]="!squaresSelected()" (click)="showPaths()">Generate Knight Moves!</button>
+			<button [disabled]="!squaresSelected()" (click)="showPaths()" class="btn-primary">Generate Knight Moves!</button>
 		</div>			
 	</div>	
-	<div class="col-md-2">				
+	
+	<div class="col-md-2">						
 		<div *ngFor="let t of mymoves; let i=index;">
             <div (click)="colorPath(t.path)">
                 <b>{{i+1}}:</b>    Min Num Turns: {{ t.numTurns }}
@@ -21,6 +22,7 @@
                 </div>
             </div>
 		</div>		
+		<div class="tooltip">Select a series of moves to see the path on the board</div>
 	</div>	
 </div>
       
