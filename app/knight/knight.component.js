@@ -21,7 +21,8 @@ var KnightComponent = (function () {
         //console.log(this.squares);	
         this.cols = [7, 6, 5, 4, 3, 2, 1, 0];
         this.rows = [0, 1, 2, 3, 4, 5, 6, 7];
-        this.pathSquares = new Array();
+        this.pathSquares = new Array(); //this is holding start end squares. 
+        this.pathSelectSquare = null;
     };
     KnightComponent.prototype.getSq = function (x, y) {
         return this.board.getSquare(x, y);
@@ -68,7 +69,7 @@ var KnightComponent = (function () {
         this.knightService.startKnightPath(this.pathSquares[0], this.pathSquares[1]).subscribe(function (a) { return _this.mymoves = a; });
     };
     KnightComponent.prototype.colorPath = function (path) {
-        this.board.clearBoardState(this.pathSquares);
+        this.board.clearBoardState(this.pathSquares); //this.pathSquares
         var x = 0;
         for (var _i = 0, path_1 = path; _i < path_1.length; _i++) {
             var c = path_1[_i];
@@ -78,6 +79,20 @@ var KnightComponent = (function () {
             }
             x++;
         }
+    };
+    KnightComponent.prototype.colorPathSquare = function (event, co) {
+        /*
+        if (this.pathSelectSquare) {
+            let sqold: Square;
+            sqold = this.board.getSquare(this.pathSelectSquare.x, this.pathSelectSquare.y);
+            sqold.currState = this.pathSelectSquare.currState;
+        }
+        */
+        //this.pathSelectSquare = new Square(sq.x, sq.y, sq.sqcolor);
+        //this.pathSelectSquare.currState = sq.currState;    //store the copy of square and its current state
+        event.target.style.backgroundColor = "red";
+        var sq = this.board.getSquare(co.x, co.y);
+        sq.currState = coord_1.sqStates.Selected;
     };
     KnightComponent = __decorate([
         core_1.Component({

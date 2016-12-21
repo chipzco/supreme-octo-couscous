@@ -15,10 +15,10 @@
 	
 	<div class="col-md-2">						
 		<div *ngFor="let t of mymoves; let i=index;">
-            <div (click)="colorPath(t.path)">
-                <b>{{i+1}}:</b>    Min Num Turns: {{ t.numTurns }}
+            <div>
+                <span class="pathMove" (click)="colorPath(t.path)"><b>{{i+1}}:</b>    Min Num Turns: {{ t.numTurns }}</span>
                 <div>
-                    <span *ngFor="let sq of t.path; let fin=last">{{ sq.alg_not }} <i *ngIf="!fin">to </i></span>
+                    <span *ngFor="let co of t.path; let fin=last"  (click)="colorPathSquare($event,co)"><a class="pathMove">{{ co.alg_not }}</a><i *ngIf="!fin">to </i></span>
                 </div>
             </div>
 		</div>		
