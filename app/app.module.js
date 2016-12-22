@@ -15,12 +15,13 @@ var app_component_1 = require('./app.component');
 var about_component_1 = require('./about.component');
 var app_routing_module_1 = require('./app-routing.module');
 var knight_module_1 = require('./knight/knight.module');
+var tictac_module_1 = require('./tictac/tictac.module');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule],
+            imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule, tictac_module_1.TicTacModule],
             declarations: [app_component_1.AppComponent, about_component_1.AboutComponent],
             bootstrap: [app_component_1.AppComponent],
             providers: [my_service_1.myService]

@@ -86,7 +86,7 @@ export class KnightComponent implements OnInit {
             x++;
         }
     }
-    colorPathSquare(event: Event, co: Coord ) {
+    colorPathSquare(event: any, co: Coord ) {
         
         /*
         if (this.pathSelectSquare) {
