@@ -9,7 +9,7 @@
 
 <h3>The Board</h3>
 <div id="board" class="board">
-    <div class="row" *ngFor="let x of colGen">
-        <square *ngFor="let y of rowGen" [x]=x [y]=y [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="getSquareColor(x,y)" (instanceSq)="holdSqRef($event)" (clickedSq)="passclickedSq($event)"></square>
+    <div class="row" *ngFor="let y of rowGen">
+        <square *ngFor="let x of colGen" [x]=x [y]=y [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="getSquareColor(x,y)" (instanceSq)="holdSqRef($event)" (clickedSq)="passclickedSq($event)"></square>
     </div>
 </div>
