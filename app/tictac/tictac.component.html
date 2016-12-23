@@ -1,21 +1,22 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <board _rows=3 _columns=3 (eventBoardref)="setBoard($event)" (eventClickedSquare)="handleSquareClick($event);"></board>
+        <div class="col-md-5">
+            <board [_rows]=4 [_columns]=4 [colorArr]="colorArr" (eventBoardref)="setBoard($event)" (eventClickedSquare)="handleSquareClick($event);"></board>
+            <button class="btn-primary" (click)="startover()">START OVER GAME</button>
         </div>
-        <div class="col-md-2">
-            <span *ngIf="winner">WINNER FOUND</span>
-            <square [x]=3 [y]=0 [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="winSqColor" (instanceSq)="holdWinSqRef($event)"></square>
-            <br style="clear:both" />            
-            <div>   
-                History           
-                <ul>
-                    <li><a (click)="clearBoard()" title="empty board">Empty Board</a></li>        
-                    <li *ngFor="let p of pathSquares; let i=index;">                        
-                        <a (click)="getHistory(i)" title="Go Back to this move">Move # {{i+1}}</a>
-                    </li>
-                </ul>                
-            </div>
+        <div class="col-md-4">
+            <h2 *ngIf="winner">WINNER FOUND</h2>
+            <h2 *ngIf="draw">Damn! Its a Draw!</h2>
+            <square [x]=3 [y]=0 [colors]="colorArr" [sqcolor]="winSqColor" (instanceSq)="holdWinSqRef($event)"></square>            
+        </div>
+        <div class="col-md-3">
+            <h2>History</h2>
+            <ul>
+                <li><a (click)="clearBoard()" title="empty board">Empty Board</a></li>
+                <li *ngFor="let p of pathSquares; let i=index;">
+                    <a (click)="getHistory(i)" title="Go Back to this move">Move # {{i+1}}</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

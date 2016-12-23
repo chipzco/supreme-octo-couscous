@@ -13,6 +13,7 @@ var coord_1 = require('../knight/coord');
 var TicTac = (function () {
     function TicTac() {
         this.winSqColor = coord_1.sqColor.white;
+        this.colorArr = ['whiteorblack', 'glyphicon glyphicon-remove', 'glyphicon glyphicon-adjust', 'grey', 'orange'];
     }
     TicTac.prototype.ngOnInit = function () {
         this.pathSquares = [];
@@ -20,18 +21,42 @@ var TicTac = (function () {
         this.winner = null;
         this.draw = false;
         this.inHistory = false;
+        this.winPath = [];
     };
     TicTac.prototype.holdWinSqRef = function (sq) {
         this.winSq = sq;
-        console.log(sq);
+        //console.log(sq);
     };
     TicTac.prototype.checkWinner = function () {
+        var winExists = this.checkWinnerCols();
+        if (!winExists) {
+            winExists = this.checkWinnerRows();
+        }
+        //diagonal with equal xy
+        if (!winExists) {
+            winExists = this.checkWinnerDiagonal1();
+        }
+        if (!winExists) {
+            winExists = this.checkWinnerDiagonal2();
+        }
+        if (winExists) {
+            for (var _i = 0, _a = this.winPath; _i < _a.length; _i++) {
+                var m = _a[_i];
+                m.currState = coord_1.sqStates.Selected;
+            }
+        }
+        else
+            this.winPath = [];
+        return winExists;
+    };
+    TicTac.prototype.checkWinnerCols = function () {
         var winExists = false;
         var compstate;
         for (var _i = 0, _a = this.board.colGen; _i < _a.length; _i++) {
             var x = _a[_i];
             if (winExists)
                 break;
+            this.winPath = [];
             for (var _b = 0, _c = this.board.rowGen; _b < _c.length; _b++) {
                 var y = _c[_b];
                 //console.log("x: " + x + " y " + y);
@@ -39,61 +64,94 @@ var TicTac = (function () {
                 if (sqR) {
                     if (y == this.board.rows - 1)
                         compstate = sqR.currState;
-                    if (compstate != sqR.currState)
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
                         break;
+                    }
+                    this.winPath.push(sqR);
                     if (y == 0 && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
                         winExists = true;
                         this.winner = compstate;
                         break;
                     }
                 }
-                else
-                    console.log("no square");
             }
         }
-        if (!winExists) {
-            for (var _d = 0, _e = this.board.rowGen; _d < _e.length; _d++) {
-                var y = _e[_d];
-                if (winExists)
-                    break;
-                for (var _f = 0, _g = this.board.colGen; _f < _g.length; _f++) {
-                    var x = _g[_f];
-                    //console.log("x: " + x + " y " + y);
-                    var sqR = this.board.getSquare(x, y);
-                    if (sqR) {
-                        if (x == 0)
-                            compstate = sqR.currState;
-                        if (compstate != sqR.currState)
-                            break;
-                        if (x == (this.board.columns - 1) && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
-                            winExists = true;
-                            this.winner = compstate;
-                            break;
-                        }
+        return winExists;
+    };
+    TicTac.prototype.checkWinnerRows = function () {
+        var winExists = false;
+        var compstate;
+        for (var _i = 0, _a = this.board.rowGen; _i < _a.length; _i++) {
+            var y = _a[_i];
+            if (winExists)
+                break;
+            this.winPath = [];
+            for (var _b = 0, _c = this.board.colGen; _b < _c.length; _b++) {
+                var x = _c[_b];
+                //console.log("x: " + x + " y " + y);
+                var sqR = this.board.getSquare(x, y);
+                if (sqR) {
+                    if (x == 0)
+                        compstate = sqR.currState;
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
+                        break;
                     }
-                    else
-                        console.log("no square");
+                    this.winPath.push(sqR);
+                    if (x == (this.board.columns - 1) && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
                 }
             }
-        }
-        //diagonal with equal xy
-        if (!winExists) {
-            winExists = this.checkWinnerDiagonal1();
         }
         return winExists;
     };
     TicTac.prototype.checkWinnerDiagonal1 = function () {
         var winExists = false;
         var compstate;
+        this.winPath = [];
         for (var x = 0; x < this.board.columns; x++) {
             var sqR = this.board.getSquare(x, x);
             if (sqR) {
+                this.winPath.push(sqR);
                 if (x == 0)
                     compstate = sqR.currState;
                 else {
-                    if (compstate != sqR.currState)
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
                         break;
+                    }
                     if (x == (this.board.columns - 1) && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
+                }
+            }
+        }
+        return winExists;
+    };
+    TicTac.prototype.checkWinnerDiagonal2 = function () {
+        var winExists = false;
+        var compstate;
+        var y = -1;
+        this.winPath = [];
+        for (var x = this.board.columns - 1; x >= 0; x--) {
+            y++;
+            var sqR = this.board.getSquare(x, y);
+            if (sqR) {
+                this.winPath.push(sqR);
+                if (y == 0)
+                    compstate = sqR.currState;
+                else {
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
+                        break;
+                    }
+                    if (x == 0 && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
                         winExists = true;
                         this.winner = compstate;
                         break;
@@ -159,7 +217,16 @@ var TicTac = (function () {
         console.log("reset to current board");
     };
     TicTac.prototype.clearBoard = function () {
+        this.inHistory = false;
         this.board.clearBoardState();
+    };
+    TicTac.prototype.startover = function () {
+        this.clearBoard();
+        this.winner = null;
+        this.winPath = [];
+        this.pathSquares = [];
+        this.draw = false;
+        this.winSq.currState = coord_1.sqStates.None;
     };
     TicTac.prototype.getHistory = function (i) {
         console.log(" GO BACK IN HISTORY TO MOVE #" + i);

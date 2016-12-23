@@ -27,7 +27,14 @@ export class Square2 implements OnInit {
         this.clickedSq.emit(this.sqInfo);
         //console.log(this.sqInfo);
     }
-       
+    getValue(): string {
+        let val: string = "";
+        if (this.sqInfo.currState == sqStates.Start)
+            val = "X";
+        else if (this.sqInfo.currState == sqStates.End)
+            val = "O";
+        return val;
+    }   
     getColor(): string{
         return this.sqInfo.getColor();
     }

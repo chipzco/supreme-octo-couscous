@@ -25,6 +25,14 @@ var Square2 = (function () {
         this.clickedSq.emit(this.sqInfo);
         //console.log(this.sqInfo);
     };
+    Square2.prototype.getValue = function () {
+        var val = "";
+        if (this.sqInfo.currState == coord_1.sqStates.Start)
+            val = "X";
+        else if (this.sqInfo.currState == coord_1.sqStates.End)
+            val = "O";
+        return val;
+    };
     Square2.prototype.getColor = function () {
         return this.sqInfo.getColor();
     };

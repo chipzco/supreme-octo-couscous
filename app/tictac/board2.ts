@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Observable';
 export class Board2 implements OnInit {
     @Input() private _rows: number;
     @Input() private _columns: number;
+    @Input() private colorArr: Array<string>;
     @Output() eventBoardref: EventEmitter<Board> = new EventEmitter<Board>();
     @Output() eventClickedSquare: EventEmitter<Square> = new EventEmitter<Square>(); 
     numsquares: number;        

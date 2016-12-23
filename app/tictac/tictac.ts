@@ -2,6 +2,7 @@ import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { sqStates, sqColor,Square, Board } from  '../knight/coord';
 import { Observable } from 'rxjs/Observable'; 
 import { Board2 } from './board2';
+
 @Component({	  
 	moduleId: module.id.toString(),
 	selector: 'tictac',	  
@@ -14,8 +15,10 @@ export class TicTac implements OnInit {
     pathSquares: Square[];
     toPlayX: boolean;
     winner: sqStates;
-    winSqColor: sqColor = sqColor.white;
+    winSqColor: sqColor = sqColor.white;    
+    colorArr: Array<string> = ['whiteorblack', 'glyphicon glyphicon-remove', 'glyphicon glyphicon-adjust', 'grey', 'orange'];
     winSq: Square;
+    winPath: Square[];
     draw: boolean;
     inHistory: boolean;
     ngOnInit(): void {
@@ -24,63 +27,88 @@ export class TicTac implements OnInit {
         this.winner = null;
         this.draw = false;
         this.inHistory = false;
+        this.winPath = [];
     }
 
     holdWinSqRef(sq: Square): void {
         this.winSq = sq;
-        console.log(sq);
+        //console.log(sq);
     }
     checkWinner():  boolean {
-        let winExists = false;        
-        let compstate: sqStates;
-        for (let x of this.board.colGen) {
-            if (winExists)
-                break;
-            for (let y of this.board.rowGen) {
-                //console.log("x: " + x + " y " + y);
-                let sqR = this.board.getSquare(x, y);
-                if (sqR) {
-                    if (y == this.board.rows - 1)
-                        compstate = sqR.currState;
-                    if (compstate != sqR.currState)
-                        break;
-                    if (y == 0 && (compstate==sqStates.Start || compstate==sqStates.End)) {
-                        winExists = true;
-                        this.winner = compstate;
-                        break;
-                    }
-                }
-                else
-                    console.log("no square");
-            }
-        }
+        let winExists = this.checkWinnerCols();
         if (!winExists) {
-            for (let y of this.board.rowGen) {
-                if (winExists)
-                    break;
-                for (let x of this.board.colGen) {
-                    //console.log("x: " + x + " y " + y);
-                    let sqR = this.board.getSquare(x, y);
-                    if (sqR) {
-                        if (x == 0)
-                            compstate = sqR.currState;
-                        if (compstate != sqR.currState)
-                            break;
-                        if (x == (this.board.columns -1)  && (compstate == sqStates.Start || compstate == sqStates.End)) {
-                            winExists = true;
-                            this.winner = compstate;
-                            break;
-                        }
-                    }
-                    else
-                        console.log("no square");
-                }
-            }
-
+            winExists = this.checkWinnerRows();
         }
         //diagonal with equal xy
         if (!winExists) {
             winExists = this.checkWinnerDiagonal1();
+        }
+        if (!winExists) {
+            winExists = this.checkWinnerDiagonal2();
+        }
+        if (winExists) {
+            for (let m of this.winPath) {
+                m.currState = sqStates.Selected;
+            }
+        }
+        else 
+            this.winPath = [];
+        return winExists;
+    }
+
+    checkWinnerCols(): boolean {
+        let winExists = false;
+        let compstate: sqStates;
+        for (let x of this.board.colGen) {
+            if (winExists)
+                break;
+            this.winPath = [];
+            for (let y of this.board.rowGen) {
+                //console.log("x: " + x + " y " + y);
+                let sqR = this.board.getSquare(x, y);                
+                if (sqR) {
+                    if (y == this.board.rows - 1)
+                        compstate = sqR.currState;
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
+                        break;
+                    }
+                    this.winPath.push(sqR);
+                    if (y == 0 && (compstate == sqStates.Start || compstate == sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
+                }              
+            }
+        }
+        return winExists
+    }
+    checkWinnerRows(): boolean {
+        let winExists = false;
+        let compstate: sqStates;     
+        for (let y of this.board.rowGen) {
+            if (winExists)
+                break;
+            this.winPath = [];
+            for (let x of this.board.colGen) {
+                //console.log("x: " + x + " y " + y);
+                let sqR = this.board.getSquare(x, y);
+                if (sqR) {
+                    if (x == 0)
+                        compstate = sqR.currState;
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
+                        break;
+                    }
+                    this.winPath.push(sqR);
+                    if (x == (this.board.columns - 1) && (compstate == sqStates.Start || compstate == sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
+                }                
+            }
         }
         return winExists;
     }
@@ -88,14 +116,18 @@ export class TicTac implements OnInit {
     checkWinnerDiagonal1(): boolean {
         let winExists = false;
         let compstate: sqStates;     
+        this.winPath = [];
         for (let x = 0; x < this.board.columns; x++) {                        
             let sqR = this.board.getSquare(x, x);
             if (sqR) {
+                this.winPath.push(sqR);
                 if (x == 0)
                     compstate = sqR.currState;
                 else {
-                    if (compstate != sqR.currState)
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
                         break;
+                    }                   
                     if (x == (this.board.columns - 1) && (compstate == sqStates.Start || compstate == sqStates.End)) {
                         winExists = true;
                         this.winner = compstate;
@@ -106,6 +138,36 @@ export class TicTac implements OnInit {
         }
         return winExists;
     }
+
+    checkWinnerDiagonal2(): boolean {
+        let winExists = false;
+        let compstate: sqStates;
+        let y = -1;
+        this.winPath = [];
+        for (let x = this.board.columns - 1; x >= 0; x--) {
+            y++;
+            let sqR = this.board.getSquare(x, y);
+            if (sqR) {
+                this.winPath.push(sqR);
+                if (y==0)
+                    compstate = sqR.currState;
+                else {
+                    if (compstate != sqR.currState) {
+                        this.winPath = [];
+                        break;
+                    }                   
+                    if (x == 0 && (compstate == sqStates.Start || compstate == sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
+                }
+            }
+        }
+        return winExists;
+    }
+
+
     checkDraw(): boolean {
         //assume that you check for win first.
         if (!(this.board.getAllSquares().findIndex(sq => sq.currState == sqStates.None) >-1))
@@ -164,7 +226,16 @@ export class TicTac implements OnInit {
         console.log("reset to current board");
     }
     clearBoard(): void {
-        this.board.clearBoardState();
+        this.inHistory = false;
+        this.board.clearBoardState();        
+    }
+    startover(): void {
+        this.clearBoard();
+        this.winner = null;
+        this.winPath = [];
+        this.pathSquares = [];
+        this.draw = false;
+        this.winSq.currState = sqStates.None;
     }
     getHistory(i: number): void {
         console.log(" GO BACK IN HISTORY TO MOVE #" + i);

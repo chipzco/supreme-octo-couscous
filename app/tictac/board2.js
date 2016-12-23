@@ -61,6 +61,10 @@ var Board2 = (function () {
         __metadata('design:type', Number)
     ], Board2.prototype, "_columns", void 0);
     __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], Board2.prototype, "colorArr", void 0);
+    __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
     ], Board2.prototype, "eventBoardref", void 0);

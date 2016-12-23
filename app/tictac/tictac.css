@@ -1,5 +1,5 @@
 .black {	
-	background-color:black; 
+	background-color: #fafc30; 
 	color:white;	
 }
 
@@ -50,12 +50,13 @@ a.pathMove: hover  {
 	text-align:center;
 	line-height: 80px;
     color:red;
+    font-size:26px;
 }
 
 .board {
-	width:752px;
+	width:404px;
 	padding-left:15px;	
-	height:820px;	
+	height:404px;	
 	border: 1px black solid;
 	text-align:right;
 	margin-left: auto;
