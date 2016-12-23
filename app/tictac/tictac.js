@@ -48,6 +48,31 @@ var TicTac = (function () {
                     console.log("no square");
             }
         }
+        if (!winExists) {
+            for (var _d = 0, _e = this.board.rowGen; _d < _e.length; _d++) {
+                var y = _e[_d];
+                if (winExists)
+                    break;
+                for (var _f = 0, _g = this.board.colGen; _f < _g.length; _f++) {
+                    var x = _g[_f];
+                    //console.log("x: " + x + " y " + y);
+                    var sqR = this.board.getSquare(x, y);
+                    if (sqR) {
+                        if (x == 0)
+                            compstate = sqR.currState;
+                        if (compstate != sqR.currState)
+                            break;
+                        if (x == (this.board.columns - 1) && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
+                            winExists = true;
+                            this.winner = compstate;
+                            break;
+                        }
+                    }
+                    else
+                        console.log("no square");
+                }
+            }
+        }
         return winExists;
     };
     TicTac.prototype.setBoard = function (boardobj) {
