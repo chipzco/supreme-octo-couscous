@@ -23,9 +23,9 @@ export class Square2 implements OnInit {
         this.instanceSq.emit(this.sqInfo);
     } 
     onClick(): void {
-        console.log('hi');
+        //console.log('hi');
         this.clickedSq.emit(this.sqInfo);
-        console.log(this.sqInfo);
+        //console.log(this.sqInfo);
     }
        
     getColor(): string{

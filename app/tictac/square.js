@@ -21,9 +21,9 @@ var Square2 = (function () {
         this.instanceSq.emit(this.sqInfo);
     };
     Square2.prototype.onClick = function () {
-        console.log('hi');
+        //console.log('hi');
         this.clickedSq.emit(this.sqInfo);
-        console.log(this.sqInfo);
+        //console.log(this.sqInfo);
     };
     Square2.prototype.getColor = function () {
         return this.sqInfo.getColor();

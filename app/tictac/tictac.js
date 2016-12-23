@@ -19,9 +19,11 @@ var TicTac = (function () {
         this.toPlayX = true;
         this.winner = null;
         this.draw = false;
+        this.inHistory = false;
     };
     TicTac.prototype.holdWinSqRef = function (sq) {
         this.winSq = sq;
+        console.log(sq);
     };
     TicTac.prototype.checkWinner = function () {
         var winExists = false;
@@ -111,8 +113,17 @@ var TicTac = (function () {
         this.board = boardobj;
         // console.log(boardobj);
     };
+    TicTac.prototype.pushToHistory = function (clickedsq) {
+        var sq_copy = new coord_1.Square(clickedsq.x, clickedsq.y, clickedsq.sqcolor);
+        sq_copy.currState = clickedsq.currState;
+        this.pathSquares.push(sq_copy);
+    };
     TicTac.prototype.handleSquareClick = function (clickedsq) {
         //this.board.clearBoardState();
+        if (this.inHistory) {
+            console.log("In HISTORY CANNOT PLAY");
+            return;
+        }
         if (this.winner || this.draw) {
             console.log("GAME OVER");
             return;
@@ -126,7 +137,7 @@ var TicTac = (function () {
             clickedsq.currState = coord_1.sqStates.Start;
         else
             clickedsq.currState = coord_1.sqStates.End;
-        this.pathSquares.push(clickedsq);
+        this.pushToHistory(clickedsq);
         this.toPlayX = !this.toPlayX;
         var iswinner = this.checkWinner();
         if (iswinner) {
@@ -137,6 +148,31 @@ var TicTac = (function () {
         if (this.checkDraw()) {
             console.log("DRAW!!!");
             return;
+        }
+    };
+    TicTac.prototype.gotoCurrent = function () {
+        for (var m = 0; m < this.pathSquares.length; m++) {
+            var sqref = this.board.getSquare(this.pathSquares[m].x, this.pathSquares[m].y);
+            sqref.currState = this.pathSquares[m].currState;
+        }
+        this.inHistory = false;
+        console.log("reset to current board");
+    };
+    TicTac.prototype.clearBoard = function () {
+        this.board.clearBoardState();
+    };
+    TicTac.prototype.getHistory = function (i) {
+        console.log(" GO BACK IN HISTORY TO MOVE #" + i);
+        if (i < this.pathSquares.length) {
+            this.board.clearBoardState();
+            if (i == this.pathSquares.length - 1)
+                this.inHistory = false;
+            else
+                this.inHistory = true;
+            for (var m = 0; m <= i; m++) {
+                var sqref = this.board.getSquare(this.pathSquares[m].x, this.pathSquares[m].y);
+                sqref.currState = this.pathSquares[m].currState;
+            }
         }
     };
     TicTac = __decorate([

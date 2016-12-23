@@ -1,13 +1,21 @@
-Hello i am tick tac: 
-<div class="square">test this</div>
-
-
-<div class="row">
-    <div class="col-md-8">
-        <board _rows=3 _columns=3 (eventBoardref)="setBoard($event)" (eventClickedSquare)="handleSquareClick($event);" ></board>
-    </div>
-    <div class="col-md-2">
-        <span *ngIf="winner">WINNER FOUND</span>
-        <square x=10 y=10 [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="winSqColor" (instanceSq)="holdWinSqRef($event)" ></square>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <board _rows=3 _columns=3 (eventBoardref)="setBoard($event)" (eventClickedSquare)="handleSquareClick($event);"></board>
+        </div>
+        <div class="col-md-2">
+            <span *ngIf="winner">WINNER FOUND</span>
+            <square [x]=3 [y]=0 [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="winSqColor" (instanceSq)="holdWinSqRef($event)"></square>
+            <br style="clear:both" />            
+            <div>   
+                History           
+                <ul>
+                    <li><a (click)="clearBoard()" title="empty board">Empty Board</a></li>        
+                    <li *ngFor="let p of pathSquares; let i=index;">                        
+                        <a (click)="getHistory(i)" title="Go Back to this move">Move # {{i+1}}</a>
+                    </li>
+                </ul>                
+            </div>
+        </div>
     </div>
 </div>

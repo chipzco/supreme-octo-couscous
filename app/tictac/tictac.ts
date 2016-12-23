@@ -17,15 +17,18 @@ export class TicTac implements OnInit {
     winSqColor: sqColor = sqColor.white;
     winSq: Square;
     draw: boolean;
+    inHistory: boolean;
     ngOnInit(): void {
         this.pathSquares = [];
         this.toPlayX = true;
         this.winner = null;
         this.draw = false;
+        this.inHistory = false;
     }
 
     holdWinSqRef(sq: Square): void {
-        this.winSq=sq;
+        this.winSq = sq;
+        console.log(sq);
     }
     checkWinner():  boolean {
         let winExists = false;        
@@ -114,8 +117,17 @@ export class TicTac implements OnInit {
          this.board = boardobj;        
         // console.log(boardobj);
     }
+     pushToHistory(clickedsq: Square): void {
+         let sq_copy = new Square(clickedsq.x, clickedsq.y, clickedsq.sqcolor);
+         sq_copy.currState = clickedsq.currState;
+         this.pathSquares.push(sq_copy);
+     }
     handleSquareClick(clickedsq: Square): void {
         //this.board.clearBoardState();
+        if (this.inHistory) {
+            console.log("In HISTORY CANNOT PLAY");
+            return;
+        }
         if (this.winner || this.draw) {
             console.log("GAME OVER");
             return;
@@ -129,7 +141,8 @@ export class TicTac implements OnInit {
             clickedsq.currState = sqStates.Start;
         else
             clickedsq.currState = sqStates.End;
-        this.pathSquares.push(clickedsq);
+        this.pushToHistory(clickedsq);
+        
         this.toPlayX = !this.toPlayX;
         let iswinner = this.checkWinner();
         if (iswinner) {
@@ -141,6 +154,31 @@ export class TicTac implements OnInit {
             console.log("DRAW!!!");
             return;
         }	
+     }
+    gotoCurrent(): void {
+        for (let m = 0; m < this.pathSquares.length; m++) {
+            let sqref = this.board.getSquare(this.pathSquares[m].x, this.pathSquares[m].y);
+            sqref.currState = this.pathSquares[m].currState;            
+        }
+        this.inHistory = false;
+        console.log("reset to current board");
+    }
+    clearBoard(): void {
+        this.board.clearBoardState();
+    }
+    getHistory(i: number): void {
+        console.log(" GO BACK IN HISTORY TO MOVE #" + i);
+        if (i < this.pathSquares.length) {
+            this.board.clearBoardState();
+            if (i == this.pathSquares.length - 1)
+                this.inHistory = false;
+            else 
+                this.inHistory = true;
+            for (let m = 0; m <= i; m++) {
+                let sqref = this.board.getSquare(this.pathSquares[m].x, this.pathSquares[m].y);
+                sqref.currState = this.pathSquares[m].currState;
+            }
+        }
     }
 }
 
