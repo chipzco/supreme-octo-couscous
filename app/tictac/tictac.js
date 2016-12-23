@@ -18,6 +18,7 @@ var TicTac = (function () {
         this.pathSquares = [];
         this.toPlayX = true;
         this.winner = null;
+        this.draw = false;
     };
     TicTac.prototype.holdWinSqRef = function (sq) {
         this.winSq = sq;
@@ -73,7 +74,38 @@ var TicTac = (function () {
                 }
             }
         }
+        //diagonal with equal xy
+        if (!winExists) {
+            winExists = this.checkWinnerDiagonal1();
+        }
         return winExists;
+    };
+    TicTac.prototype.checkWinnerDiagonal1 = function () {
+        var winExists = false;
+        var compstate;
+        for (var x = 0; x < this.board.columns; x++) {
+            var sqR = this.board.getSquare(x, x);
+            if (sqR) {
+                if (x == 0)
+                    compstate = sqR.currState;
+                else {
+                    if (compstate != sqR.currState)
+                        break;
+                    if (x == (this.board.columns - 1) && (compstate == coord_1.sqStates.Start || compstate == coord_1.sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
+                }
+            }
+        }
+        return winExists;
+    };
+    TicTac.prototype.checkDraw = function () {
+        //assume that you check for win first.
+        if (!(this.board.getAllSquares().findIndex(function (sq) { return sq.currState == coord_1.sqStates.None; }) > -1))
+            this.draw = true;
+        return this.draw;
     };
     TicTac.prototype.setBoard = function (boardobj) {
         this.board = boardobj;
@@ -81,7 +113,7 @@ var TicTac = (function () {
     };
     TicTac.prototype.handleSquareClick = function (clickedsq) {
         //this.board.clearBoardState();
-        if (this.winner) {
+        if (this.winner || this.draw) {
             console.log("GAME OVER");
             return;
         }
@@ -100,6 +132,10 @@ var TicTac = (function () {
         if (iswinner) {
             this.winSq.currState = this.winner;
             console.log("WINNER FOUND");
+            return;
+        }
+        if (this.checkDraw()) {
+            console.log("DRAW!!!");
             return;
         }
     };

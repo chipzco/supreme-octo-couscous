@@ -48,10 +48,22 @@ export class Square extends Coord {
 
 export class Board {
     protected _squares: Square[];
-	
+    protected _rowGen: Array<number>;
+    protected _colGen: Array<number>;
 	
     constructor(private _rows: number, private _columns: number, setSquares: boolean = true) {  		
         this._squares = new Array<Square>();
+        this._rowGen = new Array<number>();
+        this._colGen = new Array<number>();
+        for (let c = 0; c < this._rows; c++) {
+            let revr = this._rows - 1 - c;
+            this._rowGen.push(revr);
+        }
+        for (let c = 0; c < this._columns; c++) {
+            this._colGen.push(c);
+        }
+
+
         if (setSquares) {
             let color: sqColor;
             for (let x = 0; x < this._columns; x++) {
@@ -67,7 +79,14 @@ export class Board {
 	}
 	get columns(): number {
 		return this._columns;
-	}	
+    }	
+    get rowGen(): Array<number> {
+        return this._rowGen;
+    }
+    get colGen(): Array<number> {
+        return this._colGen;
+    }
+
 	private  getSquareColor(x: number, y: number): sqColor {
 		if ((x % 2 ==0  && y % 2 ==0 ) || (x % 2 > 0  && y % 2 >0 )  ) 
 			return sqColor.black;

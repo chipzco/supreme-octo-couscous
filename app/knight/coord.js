@@ -65,15 +65,27 @@ var Square = (function (_super) {
 }(Coord));
 exports.Square = Square;
 var Board = (function () {
-    function Board(_rows, _columns) {
+    function Board(_rows, _columns, setSquares) {
+        if (setSquares === void 0) { setSquares = true; }
         this._rows = _rows;
         this._columns = _columns;
         this._squares = new Array();
-        var color;
-        for (var x = 0; x < this._columns; x++) {
-            for (var y = 0; y < this._rows; y++) {
-                color = this.getSquareColor(x, y);
-                this._squares.push(new Square(x, y, color));
+        this._rowGen = new Array();
+        this._colGen = new Array();
+        for (var c = 0; c < this._rows; c++) {
+            var revr = this._rows - 1 - c;
+            this._rowGen.push(revr);
+        }
+        for (var c = 0; c < this._columns; c++) {
+            this._colGen.push(c);
+        }
+        if (setSquares) {
+            var color = void 0;
+            for (var x = 0; x < this._columns; x++) {
+                for (var y = 0; y < this._rows; y++) {
+                    color = this.getSquareColor(x, y);
+                    this._squares.push(new Square(x, y, color));
+                }
             }
         }
     }
@@ -91,6 +103,20 @@ var Board = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Board.prototype, "rowGen", {
+        get: function () {
+            return this._rowGen;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Board.prototype, "colGen", {
+        get: function () {
+            return this._colGen;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Board.prototype.getSquareColor = function (x, y) {
         if ((x % 2 == 0 && y % 2 == 0) || (x % 2 > 0 && y % 2 > 0))
             return sqColor.black;
@@ -102,6 +128,9 @@ var Board = (function () {
     };
     Board.prototype.getAllSquares = function () {
         return this._squares;
+    };
+    Board.prototype.setAllSquares = function (sqs) {
+        this._squares = sqs;
     };
     Board.prototype.clearBoardState = function (skip) {
         if (skip === void 0) { skip = null; }

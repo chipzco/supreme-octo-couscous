@@ -1,5 +1,5 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
-import { sqStates, sqColor,Square } from  '../knight/coord';
+import { sqStates, sqColor,Square, Board } from  '../knight/coord';
 import { Observable } from 'rxjs/Observable'; 
 import { Board2 } from './board2';
 @Component({	  
@@ -10,16 +10,18 @@ import { Board2 } from './board2';
 })
 
 export class TicTac implements OnInit {           
-    board: Board2;	
+    board: Board;	
     pathSquares: Square[];
     toPlayX: boolean;
     winner: sqStates;
     winSqColor: sqColor = sqColor.white;
     winSq: Square;
+    draw: boolean;
     ngOnInit(): void {
         this.pathSquares = [];
         this.toPlayX = true;
         this.winner = null;
+        this.draw = false;
     }
 
     holdWinSqRef(sq: Square): void {
@@ -73,18 +75,48 @@ export class TicTac implements OnInit {
             }
 
         }
-
-
+        //diagonal with equal xy
+        if (!winExists) {
+            winExists = this.checkWinnerDiagonal1();
+        }
         return winExists;
     }
 
-     setBoard(boardobj: Board2): void {
+    checkWinnerDiagonal1(): boolean {
+        let winExists = false;
+        let compstate: sqStates;     
+        for (let x = 0; x < this.board.columns; x++) {                        
+            let sqR = this.board.getSquare(x, x);
+            if (sqR) {
+                if (x == 0)
+                    compstate = sqR.currState;
+                else {
+                    if (compstate != sqR.currState)
+                        break;
+                    if (x == (this.board.columns - 1) && (compstate == sqStates.Start || compstate == sqStates.End)) {
+                        winExists = true;
+                        this.winner = compstate;
+                        break;
+                    }
+                }
+            }           
+        }
+        return winExists;
+    }
+    checkDraw(): boolean {
+        //assume that you check for win first.
+        if (!(this.board.getAllSquares().findIndex(sq => sq.currState == sqStates.None) >-1))
+            this.draw = true;
+        return this.draw;
+    }
+
+     setBoard(boardobj: Board): void {
          this.board = boardobj;        
         // console.log(boardobj);
     }
     handleSquareClick(clickedsq: Square): void {
         //this.board.clearBoardState();
-        if (this.winner) {
+        if (this.winner || this.draw) {
             console.log("GAME OVER");
             return;
         }		
@@ -104,7 +136,11 @@ export class TicTac implements OnInit {
             this.winSq.currState = this.winner;
             console.log("WINNER FOUND");
 			return;
-        }		
+        }	
+        if (this.checkDraw()) {
+            console.log("DRAW!!!");
+            return;
+        }	
     }
 }
 
