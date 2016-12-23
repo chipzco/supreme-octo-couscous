@@ -13,13 +13,14 @@ var common_1 = require('@angular/common');
 var tictac_routing_module_1 = require('./tictac-routing.module');
 var tictac_1 = require('./tictac');
 var board2_1 = require('./board2');
+var square_1 = require('./square');
 var TicTacModule = (function () {
     function TicTacModule() {
     }
     TicTacModule = __decorate([
         core_1.NgModule({
             imports: [common_1.CommonModule, tictac_routing_module_1.TicTacRoutingModule],
-            declarations: [tictac_1.TicTac, board2_1.Board2]
+            declarations: [tictac_1.TicTac, board2_1.Board2, square_1.Square2]
         }), 
         __metadata('design:paramtypes', [])
     ], TicTacModule);

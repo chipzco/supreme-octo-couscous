@@ -1,16 +1,15 @@
 ﻿hello board I am here
 
 
-My board has {{numsquares}}
-
-with color: {{mycolor}}
-<br />
-
-rows: {{rows}}
-
-<br />
-columns: {{columns}}
 
 
 
-<div (click)="hitchild()">HIT THIS NOW</div>
+
+
+
+<h3>The Board</h3>
+<div id="board" class="board">
+    <div class="row" *ngFor="let x of colGen">
+        <square *ngFor="let y of rowGen" [x]=rows-x [y]=y [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="getSquareColor(x,y)" (instanceSq)="holdSqRef($event)" (clickedSq)="passclickedSq($event)"></square>
+    </div>
+</div>

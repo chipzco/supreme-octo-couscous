@@ -14,17 +14,32 @@ var TicTac = (function () {
     function TicTac() {
     }
     TicTac.prototype.ngOnInit = function () {
+        this.pathSquares = [];
+        this.toPlayX = true;
     };
-    TicTac.prototype.hitbacktochild = function (boardobj) {
-        console.log('I am in parent');
-        boardobj.hitme();
-        boardobj.mycolor = coord_1.sqColor.white;
+    TicTac.prototype.setBoard = function (boardobj) {
+        this.board = boardobj;
+        // console.log(boardobj);
+    };
+    TicTac.prototype.handleSquareClick = function (clickedsq) {
+        //this.board.clearBoardState();
+        var isAlreadyClicked = false;
+        if (this.pathSquares && this.pathSquares.length && this.pathSquares.findIndex(function (sq) { return sq.x == clickedsq.x && sq.y == clickedsq.y; }) > -1)
+            isAlreadyClicked = true;
+        if (isAlreadyClicked)
+            return;
+        if (this.toPlayX)
+            clickedsq.currState = coord_1.sqStates.Start;
+        else
+            clickedsq.currState = coord_1.sqStates.End;
+        this.pathSquares.push(clickedsq);
+        this.toPlayX = !this.toPlayX;
     };
     TicTac = __decorate([
         core_1.Component({
             moduleId: module.id.toString(),
             selector: 'tictac',
-            templateUrl: 'tictac.component.html',
+            templateUrl: './tictac.component.html',
             styleUrls: ['tictac.css']
         }), 
         __metadata('design:paramtypes', [])
