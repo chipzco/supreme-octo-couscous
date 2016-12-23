@@ -86,6 +86,11 @@ export class KnightComponent implements OnInit {
             x++;
         }
     }
+    colorPathSquareRev(event: any, co: Coord) {
+        event.target.style.backgroundColor = "white";
+        let sq: Square = this.board.getSquare(co.x, co.y);
+        //sq.currState = sqStates.Path;
+    }
     colorPathSquare(event: any, co: Coord ) {
         
         /*

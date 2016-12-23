@@ -80,6 +80,11 @@ var KnightComponent = (function () {
             x++;
         }
     };
+    KnightComponent.prototype.colorPathSquareRev = function (event, co) {
+        event.target.style.backgroundColor = "white";
+        var sq = this.board.getSquare(co.x, co.y);
+        //sq.currState = sqStates.Path;
+    };
     KnightComponent.prototype.colorPathSquare = function (event, co) {
         /*
         if (this.pathSelectSquare) {
