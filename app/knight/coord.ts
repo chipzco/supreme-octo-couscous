@@ -40,8 +40,8 @@ export class Square extends Coord {
 			color=this.colors[this._currState];
 		return color;
 	}
-	set currState(newstate: sqStates) {		this._currState=newstate; }
-	
+    set currState(newstate: sqStates) { this._currState = newstate; }
+    get currState() { return this._currState; }
 }
 
 

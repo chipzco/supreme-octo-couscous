@@ -56,6 +56,7 @@ var Square = (function (_super) {
         return color;
     };
     Object.defineProperty(Square.prototype, "currState", {
+        get: function () { return this._currState; },
         set: function (newstate) { this._currState = newstate; },
         enumerable: true,
         configurable: true

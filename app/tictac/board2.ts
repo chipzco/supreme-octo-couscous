@@ -17,7 +17,7 @@ export class Board2 implements OnInit {
     mycolor: sqColor;
     rowGen: Array<number>;
     colGen: Array<number>;
-    protected _squares: Array<Square>; //the square object without the drawing comp.
+    protected _squares: Array<Square>; 
    
     ngOnInit(): void {
         this.numsquares = this._rows * this._columns;

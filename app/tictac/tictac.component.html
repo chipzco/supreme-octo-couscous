@@ -7,6 +7,7 @@ Hello i am tick tac:
         <board _rows=3 _columns=3 (eventBoardref)="setBoard($event)" (eventClickedSquare)="handleSquareClick($event);" ></board>
     </div>
     <div class="col-md-2">
-
+        <span *ngIf="winner">WINNER FOUND</span>
+        <square x=10 y=10 [colors]="['whiteorblack','glyphicon glyphicon-remove','glyphicon glyphicon-adjust','grey','orange']" [sqcolor]="winSqColor" (instanceSq)="holdWinSqRef($event)" ></square>
     </div>
 </div>
