@@ -47,18 +47,20 @@ export class Square extends Coord {
 
 
 export class Board {
-	private _squares: Square[];
+    protected _squares: Square[];
 	
 	
-	constructor (private _rows: number, private _columns: number) {  		
-		this._squares=new Array<Square>();
-		let color: sqColor;
-		for (let x=0;  x < this._columns; x ++ ) {
-			for (let y=0; y< this._rows; y++) {
-				color=this.getSquareColor(x,y);					
-				this._squares.push(new Square(x,y,color));
-			}
-		}
+    constructor(private _rows: number, private _columns: number, setSquares: boolean = true) {  		
+        this._squares = new Array<Square>();
+        if (setSquares) {
+            let color: sqColor;
+            for (let x = 0; x < this._columns; x++) {
+                for (let y = 0; y < this._rows; y++) {
+                    color = this.getSquareColor(x, y);
+                    this._squares.push(new Square(x, y, color));
+                }
+            }
+        }
 	}	
 	get rows(): number {
 		return this._rows;
@@ -80,6 +82,10 @@ export class Board {
 	getAllSquares(): Square[] {
 		return this._squares;
     }
+    setAllSquares(sqs: Square[]): void {
+        this._squares = sqs;
+    }
+
     clearBoardState(skip: Array<Coord> = null): void {
         this._squares.forEach(sq => {
             if (!(skip && skip.length > 0 && skip.findIndex((v: Coord) => v.x == sq.x && v.y == sq.y) > -1  ) )              

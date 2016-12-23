@@ -1,5 +1,5 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
-import { sqStates, sqColor, Coord, Square } from '../knight/coord';
+import { sqStates, sqColor, Coord, Square, Board } from '../knight/coord';
 import { Observable } from 'rxjs/Observable';
 @Component({
     moduleId: module.id.toString(),
@@ -13,17 +13,16 @@ export class Board2 implements OnInit {
     @Input() private _columns: number;
     @Output() eventBoardref: EventEmitter<Board2> = new EventEmitter<Board2>();
     @Output() eventClickedSquare: EventEmitter<Square> = new EventEmitter<Square>(); 
-    numsquares: number;
-    mycolor: sqColor;
+    numsquares: number;    
     rowGen: Array<number>;
     colGen: Array<number>;
-    protected _squares: Array<Square>; 
-   
+    boardInfo: Board;
+    private _squares: Array<Square>;   
     ngOnInit(): void {
-        this.numsquares = this._rows * this._columns;
-        this.mycolor = sqColor.black; //test
+        this.numsquares = this._rows * this._columns;        
         this.rowGen = new Array<number>();
         this.colGen = new Array<number>();
+        this.boardInfo = new Board(this._rows, this._columns);
         this._squares = new Array<Square>();
         //console.log(this._rows);
         for (let c = 0; c < this._rows; c++) {
@@ -41,6 +40,8 @@ export class Board2 implements OnInit {
     holdSqRef(sqref: Square): void {
         //console.log(" Holding ref to the sq info: " + sqref.alg_not);
         this._squares.push(sqref); //setting the square ref in array in parent (board) from the drawn square. how else to hold squares?
+        if (this._squares.length == this.numsquares)
+            this.boardInfo.setAllSquares(this._squares);
         //sqref.currState = sqStates.Start;
     }
     passclickedSq(clicksqRef: Square): void {
