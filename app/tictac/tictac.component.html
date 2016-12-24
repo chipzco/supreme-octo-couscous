@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <board [_rows]=4 [_columns]=4 [colorArr]="colorArr" (eventBoardref)="setBoard($event)" (eventClickedSquare)="handleSquareClick($event);"></board>
+            <board [_rows]=4 [_columns]=4 [colorArr]="colorArr" (eventClickedSquare)="handleSquareClick($event);"></board>
             <button class="btn-primary" (click)="startover()">START OVER GAME</button>
         </div>
         <div class="col-md-4">

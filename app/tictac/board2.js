@@ -12,7 +12,6 @@ var core_1 = require('@angular/core');
 var coord_1 = require('../knight/coord');
 var Board2 = (function () {
     function Board2() {
-        this.eventBoardref = new core_1.EventEmitter();
         this.eventClickedSquare = new core_1.EventEmitter();
     }
     Object.defineProperty(Board2.prototype, "rowGen", {
@@ -33,7 +32,6 @@ var Board2 = (function () {
         this.numsquares = this._rows * this._columns;
         this.boardInfo = new coord_1.Board(this._rows, this._columns);
         this._squares = new Array();
-        this.eventBoardref.emit(this.boardInfo);
     };
     Board2.prototype.holdSqRef = function (sqref) {
         //console.log(" Holding ref to the sq info: " + sqref.alg_not);
@@ -64,10 +62,6 @@ var Board2 = (function () {
         core_1.Input(), 
         __metadata('design:type', Array)
     ], Board2.prototype, "colorArr", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], Board2.prototype, "eventBoardref", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)

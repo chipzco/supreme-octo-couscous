@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnInit, ViewChild,AfterViewInit } from '@angular/core';
 import { sqStates, sqColor,Square, Board } from  '../knight/coord';
 import { Observable } from 'rxjs/Observable'; 
 import { Board2 } from './board2';
@@ -10,7 +10,7 @@ import { Board2 } from './board2';
 	styleUrls: [ 'tictac.css' ]	
 })
 
-export class TicTac implements OnInit {           
+export class TicTac implements OnInit, AfterViewInit {           
     board: Board;	
     pathSquares: Square[];
     toPlayX: boolean;
@@ -21,6 +21,9 @@ export class TicTac implements OnInit {
     winPath: Square[];
     draw: boolean;
     inHistory: boolean;
+
+    @ViewChild(Board2) board2: Board2;
+
     ngOnInit(): void {
         this.pathSquares = [];
         this.toPlayX = true;
@@ -28,6 +31,9 @@ export class TicTac implements OnInit {
         this.draw = false;
         this.inHistory = false;
         this.winPath = [];
+    }
+    ngAfterViewInit(): void {
+        this.board = this.board2.boardInfo;
     }
 
     holdWinSqRef(sq: Square): void {
@@ -175,10 +181,7 @@ export class TicTac implements OnInit {
         return this.draw;
     }
 
-     setBoard(boardobj: Board): void {
-         this.board = boardobj;        
-        // console.log(boardobj);
-    }
+   
      pushToHistory(clickedsq: Square): void {
          let sq_copy = new Square(clickedsq.x, clickedsq.y, clickedsq.sqcolor);
          sq_copy.currState = clickedsq.currState;

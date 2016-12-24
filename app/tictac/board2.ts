@@ -11,8 +11,7 @@ import { Observable } from 'rxjs/Observable';
 export class Board2 implements OnInit {
     @Input() private _rows: number;
     @Input() private _columns: number;
-    @Input() private colorArr: Array<string>;
-    @Output() eventBoardref: EventEmitter<Board> = new EventEmitter<Board>();
+    @Input() private colorArr: Array<string>;    
     @Output() eventClickedSquare: EventEmitter<Square> = new EventEmitter<Square>(); 
     numsquares: number;        
     boardInfo: Board;
@@ -27,10 +26,7 @@ export class Board2 implements OnInit {
     ngOnInit(): void {
         this.numsquares = this._rows * this._columns;                
         this.boardInfo = new Board(this._rows, this._columns);
-        this._squares = new Array<Square>();
-        
-        
-        this.eventBoardref.emit(this.boardInfo);
+        this._squares = new Array<Square>(); 
     }
     holdSqRef(sqref: Square): void {
         //console.log(" Holding ref to the sq info: " + sqref.alg_not);
