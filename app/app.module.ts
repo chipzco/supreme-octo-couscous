@@ -1,5 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { myService } from './my-service';
 import { AppComponent }  from './app.component';
 import {AboutComponent} from './about.component';
@@ -9,7 +10,7 @@ import { TicTacModule } from './tictac/tictac.module';
 import { ReportModule } from './reports/report.module';
 
 @NgModule({
-    imports: [BrowserModule, AppRoutingModule, KnightModule, TicTacModule, ReportModule ],
+    imports: [BrowserModule, HttpModule,AppRoutingModule, KnightModule, TicTacModule, ReportModule ],
   declarations: [ AppComponent , AboutComponent],
   bootstrap:    [ AppComponent ],
   providers: [myService]
