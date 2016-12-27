@@ -8,21 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var report_routing_module_1 = require('./report-routing.module');
-var report_component_1 = require('./report.component');
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var report_routing_module_1 = require("./report-routing.module");
+var report_component_1 = require("./report.component");
 var ReportModule = (function () {
     function ReportModule() {
     }
-    ReportModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule, report_routing_module_1.ReportRoutingModule],
-            declarations: [report_component_1.ReportComponent]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ReportModule);
     return ReportModule;
 }());
+ReportModule = __decorate([
+    core_1.NgModule({
+        imports: [common_1.CommonModule, report_routing_module_1.ReportRoutingModule],
+        declarations: [report_component_1.ReportComponent]
+    }),
+    __metadata("design:paramtypes", [])
+], ReportModule);
 exports.ReportModule = ReportModule;
 //# sourceMappingURL=report.module.js.map

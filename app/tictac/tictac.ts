@@ -16,14 +16,12 @@ export class TicTac implements OnInit, AfterViewInit {
     toPlayX: boolean;
     winner: sqStates;
     winSqColor: sqColor = sqColor.white;    
-    colorArr: Array<string> = ['whiteorblack', 'glyphicon glyphicon-remove', 'glyphicon glyphicon-adjust', 'grey', 'orange'];
+    colorArr: Array<string> = ['white_black', 'glyphicon glyphicon-remove', 'glyphicon glyphicon-adjust', 'grey', 'orange'];
     winSq: Square;
     winPath: Square[];
     draw: boolean;
     inHistory: boolean;
-
     @ViewChild(Board2) board2: Board2;
-
     ngOnInit(): void {
         this.pathSquares = [];
         this.toPlayX = true;

@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var coord_1 = require('../knight/coord');
+var core_1 = require("@angular/core");
+var coord_1 = require("../knight/coord");
 var Square2 = (function () {
     function Square2() {
         this.instanceSq = new core_1.EventEmitter();
@@ -51,40 +51,40 @@ var Square2 = (function () {
         //console.log(classname);
         return classname;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], Square2.prototype, "sqcolor", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], Square2.prototype, "x", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], Square2.prototype, "y", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], Square2.prototype, "colors", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], Square2.prototype, "instanceSq", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], Square2.prototype, "clickedSq", void 0);
-    Square2 = __decorate([
-        core_1.Component({
-            moduleId: module.id.toString(),
-            selector: 'square',
-            templateUrl: 'square.component.html',
-            styleUrls: ['tictac.css']
-        }), 
-        __metadata('design:paramtypes', [])
-    ], Square2);
     return Square2;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], Square2.prototype, "sqcolor", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], Square2.prototype, "x", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], Square2.prototype, "y", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], Square2.prototype, "colors", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], Square2.prototype, "instanceSq", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], Square2.prototype, "clickedSq", void 0);
+Square2 = __decorate([
+    core_1.Component({
+        moduleId: module.id.toString(),
+        selector: 'square',
+        templateUrl: 'square.component.html',
+        styleUrls: ['tictac.css']
+    }),
+    __metadata("design:paramtypes", [])
+], Square2);
 exports.Square2 = Square2;
 //# sourceMappingURL=square.js.map

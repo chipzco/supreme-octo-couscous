@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var AboutComponent = (function () {
     function AboutComponent() {
     }
@@ -17,15 +17,15 @@ var AboutComponent = (function () {
         var x = this.clicked - 10;
         console.log(x);
     };
-    AboutComponent = __decorate([
-        core_1.Component({
-            selector: 'about',
-            moduleId: module.id.toString(),
-            templateUrl: './about.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AboutComponent);
     return AboutComponent;
 }());
+AboutComponent = __decorate([
+    core_1.Component({
+        selector: 'about',
+        moduleId: module.id.toString(),
+        templateUrl: './about.html'
+    }),
+    __metadata("design:paramtypes", [])
+], AboutComponent);
 exports.AboutComponent = AboutComponent;
 //# sourceMappingURL=about.component.js.map
