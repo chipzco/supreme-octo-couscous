@@ -4,19 +4,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var sqStates;
 (function (sqStates) {
     sqStates[sqStates["None"] = 0] = "None";
     sqStates[sqStates["Start"] = 1] = "Start";
     sqStates[sqStates["End"] = 2] = "End";
     sqStates[sqStates["Path"] = 3] = "Path";
     sqStates[sqStates["Selected"] = 4] = "Selected";
-})(exports.sqStates || (exports.sqStates = {}));
-var sqStates = exports.sqStates;
+})(sqStates = exports.sqStates || (exports.sqStates = {}));
+var sqColor;
 (function (sqColor) {
     sqColor[sqColor["white"] = 0] = "white";
     sqColor[sqColor["black"] = 1] = "black";
-})(exports.sqColor || (exports.sqColor = {}));
-var sqColor = exports.sqColor;
+})(sqColor = exports.sqColor || (exports.sqColor = {}));
 var Coord = (function () {
     function Coord(x, y) {
         this.x = x;
@@ -40,12 +40,13 @@ exports.Coord = Coord;
 var Square = (function (_super) {
     __extends(Square, _super);
     function Square(x, y, sqcolor) {
-        _super.call(this, x, y);
-        this.x = x;
-        this.y = y;
-        this.sqcolor = sqcolor;
-        this.colors = ['whiteorblack', 'green', 'blue', 'grey', 'orange'];
-        this._currState = sqStates.None;
+        var _this = _super.call(this, x, y) || this;
+        _this.x = x;
+        _this.y = y;
+        _this.sqcolor = sqcolor;
+        _this.colors = ['whiteorblack', 'green', 'blue', 'grey', 'orange'];
+        _this._currState = sqStates.None;
+        return _this;
     }
     Square.prototype.getColor = function () {
         var color = "";

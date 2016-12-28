@@ -8,22 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var tictac_1 = require('./tictac');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var tictac_1 = require("./tictac");
 var TicTacRoutingModule = (function () {
     function TicTacRoutingModule() {
     }
-    TicTacRoutingModule = __decorate([
-        core_1.NgModule({
-            imports: [router_1.RouterModule.forChild([
-                    { path: 'tictac', component: tictac_1.TicTac }
-                ])],
-            exports: [router_1.RouterModule]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TicTacRoutingModule);
     return TicTacRoutingModule;
 }());
+TicTacRoutingModule = __decorate([
+    core_1.NgModule({
+        imports: [router_1.RouterModule.forChild([
+                { path: 'tictac', component: tictac_1.TicTac }
+            ])],
+        exports: [router_1.RouterModule]
+    }),
+    __metadata("design:paramtypes", [])
+], TicTacRoutingModule);
 exports.TicTacRoutingModule = TicTacRoutingModule;
 //# sourceMappingURL=tictac-routing.module.js.map

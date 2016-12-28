@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var my_service_1 = require('./my-service');
+var core_1 = require("@angular/core");
+var my_service_1 = require("./my-service");
 var router_1 = require("@angular/router");
-require('rxjs/add/operator/filter');
-require('rxjs/add/operator/map');
-require('rxjs/add/operator/mergeMap');
+require("rxjs/add/operator/filter");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/mergeMap");
 var AppComponent = (function () {
     function AppComponent(myservice, r, router) {
         this.myservice = myservice;
@@ -39,15 +39,15 @@ var AppComponent = (function () {
         var retNav = this.router.events.filter(function (event) { return event instanceof router_1.NavigationEnd; });
         retNav.map(function (e) { return e.urlAfterRedirects; }).subscribe(function (a) { return _this.setMyUrlState(a); });
     };
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            moduleId: module.id.toString(),
-            templateUrl: './app.component.html'
-        }), 
-        __metadata('design:paramtypes', [my_service_1.myService, router_1.ActivatedRoute, router_1.Router])
-    ], AppComponent);
     return AppComponent;
 }());
+AppComponent = __decorate([
+    core_1.Component({
+        selector: 'my-app',
+        moduleId: module.id.toString(),
+        templateUrl: './app.component.html'
+    }),
+    __metadata("design:paramtypes", [my_service_1.myService, router_1.ActivatedRoute, router_1.Router])
+], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

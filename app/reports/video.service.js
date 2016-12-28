@@ -8,11 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var Rx_1 = require('rxjs/Rx');
-var Subject_1 = require('rxjs/Subject');
-require('rxjs/add/observable/throw');
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var Rx_1 = require("rxjs/Rx");
+var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/observable/throw");
 var VideoService = (function () {
     function VideoService(http) {
         this.http = http;
@@ -47,11 +47,11 @@ var VideoService = (function () {
         enumerable: true,
         configurable: true
     });
-    VideoService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], VideoService);
     return VideoService;
 }());
+VideoService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], VideoService);
 exports.VideoService = VideoService;
 //# sourceMappingURL=video.service.js.map

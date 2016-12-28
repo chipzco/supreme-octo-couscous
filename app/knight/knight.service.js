@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var coord_1 = require('./coord');
-var Subject_1 = require('rxjs/Subject');
+var core_1 = require("@angular/core");
+var coord_1 = require("./coord");
+var Subject_1 = require("rxjs/Subject");
 var KnightService = (function () {
     //private moveSubjObserver: Subject<number>;
     //private turns_holder: number[];
@@ -129,12 +129,12 @@ var KnightService = (function () {
         makeKnightMoveAync(start, end, new TurnsHolder());
         return (moveSubjObserver.asObservable());
     };
-    KnightService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], KnightService);
     return KnightService;
 }());
+KnightService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], KnightService);
 exports.KnightService = KnightService;
 var TurnsHolder = (function () {
     function TurnsHolder() {
