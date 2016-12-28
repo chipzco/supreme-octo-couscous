@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
+var http_1 = require("@angular/http");
 var my_service_1 = require("./my-service");
 var app_component_1 = require("./app.component");
 var about_component_1 = require("./about.component");
@@ -24,7 +25,7 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule, tictac_module_1.TicTacModule, report_module_1.ReportModule],
+        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule, tictac_module_1.TicTacModule, report_module_1.ReportModule],
         declarations: [app_component_1.AppComponent, about_component_1.AboutComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [my_service_1.myService]

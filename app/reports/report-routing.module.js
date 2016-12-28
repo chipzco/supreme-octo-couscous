@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var report_component_1 = require("./report.component");
+var videoreport_component_1 = require("./videoreport.component");
 var ReportRoutingModule = (function () {
     function ReportRoutingModule() {
     }
@@ -20,6 +21,7 @@ ReportRoutingModule = __decorate([
     core_1.NgModule({
         imports: [router_1.RouterModule.forChild([
                 { path: 'report', component: report_component_1.ReportComponent },
+                { path: 'videoreport', component: videoreport_component_1.VideoReportComponent },
             ])],
         exports: [router_1.RouterModule]
     }),

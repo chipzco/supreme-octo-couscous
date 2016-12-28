@@ -12,6 +12,8 @@ var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var report_routing_module_1 = require("./report-routing.module");
 var report_component_1 = require("./report.component");
+var video_service_1 = require("./video.service");
+var videoreport_component_1 = require("./videoreport.component");
 var ReportModule = (function () {
     function ReportModule() {
     }
@@ -20,7 +22,8 @@ var ReportModule = (function () {
 ReportModule = __decorate([
     core_1.NgModule({
         imports: [common_1.CommonModule, report_routing_module_1.ReportRoutingModule],
-        declarations: [report_component_1.ReportComponent]
+        declarations: [report_component_1.ReportComponent, videoreport_component_1.VideoReportComponent],
+        providers: [video_service_1.VideoService]
     }),
     __metadata("design:paramtypes", [])
 ], ReportModule);

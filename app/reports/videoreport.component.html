@@ -1,0 +1,27 @@
+
+
+
+	
+
+<div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+        <p><a class="btn btn-default" href="#" role="button" (click)="getVideos($event)">Start Observing &raquo;</a></p>
+    
+        <div>          
+          <h2>VIDEO Report</h2>
+          <p>HERE: {{pollCount}} {{aIndex}} </p>
+          <div>
+              <div *ngFor="let v of vids" class="text">
+                  {{v.id}} {{v.filename}} 
+              </div>
+          </div>
+           <p><button class="btn warning" (click)="stopObserving()">stop Observing</button></p>
+          
+        </div><!-- /.col-lg-4 -->
+      
+
+
+      
+ </div><!-- /.container -->
+  

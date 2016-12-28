@@ -9,12 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var video_service_1 = require("./video.service");
 var ReportComponent = (function () {
-    function ReportComponent() {
+    function ReportComponent(videoservice) {
+        this.videoservice = videoservice;
     }
     ReportComponent.prototype.ngOnInit = function () {
         console.log('in reports');
         this.reports = ['Bank Report', 'Currency Report', 'Transaction Report', 'Study Listing', 'Video Listing'];
+    };
+    ReportComponent.prototype.getVideos = function () {
+        this.vids = this.videoservice.getVideos();
     };
     return ReportComponent;
 }());
@@ -25,7 +30,7 @@ ReportComponent = __decorate([
         templateUrl: 'report.component.html',
         styleUrls: ['report.component.css']
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [video_service_1.VideoService])
 ], ReportComponent);
 exports.ReportComponent = ReportComponent;
 //# sourceMappingURL=report.component.js.map
