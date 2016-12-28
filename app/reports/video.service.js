@@ -18,18 +18,21 @@ var VideoService = (function () {
         this.http = http;
         this.name = 'Injected Service';
         this.url = 'http://medialib.proph.web/?act=videoang.index.public';
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json', "Accept": "application/json" });
+        this.headers = new http_1.Headers();
         this.pollCount = -1;
         this.aIndex = -1;
         this.stopPolling = new Subject_1.Subject();
         this._errtxt = "";
+        //{ , "Accept": "application/json" });
+        this.headers.append("Content-Type", "application/json");
+        this.headers.append("Accept", "application/json");
     }
     VideoService.prototype.getObsVid = function (val, ix) {
         this.pollCount = val;
         this.aIndex = ix;
         if (this.pollCount > 5)
-            this.stopPolling.next(true); //
-        return this.http.get(this.url, { headers: this.headers }).retryWhen(function (error) { return error.delay(200); }).timeout(1500).catch(function (err) { return Rx_1.Observable.throw(err); }).map(function (resp) { return resp.json(); });
+            this.stopPolling.next(true); //retryWhen(error => error.delay(200)).timeout(1500).
+        return this.http.get(this.url, { headers: this.headers }).catch(function (err) { return Rx_1.Observable.throw(err); }).map(function (resp) { return resp.json(); });
     };
     VideoService.prototype.getVideos = function () {
         var _this = this;

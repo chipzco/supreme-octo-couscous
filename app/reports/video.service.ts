@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 export class VideoService {
     public name: string = 'Injected Service';
     private url: string = 'http://medialib.proph.web/?act=videoang.index.public';   
-    private headers = new Headers({ 'Content-Type': 'application/json', "Accept": "application/json" });
+    private headers = new Headers(); 
     public pollCount: number=-1;
     public aIndex: number = -1;
     private stopPolling: Subject<boolean>;
@@ -17,13 +17,16 @@ export class VideoService {
     constructor(private http: Http) {
         this.stopPolling = new Subject();
         this._errtxt = "";
+        //{ , "Accept": "application/json" });
+        this.headers.append("Content-Type": "application/json");
+        this.headers.append("Accept", "application/json");
     }
     getObsVid(val: number, ix: number): Observable<any> {
         this.pollCount = val;
         this.aIndex = ix;        
         if (this.pollCount > 5)
-            this.stopPolling.next(true);  //
-        return this.http.get(this.url, { headers: this.headers }).retryWhen(error => error.delay(200)).timeout(1500).catch((err: any) => Observable.throw(err)).map((resp: Response) => resp.json());
+            this.stopPolling.next(true);  //retryWhen(error => error.delay(200)).timeout(1500).
+        return this.http.get(this.url, { headers: this.headers }).catch((err: any) => Observable.throw(err)).map((resp: Response) => resp.json());
     }
 
     getVideos(): Observable<Response> {
