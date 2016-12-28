@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var coord_1 = require("./coord");
-var knight_service_1 = require("./knight.service");
+var core_1 = require('@angular/core');
+var coord_1 = require('./coord');
+var knight_service_1 = require('./knight.service');
 var KnightComponent = (function () {
     function KnightComponent(knightService) {
         this.knightService = knightService;
@@ -99,16 +99,16 @@ var KnightComponent = (function () {
         var sq = this.board.getSquare(co.x, co.y);
         sq.currState = coord_1.sqStates.Selected;
     };
+    KnightComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'board',
+            templateUrl: 'knight.component.html',
+            styleUrls: ['knight.component.css']
+        }), 
+        __metadata('design:paramtypes', [knight_service_1.KnightService])
+    ], KnightComponent);
     return KnightComponent;
 }());
-KnightComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'board',
-        templateUrl: 'knight.component.html',
-        styleUrls: ['knight.component.css']
-    }),
-    __metadata("design:paramtypes", [knight_service_1.KnightService])
-], KnightComponent);
 exports.KnightComponent = KnightComponent;
 //# sourceMappingURL=knight.component.js.map

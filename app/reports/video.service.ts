@@ -16,9 +16,8 @@ export class VideoService {
     private _errtxt: any;
     constructor(private http: Http) {
         this.stopPolling = new Subject();
-        this._errtxt = "";
-        //{ , "Accept": "application/json" });
-        this.headers.append("Content-Type": "application/json");
+        this._errtxt = "";        
+        this.headers.append("Content-Type", "application/json");
         this.headers.append("Accept", "application/json");
     }
     getObsVid(val: number, ix: number): Observable<any> {
@@ -26,7 +25,7 @@ export class VideoService {
         this.aIndex = ix;        
         if (this.pollCount > 5)
             this.stopPolling.next(true);  //retryWhen(error => error.delay(200)).timeout(1500).
-        return this.http.get(this.url, { headers: this.headers }).catch((err: any) => Observable.throw(err)).map((resp: Response) => resp.json());
+        return this.http.get(this.url).catch((err: any) => Observable.throw(err)).map((resp: Response) => resp.json());
     }
 
     getVideos(): Observable<Response> {

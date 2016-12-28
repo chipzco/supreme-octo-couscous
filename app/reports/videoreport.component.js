@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var video_service_1 = require("./video.service");
+var core_1 = require('@angular/core');
+var video_service_1 = require('./video.service');
 var VideoReportComponent = (function () {
     function VideoReportComponent(videoservice) {
         this.videoservice = videoservice;
@@ -38,15 +38,15 @@ var VideoReportComponent = (function () {
         if (this.sus)
             this.sus.unsubscribe();
     };
+    VideoReportComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'report',
+            templateUrl: 'videoreport.component.html'
+        }), 
+        __metadata('design:paramtypes', [video_service_1.VideoService])
+    ], VideoReportComponent);
     return VideoReportComponent;
 }());
-VideoReportComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'report',
-        templateUrl: 'videoreport.component.html'
-    }),
-    __metadata("design:paramtypes", [video_service_1.VideoService])
-], VideoReportComponent);
 exports.VideoReportComponent = VideoReportComponent;
 //# sourceMappingURL=videoreport.component.js.map

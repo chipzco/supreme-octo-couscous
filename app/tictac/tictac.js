@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var coord_1 = require("../knight/coord");
-var board2_1 = require("./board2");
+var core_1 = require('@angular/core');
+var coord_1 = require('../knight/coord');
+var board2_1 = require('./board2');
 var TicTac = (function () {
     function TicTac() {
         this.winSqColor = coord_1.sqColor.white;
@@ -242,20 +242,20 @@ var TicTac = (function () {
             }
         }
     };
+    __decorate([
+        core_1.ViewChild(board2_1.Board2), 
+        __metadata('design:type', board2_1.Board2)
+    ], TicTac.prototype, "board2", void 0);
+    TicTac = __decorate([
+        core_1.Component({
+            moduleId: module.id.toString(),
+            selector: 'tictac',
+            templateUrl: './tictac.component.html',
+            styleUrls: ['tictac.css']
+        }), 
+        __metadata('design:paramtypes', [])
+    ], TicTac);
     return TicTac;
 }());
-__decorate([
-    core_1.ViewChild(board2_1.Board2),
-    __metadata("design:type", board2_1.Board2)
-], TicTac.prototype, "board2", void 0);
-TicTac = __decorate([
-    core_1.Component({
-        moduleId: module.id.toString(),
-        selector: 'tictac',
-        templateUrl: './tictac.component.html',
-        styleUrls: ['tictac.css']
-    }),
-    __metadata("design:paramtypes", [])
-], TicTac);
 exports.TicTac = TicTac;
 //# sourceMappingURL=tictac.js.map

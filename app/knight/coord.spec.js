@@ -1,6 +1,6 @@
 "use strict";
 var _this = this;
-var coord_1 = require("./coord");
+var coord_1 = require('./coord');
 describe('Test WHITE squares', function () {
     beforeEach(function () {
         this.testSquare = new coord_1.Square(3, 4, coord_1.sqColor.white);
@@ -37,7 +37,7 @@ describe('Test BLACK squares', function () {
     });
     describe('testing colors through looping', function () {
         _this.testSquare = new coord_1.Square(3, 4, coord_1.sqColor.black);
-        var _loop_1 = function (x) {
+        var _loop_1 = function(x) {
             var errorSet = false;
             var testSquareColor = '';
             try {

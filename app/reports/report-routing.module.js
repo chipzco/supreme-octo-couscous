@@ -8,24 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var report_component_1 = require("./report.component");
-var videoreport_component_1 = require("./videoreport.component");
+var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var report_component_1 = require('./report.component');
+var videoreport_component_1 = require('./videoreport.component');
 var ReportRoutingModule = (function () {
     function ReportRoutingModule() {
     }
+    ReportRoutingModule = __decorate([
+        core_1.NgModule({
+            imports: [router_1.RouterModule.forChild([
+                    { path: 'report', component: report_component_1.ReportComponent },
+                    { path: 'videoreport', component: videoreport_component_1.VideoReportComponent },
+                ])],
+            exports: [router_1.RouterModule]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], ReportRoutingModule);
     return ReportRoutingModule;
 }());
-ReportRoutingModule = __decorate([
-    core_1.NgModule({
-        imports: [router_1.RouterModule.forChild([
-                { path: 'report', component: report_component_1.ReportComponent },
-                { path: 'videoreport', component: videoreport_component_1.VideoReportComponent },
-            ])],
-        exports: [router_1.RouterModule]
-    }),
-    __metadata("design:paramtypes", [])
-], ReportRoutingModule);
 exports.ReportRoutingModule = ReportRoutingModule;
 //# sourceMappingURL=report-routing.module.js.map

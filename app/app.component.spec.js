@@ -1,5 +1,5 @@
 "use strict";
-var my_service_1 = require("./my-service");
+var my_service_1 = require('./my-service');
 describe('Test MyService', function () {
     beforeEach(function () {
         this.testService = new my_service_1.myService();
