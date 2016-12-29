@@ -8,9 +8,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { KnightModule } from './knight/knight.module';
 import { TicTacModule } from './tictac/tictac.module';
 import { ReportModule } from './reports/report.module';
+import { SignalRModule } from './signalR/signal-r.module';
 
 @NgModule({
-    imports: [BrowserModule, HttpModule,AppRoutingModule, KnightModule, TicTacModule, ReportModule ],
+    imports: [BrowserModule, HttpModule, AppRoutingModule, KnightModule, TicTacModule, ReportModule, SignalRModule ],
   declarations: [ AppComponent , AboutComponent],
   bootstrap:    [ AppComponent ],
   providers: [myService]

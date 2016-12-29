@@ -1,0 +1,16 @@
+﻿<div>
+    <h3>SignalR w/ Angular 2 demo</h3>
+</div>
+
+<div>
+    <span>Connection state: {{connectionState$ | async}}</span>
+</div>
+
+<div class="flex-row">
+    <task class="flex"
+          [eventName]="'longTask.status'"
+          [apiUrl]="'http://localhost:9123/tasks/long'"></task>
+    <task class="flex"
+          [eventName]="'shortTask.status'"
+          [apiUrl]="'http://localhost:9123/tasks/short'"></task>
+</div>
