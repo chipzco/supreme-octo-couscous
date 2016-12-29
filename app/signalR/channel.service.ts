@@ -150,7 +150,9 @@ export class ChannelService {
         });
 
     }
-
+	get jq(): any {
+		return this.window.$;
+	}
     /**
      * Start the SignalR connection. The starting$ stream will emit an 
      * event if the connection is established, otherwise it will emit an

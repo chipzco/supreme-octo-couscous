@@ -10,16 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var video_service_1 = require("./video.service");
+var channel_service_1 = require("../signalR/channel.service");
 var ReportComponent = (function () {
-    function ReportComponent(videoservice) {
+    function ReportComponent(videoservice, channelservice) {
         this.videoservice = videoservice;
+        this.channelservice = channelservice;
     }
     ReportComponent.prototype.ngOnInit = function () {
-        console.log('in reports');
         this.reports = ['Bank Report', 'Currency Report', 'Transaction Report', 'Study Listing', 'Video Listing'];
+        this.myjq = this.channelservice.jq;
+        console.log("JQuery version:" + this.myjq.fn.jquery);
+        var jsjq = this.myjq;
+        jsjq("#myButton").click(function () {
+            jsjq("p").slideToggle("slow"); //cannot use this object with jquery callback.
+            //console.log('aha!');				
+        });
     };
     ReportComponent.prototype.getVideos = function () {
         this.vids = this.videoservice.getVideos();
+        var jsjq = this.myjq;
+        jsjq(".featurette").slideToggle("slow");
     };
     return ReportComponent;
 }());
@@ -30,7 +40,7 @@ ReportComponent = __decorate([
         templateUrl: 'report.component.html',
         styleUrls: ['report.component.css']
     }),
-    __metadata("design:paramtypes", [video_service_1.VideoService])
+    __metadata("design:paramtypes", [video_service_1.VideoService, channel_service_1.ChannelService])
 ], ReportComponent);
 exports.ReportComponent = ReportComponent;
 //# sourceMappingURL=report.component.js.map

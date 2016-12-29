@@ -127,6 +127,13 @@ var ChannelService = (function () {
             }
         });
     }
+    Object.defineProperty(ChannelService.prototype, "jq", {
+        get: function () {
+            return this.window.$;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Start the SignalR connection. The starting$ stream will emit an
      * event if the connection is established, otherwise it will emit an
