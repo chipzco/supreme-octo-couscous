@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
 var my_service_1 = require("./my-service");
+var jquery_service_1 = require("./jquery.service");
 var app_component_1 = require("./app.component");
 var about_component_1 = require("./about.component");
 var app_routing_module_1 = require("./app-routing.module");
@@ -19,6 +20,7 @@ var knight_module_1 = require("./knight/knight.module");
 var tictac_module_1 = require("./tictac/tictac.module");
 var report_module_1 = require("./reports/report.module");
 var signal_r_module_1 = require("./signalR/signal-r.module");
+window.$ = new jquery_service_1.myFu();
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,10 +28,10 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, app_routing_module_1.AppRoutingModule, knight_module_1.KnightModule, tictac_module_1.TicTacModule, report_module_1.ReportModule, signal_r_module_1.SignalRModule],
+        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, knight_module_1.KnightModule, tictac_module_1.TicTacModule, report_module_1.ReportModule, signal_r_module_1.SignalRModule, app_routing_module_1.AppRoutingModule],
         declarations: [app_component_1.AppComponent, about_component_1.AboutComponent],
         bootstrap: [app_component_1.AppComponent],
-        providers: [my_service_1.myService]
+        providers: [my_service_1.myService, jquery_service_1.JQueryService, { provide: jquery_service_1.WindowExtend, useValue: window }]
     }),
     __metadata("design:paramtypes", [])
 ], AppModule);

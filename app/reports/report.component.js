@@ -10,26 +10,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var video_service_1 = require("./video.service");
-var channel_service_1 = require("../signalR/channel.service");
+//import { ChannelService } from '../signalR/channel.service';
+var jquery_service_1 = require("../jquery.service");
 var ReportComponent = (function () {
-    function ReportComponent(videoservice, channelservice) {
+    function ReportComponent(videoservice, jqueryservice) {
         this.videoservice = videoservice;
-        this.channelservice = channelservice;
-    }
+        this.jqueryservice = jqueryservice;
+    } //private channelservice: ChannelService,
     ReportComponent.prototype.ngOnInit = function () {
         this.reports = ['Bank Report', 'Currency Report', 'Transaction Report', 'Study Listing', 'Video Listing'];
-        this.myjq = this.channelservice.jq;
+        console.log(this.jqueryservice.JQueryOK);
+        /*
+        this.myjq=this.channelservice.jq;
         console.log("JQuery version:" + this.myjq.fn.jquery);
-        var jsjq = this.myjq;
+        let jsjq: any=this.myjq;
         jsjq("#myButton").click(function () {
-            jsjq("p").slideToggle("slow"); //cannot use this object with jquery callback.
-            //console.log('aha!');				
+            jsjq("p").slideToggle("slow");     //cannot use this object with jquery callback.
+            //console.log('aha!');
         });
+        */
     };
     ReportComponent.prototype.getVideos = function () {
         this.vids = this.videoservice.getVideos();
-        var jsjq = this.myjq;
-        jsjq(".featurette").slideToggle("slow");
+        var myjq = this.jqueryservice.JQuery;
+        if (myjq) {
+            console.log("hello working?: " + this.jqueryservice.JQueryOK);
+            //jquery
+            myjq(".featurette").slideToggle("slow");
+        }
+        else {
+            console.warn("Hello moron:" + this.jqueryservice.JQueryOK);
+        }
     };
     return ReportComponent;
 }());
@@ -40,7 +51,7 @@ ReportComponent = __decorate([
         templateUrl: 'report.component.html',
         styleUrls: ['report.component.css']
     }),
-    __metadata("design:paramtypes", [video_service_1.VideoService, channel_service_1.ChannelService])
+    __metadata("design:paramtypes", [video_service_1.VideoService, jquery_service_1.JQueryService])
 ], ReportComponent);
 exports.ReportComponent = ReportComponent;
 //# sourceMappingURL=report.component.js.map

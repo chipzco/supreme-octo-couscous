@@ -9,23 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var report_component_1 = require("./report.component");
-var videoreport_component_1 = require("./videoreport.component");
-var ReportRoutingModule = (function () {
-    function ReportRoutingModule() {
+var AboutComponent = (function () {
+    function AboutComponent() {
     }
-    return ReportRoutingModule;
+    AboutComponent.prototype.ngOnInit = function () {
+        console.log('start init comp');
+    };
+    return AboutComponent;
 }());
-ReportRoutingModule = __decorate([
-    core_1.NgModule({
-        imports: [router_1.RouterModule.forChild([
-                { path: 'report', component: report_component_1.ReportComponent },
-                { path: 'videoreport', component: videoreport_component_1.VideoReportComponent }
-            ])],
-        exports: [router_1.RouterModule]
+AboutComponent = __decorate([
+    core_1.Component({
+        selector: 'about',
+        moduleId: module.id.toString(),
+        templateUrl: './about.html',
+        styleUrls: ['./mycss.css']
     }),
     __metadata("design:paramtypes", [])
-], ReportRoutingModule);
-exports.ReportRoutingModule = ReportRoutingModule;
-//# sourceMappingURL=report-routing.module.js.map
+], AboutComponent);
+exports.AboutComponent = AboutComponent;
+//# sourceMappingURL=jquery.service.component.js.map
