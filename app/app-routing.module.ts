@@ -5,7 +5,8 @@ import {AboutComponent} from './about.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/about', pathMatch: 'full' },
-	{ path: 'about',  component: AboutComponent }	
+    { path: 'about', component: AboutComponent},
+    { path: '**', redirectTo: '/tictac', pathMatch: 'full' }	
 ];
 
 @NgModule({

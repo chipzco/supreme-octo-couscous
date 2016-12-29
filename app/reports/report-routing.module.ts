@@ -7,7 +7,7 @@ import { VideoReportComponent } from './videoreport.component';
 @NgModule({
   imports: [RouterModule.forChild([    
       { path: 'report', component: ReportComponent },	
-      { path: 'videoreport', component: VideoReportComponent },	
+      { path: 'videoreport', component: VideoReportComponent }      
   ])],
   exports: [RouterModule]
 })
