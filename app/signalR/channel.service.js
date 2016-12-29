@@ -18,6 +18,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
+var jquery_service_1 = require("./../jquery.service");
 /**
  * When SignalR runs it will add functions to the global $ variable
  * that you use to create connections to the hub. However, in this
@@ -58,9 +59,9 @@ var ChannelSubject = (function () {
     return ChannelSubject;
 }());
 var ChannelService = (function () {
-    function ChannelService(window, channelConfig) {
+    function ChannelService(jqueryservice, channelConfig) {
         var _this = this;
-        this.window = window;
+        this.jqueryservice = jqueryservice;
         this.channelConfig = channelConfig;
         // These are used to feed the public observables 
         //
@@ -70,15 +71,11 @@ var ChannelService = (function () {
         // An internal array to track what channel subscriptions exist 
         //
         this.subjects = new Array();
-        if (this.window.$ === undefined || this.window.$.hubConnection === undefined) {
+        if (!this.jqueryservice.JQueryOK) {
             throw new Error("The variable '$' or the .hubConnection() function are not defined...please check the SignalR scripts have been loaded properly");
         }
-        // Set up our observables
-        //
-        this.connectionState$ = this.connectionStateSubject.asObservable();
-        this.error$ = this.errorSubject.asObservable();
-        this.starting$ = this.startingSubject.asObservable();
-        this.hubConnection = this.window.$.hubConnection();
+        var $ = this.jqueryservice.JQuery;
+        this.hubConnection = $.hubConnection();
         this.hubConnection.url = channelConfig.url;
         this.hubProxy = this.hubConnection.createHubProxy(channelConfig.hubName);
         // Define handlers for the connection state events
@@ -86,16 +83,16 @@ var ChannelService = (function () {
         this.hubConnection.stateChanged(function (state) {
             var newState = ConnectionState.Connecting;
             switch (state.newState) {
-                case _this.window.$.signalR.connectionState.connecting:
+                case $.signalR.connectionState.connecting:
                     newState = ConnectionState.Connecting;
                     break;
-                case _this.window.$.signalR.connectionState.connected:
+                case $.signalR.connectionState.connected:
                     newState = ConnectionState.Connected;
                     break;
-                case _this.window.$.signalR.connectionState.reconnecting:
+                case $.signalR.connectionState.reconnecting:
                     newState = ConnectionState.Reconnecting;
                     break;
-                case _this.window.$.signalR.connectionState.disconnected:
+                case $.signalR.connectionState.disconnected:
                     newState = ConnectionState.Disconnected;
                     break;
             }
@@ -127,9 +124,36 @@ var ChannelService = (function () {
             }
         });
     }
-    Object.defineProperty(ChannelService.prototype, "jq", {
+    Object.defineProperty(ChannelService.prototype, "starting$", {
+        /**
+         * starting$ is an observable available to know if the signalr
+         * connection is ready or not. On a successful connection this
+         * stream will emit a value.
+         */
         get: function () {
-            return this.window.$;
+            return this.startingSubject.asObservable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ChannelService.prototype, "connectionState$", {
+        /**
+         * connectionState$ provides the current state of the underlying
+         * connection as an observable stream.
+         */
+        get: function () {
+            return this.connectionStateSubject.asObservable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ChannelService.prototype, "error$", {
+        /**
+         * error$ provides a stream of any error messages that occur on the
+         * SignalR connection
+         */
+        get: function () {
+            return this.errorSubject.asObservable();
         },
         enumerable: true,
         configurable: true
@@ -225,9 +249,8 @@ var ChannelService = (function () {
 }());
 ChannelService = __decorate([
     core_1.Injectable(),
-    __param(0, core_1.Inject(SignalrWindow)),
     __param(1, core_1.Inject("channel.config")),
-    __metadata("design:paramtypes", [SignalrWindow,
+    __metadata("design:paramtypes", [jquery_service_1.JQueryService,
         ChannelConfig])
 ], ChannelService);
 exports.ChannelService = ChannelService;

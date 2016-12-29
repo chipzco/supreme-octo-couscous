@@ -25,21 +25,6 @@ var WindowExtend = (function (_super) {
     return WindowExtend;
 }(Window));
 exports.WindowExtend = WindowExtend;
-var myFu = (function () {
-    function myFu() {
-        this.signalR = { name: 'fu', connectionState: { info: 'none' }
-        };
-        this.fn = {
-            jquery: "fu"
-        };
-    }
-    myFu.prototype.hubConnection = function () {
-        console.log("IT is fucked!");
-    };
-    ;
-    return myFu;
-}());
-exports.myFu = myFu;
 var JQueryService = (function () {
     function JQueryService(outer_windowObj) {
         this.outer_windowObj = outer_windowObj;
@@ -47,25 +32,17 @@ var JQueryService = (function () {
         if (this.outer_windowObj) {
             console.log('The passed in object is not null forget instance of crap');
             if (this.outer_windowObj.$) {
-                console.log('has $');
+                console.log('JQuery $ found in jquery service');
                 if (this.outer_windowObj.$.hubConnection) {
-                    console.log('has hub connectoion');
+                    console.log('has SignalR hub connection');
                     if (this.outer_windowObj.$.signalR) {
-                        console.log('has signal R');
+                        console.log('has signalR');
                         this.JQueryOK = true;
                         this._$666 = this.outer_windowObj.$;
                         console.warn("JQUERY!!!: " + this.JQuery.fn.jquery);
-                        if (this.outer_windowObj instanceof WindowExtend)
-                            console.warn('YES IT IS NOW INSTACE OF window EXTEND');
-                        if (this.outer_windowObj instanceof Window)
-                            console.warn('HMM IT IS NOW INSTACE OF window');
-                        console.log(typeof this.outer_windowObj);
                     }
                 }
             }
-        }
-        else {
-            console.log('hmmmm');
         }
     }
     Object.defineProperty(JQueryService.prototype, "JQuery", {

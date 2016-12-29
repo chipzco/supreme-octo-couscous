@@ -23,12 +23,12 @@ var ReportComponent = (function () {
         /*
         this.myjq=this.channelservice.jq;
         console.log("JQuery version:" + this.myjq.fn.jquery);
-        let jsjq: any=this.myjq;
-        jsjq("#myButton").click(function () {
-            jsjq("p").slideToggle("slow");     //cannot use this object with jquery callback.
-            //console.log('aha!');
-        });
         */
+        var jsjq = this.jqueryservice.JQuery;
+        jsjq("#myButton").click(function () {
+            jsjq("p").slideToggle("slow"); //cannot use this object with jquery callback.
+            //console.log('aha!');				
+        });
     };
     ReportComponent.prototype.getVideos = function () {
         this.vids = this.videoservice.getVideos();

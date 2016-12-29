@@ -27,7 +27,6 @@ SignalRModule = __decorate([
         imports: [common_1.CommonModule, signal_r_routing_module_1.SignalRRoutingModule],
         declarations: [signal_r_component_1.SignalRComponent, task_component_1.TaskComponent],
         providers: [channel_service_1.ChannelService,
-            { provide: channel_service_1.SignalrWindow, useValue: window },
             { provide: 'channel.config', useValue: channelConfig }
         ]
     }),

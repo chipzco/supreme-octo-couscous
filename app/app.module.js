@@ -20,7 +20,6 @@ var knight_module_1 = require("./knight/knight.module");
 var tictac_module_1 = require("./tictac/tictac.module");
 var report_module_1 = require("./reports/report.module");
 var signal_r_module_1 = require("./signalR/signal-r.module");
-window.$ = new jquery_service_1.myFu();
 var AppModule = (function () {
     function AppModule() {
     }

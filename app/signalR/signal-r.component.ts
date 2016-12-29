@@ -19,7 +19,7 @@ export class SignalRComponent implements OnInit {
         this.connectionState$ = this.channelService.connectionState$.map((state: ConnectionState) => { return ConnectionState[state]; });
 
         this.channelService.error$.subscribe(
-            (error: any) => { console.warn(error); },
+            (error: any) => { console.log(error); },
             (error: any) => { console.error("errors$ error", error); }
         );
 

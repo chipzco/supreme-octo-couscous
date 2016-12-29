@@ -10,8 +10,7 @@ channelConfig.hubName = "EventHub";
 @NgModule({
   imports: [CommonModule, SignalRRoutingModule],
   declarations: [SignalRComponent, TaskComponent],
-  providers: [ChannelService,
-                { provide: SignalrWindow, useValue: window},
+  providers: [ChannelService,              
 				 { provide: 'channel.config', useValue: channelConfig }
              ]    
 })

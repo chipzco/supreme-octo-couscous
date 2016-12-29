@@ -16,7 +16,7 @@ var SignalRComponent = (function () {
         // Let's wire up to the signalr observables
         //
         this.connectionState$ = this.channelService.connectionState$.map(function (state) { return channel_service_1.ConnectionState[state]; });
-        this.channelService.error$.subscribe(function (error) { console.warn(error); }, function (error) { console.error("errors$ error", error); });
+        this.channelService.error$.subscribe(function (error) { console.log(error); }, function (error) { console.error("errors$ error", error); });
         // Wire up a handler for the starting$ observable to log the
         //  success/fail result
         //

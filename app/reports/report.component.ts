@@ -23,13 +23,14 @@ export class ReportComponent implements OnInit {
         console.log(this.jqueryservice.JQueryOK);
         /*
 		this.myjq=this.channelservice.jq;
-		console.log("JQuery version:" + this.myjq.fn.jquery);
-        let jsjq: any=this.myjq; 		
+		console.log("JQuery version:" + this.myjq.fn.jquery);        
+        */
+		let jsjq: any=this.jqueryservice.JQuery; 		
 		jsjq("#myButton").click(function () {
 			jsjq("p").slideToggle("slow");     //cannot use this object with jquery callback.
 			//console.log('aha!');				
 		});
-        */
+		
 	}
     getVideos(): void {
         this.vids = this.videoservice.getVideos();

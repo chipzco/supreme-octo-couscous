@@ -1,6 +1,7 @@
 import { Injectable, Inject }     from '@angular/core';
 import { Observable } from 'rxjs/Observable';  
 import { Subject } from 'rxjs/Subject';
+import { JQueryService } from './../jquery.service';
 
 /**
  * When SignalR runs it will add functions to the global $ variable 
@@ -44,26 +45,6 @@ class ChannelSubject {
 
 @Injectable()
 export class ChannelService {
-
-    /**
-     * starting$ is an observable available to know if the signalr 
-     * connection is ready or not. On a successful connection this
-     * stream will emit a value.
-     */
-    starting$: Observable<any>;
-
-    /**
-     * connectionState$ provides the current state of the underlying
-     * connection as an observable stream.
-     */
-    connectionState$: Observable<ConnectionState>;
-
-    /**
-     * error$ provides a stream of any error messages that occur on the 
-     * SignalR connection
-     */
-    error$: Observable<string>;
-
     // These are used to feed the public observables 
     //
     private connectionStateSubject = new Subject<ConnectionState>();
@@ -79,21 +60,44 @@ export class ChannelService {
     //
     private subjects = new Array<ChannelSubject>();
 
+    /**
+     * starting$ is an observable available to know if the signalr 
+     * connection is ready or not. On a successful connection this
+     * stream will emit a value.
+     */
+    get starting$(): Observable<any> {
+        return this.startingSubject.asObservable();
+    }
+     
+
+    /**
+     * connectionState$ provides the current state of the underlying
+     * connection as an observable stream.
+     */
+    get connectionState$(): Observable<ConnectionState> {
+        return this.connectionStateSubject.asObservable();
+    }
+
+    /**
+     * error$ provides a stream of any error messages that occur on the 
+     * SignalR connection
+     */
+    
+
+    get error$(): Observable<string> {
+        return this.errorSubject.asObservable();
+    }
+
+    
     constructor(
-        @Inject(SignalrWindow) private window: SignalrWindow,
+        private jqueryservice: JQueryService,
         @Inject("channel.config") private channelConfig: ChannelConfig
     ) {
-        if (this.window.$ === undefined || this.window.$.hubConnection === undefined) {
+        if (!this.jqueryservice.JQueryOK) {
             throw new Error("The variable '$' or the .hubConnection() function are not defined...please check the SignalR scripts have been loaded properly");
         }
-
-        // Set up our observables
-        //
-        this.connectionState$ = this.connectionStateSubject.asObservable();
-        this.error$ = this.errorSubject.asObservable();
-        this.starting$ = this.startingSubject.asObservable();
-
-        this.hubConnection = this.window.$.hubConnection();
+        let $: any = this.jqueryservice.JQuery;
+        this.hubConnection = $.hubConnection();
         this.hubConnection.url = channelConfig.url;
         this.hubProxy = this.hubConnection.createHubProxy(channelConfig.hubName);
 
@@ -103,16 +107,16 @@ export class ChannelService {
             let newState = ConnectionState.Connecting;
 
             switch (state.newState) {
-                case this.window.$.signalR.connectionState.connecting:
+                case $.signalR.connectionState.connecting:
                     newState = ConnectionState.Connecting;
                     break;
-                case this.window.$.signalR.connectionState.connected:
+                case $.signalR.connectionState.connected:
                     newState = ConnectionState.Connected;
                     break;
-                case this.window.$.signalR.connectionState.reconnecting:
+                case $.signalR.connectionState.reconnecting:
                     newState = ConnectionState.Reconnecting;
                     break;
-                case this.window.$.signalR.connectionState.disconnected:
+                case $.signalR.connectionState.disconnected:
                     newState = ConnectionState.Disconnected;
                     break;
             }
@@ -150,9 +154,6 @@ export class ChannelService {
         });
 
     }
-	get jq(): any {
-		return this.window.$;
-	}
     /**
      * Start the SignalR connection. The starting$ stream will emit an 
      * event if the connection is established, otherwise it will emit an
