@@ -39,6 +39,7 @@ a.pathMove, .pathMove {
 }
 a.pathMove: hover  {
 	background-color: green;
+	text-decoration: underline;
 }
 
 

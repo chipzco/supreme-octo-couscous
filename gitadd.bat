@@ -1,1 +1,1 @@
- git add app/\*.html app/\*.ts
+ git add app/\*.html app/\*.ts app/\*.css index.html ./\*.json ./\*.css
