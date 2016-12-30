@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var signal_r_component_1 = require("./signal-r.component");
+var chat_component_1 = require("./chat.component");
 var SignalRRoutingModule = (function () {
     function SignalRRoutingModule() {
     }
@@ -19,7 +20,8 @@ var SignalRRoutingModule = (function () {
 SignalRRoutingModule = __decorate([
     core_1.NgModule({
         imports: [router_1.RouterModule.forChild([
-                { path: 'signal', component: signal_r_component_1.SignalRComponent }
+                { path: 'signal', component: signal_r_component_1.SignalRComponent },
+                { path: 'chat', component: chat_component_1.ChatComponent }
             ])],
         exports: [router_1.RouterModule]
     }),
