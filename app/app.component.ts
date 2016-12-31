@@ -36,7 +36,7 @@ export class AppComponent  {
 	ngOnInit() {		
 		//this.router.events.filter(event => event instanceof NavigationEnd).map(url=>url.urlAfterRedirects).subscribe(a=>this.setMyUrlState(a));  			
 		let retNav: Observable<NavigationEnd>=this.router.events.filter(event => event instanceof NavigationEnd);
-		retNav.map(e=>e.urlAfterRedirects).subscribe(a=>this.setMyUrlState(a));  		
+		retNav.map((e: any)=>e.urlAfterRedirects).subscribe(a=>this.setMyUrlState(a));  		
 	}
 	
 	

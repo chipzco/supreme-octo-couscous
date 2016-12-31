@@ -16,6 +16,7 @@ var signal_r_component_1 = require("./signal-r.component");
 var task_component_1 = require("./task.component");
 var chat_component_1 = require("./chat.component");
 var channel_service_1 = require("./channel.service");
+var chat_service_1 = require("./chat.service");
 var channelConfig = new channel_service_1.ChannelConfig();
 channelConfig.url = "http://localhost:9123/signalr";
 channelConfig.hubName = "EventHub";
@@ -28,7 +29,7 @@ SignalRModule = __decorate([
     core_1.NgModule({
         imports: [common_1.CommonModule, signal_r_routing_module_1.SignalRRoutingModule, forms_1.FormsModule],
         declarations: [signal_r_component_1.SignalRComponent, task_component_1.TaskComponent, chat_component_1.ChatComponent],
-        providers: [channel_service_1.ChannelService,
+        providers: [chat_service_1.ChatService, channel_service_1.ChannelService,
             { provide: 'channel.config', useValue: channelConfig }
         ]
     }),

@@ -1,6 +1,6 @@
 import { AppComponent } from './app.component';
 import { myService } from './my-service';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import {  ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 

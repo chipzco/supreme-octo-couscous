@@ -6,13 +6,14 @@ import { SignalRComponent } from './signal-r.component';
 import { TaskComponent } from "./task.component";
 import { ChatComponent } from './chat.component';
 import { ChannelService, ChannelConfig, SignalrWindow } from './channel.service';
+import { ChatService } from './chat.service';
 let channelConfig = new ChannelConfig();
 channelConfig.url = "http://localhost:9123/signalr";
 channelConfig.hubName = "EventHub";
 @NgModule({
     imports: [CommonModule, SignalRRoutingModule, FormsModule],
   declarations: [SignalRComponent, TaskComponent, ChatComponent],
-  providers: [ChannelService,              
+  providers: [ChatService,ChannelService,              
 				 { provide: 'channel.config', useValue: channelConfig }
              ]    
 })

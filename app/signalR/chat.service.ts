@@ -14,6 +14,7 @@ export class ChatService {
     msgcomps: Array<MsgClass>;
     chatConn: any;
     hubOK: boolean;
+    private startingSubject = new Subject<any>();
     constructor(private jq: JQueryService) {
         this.hubOK = false;
         this.msgcomps = new Array<MsgClass>();
@@ -23,14 +24,17 @@ export class ChatService {
             console.log('start init comp jq ok');
             this.chatConn = $.connection.octo2Hub;            
         }
+        this.startingSubject.subscribe(() => this.hubOK = true);
     }
     start(): void {
         if (this.jq.JQueryOK) {
             let $ = this.jq.JQuery;
             // Create a function that the hub can call to broadcast messages.
             let myms = this.msgcomps;
+            let mySub = this.startingSubject;
             let myf = function (name: string, message: string) {
                 myms.push(new MsgClass(name, message));
+                console.log(myms);
             }
             if (this.chatConn) {
                 this.chatConn.client.broadcastMessage = function (name: string, message: string) {
@@ -38,14 +42,13 @@ export class ChatService {
                 };
                 $.connection.hub.start().done(function () {
                     console.log("connection to hub done");
-                    this.hubOK = true;
+                    mySub.next(true);                    
                 });
             }
         }     
     }
     sendChat(name: string, message: string): void  {
-        if (this.hubOK)
-            this.chatConn.server.send(name, message);
+        if (this.hubOK) this.chatConn.server.send(name, message);
     }
      
 }
