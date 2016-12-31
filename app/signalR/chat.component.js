@@ -18,13 +18,19 @@ var ChatComponent = (function () {
     }
     ChatComponent.prototype.SendSignal = function () {
         this.chatservice.sendChat(this.name, this.message);
-        console.log("trying to send");
+        this.message = "";
     };
+    /*
+    checkData(): void {
+        console.log(this.chatservice.msgcomps);
+        this.msgcomps.subscribe((arr: Array<MsgClass>)=> { console.log(arr); return arr; });
+    }
+    */
     ChatComponent.prototype.ngOnInit = function () {
         this.name = " I AMTESTING";
         this.messages = new Array();
         var myms = this.messages;
-        this.msgcomps = this.chatservice.msgcomps;
+        this.msgcomps = this.chatservice.msgObs; //this.chatservice.msgcomps;
         this.chatservice.start();
     };
     return ChatComponent;
@@ -33,7 +39,8 @@ ChatComponent = __decorate([
     core_1.Component({
         selector: 'chat',
         moduleId: module.id.toString(),
-        templateUrl: './chat.html'
+        templateUrl: './chat.html',
+        styleUrls: ['chat.css']
     }),
     __metadata("design:paramtypes", [chat_service_1.ChatService])
 ], ChatComponent);

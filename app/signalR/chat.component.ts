@@ -6,7 +6,8 @@ import { ChatService, MsgClass } from './chat.service';
 @Component ({
 	selector: 'chat',
 	moduleId: module.id.toString(),
-    templateUrl: './chat.html'    
+    templateUrl: './chat.html',
+    styleUrls: ['chat.css']   
 })
 
 
@@ -20,8 +21,14 @@ export class ChatComponent implements OnInit {
     }
     SendSignal(): void {
         this.chatservice.sendChat(this.name, this.message);
-        console.log("trying to send");
-    }   
+        this.message = "";        
+    }
+    /*   
+    checkData(): void {
+        console.log(this.chatservice.msgcomps);
+        this.msgcomps.subscribe((arr: Array<MsgClass>)=> { console.log(arr); return arr; });
+    }
+    */
    
     ngOnInit(): void {
         this.name = " I AMTESTING";

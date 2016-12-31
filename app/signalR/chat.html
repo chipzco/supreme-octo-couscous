@@ -1,18 +1,19 @@
 ﻿<div class="container">
-    <input type="text" id="message"  [(ngModel)]="message" />
-    <input type="button" id="sendmessage" (click)="SendSignal()" value="SendSignal" />
-    <input type="hidden" id="displayname" />
-    <ul id="discussion"></ul>
+    <div class="chatcontainer">
+        <input type="text" id="message" [(ngModel)]="message" (keyup.enter)="SendSignal()" />
+        <input type="button" id="sendmessage" (click)="SendSignal()" value="SendSignal" class="btn btn-primary" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
 
-    {{message}}
-
-
-
+        {{message}}
 
 
-    <br/>
-    <br/>
-    <div *ngFor="let m of msgcomps | async">
-        {{msgcomps.name}} {{msgcomps.message}}
+        <!-- <br />  <input type="button" (click)="checkData()" value="check data" /> -->
+
+        <br />
+        <br />
+        <div *ngFor="let m of msgcomps | async">
+            <span class="name">{{m.name}}:</span> <span class="message">{{m.message}}</span>
+        </div>
     </div>
-</div>
+ </div>

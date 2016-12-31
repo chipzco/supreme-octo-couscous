@@ -11,7 +11,7 @@ export class MsgClass {
 @Injectable()
 export class ChatService {
     msgComp: MsgClass;
-    msgcomps: Array<MsgClass>;
+    private msgcomps: Array<MsgClass>;
     chatConn: any;
     hubOK: boolean;
     private startingSubject = new Subject<boolean>();
@@ -35,13 +35,12 @@ export class ChatService {
         if (this.jq.JQueryOK) {
             let $ = this.jq.JQuery;
             // Create a function that the hub can call to broadcast messages.
-            let myms = this.msgcomps;
+            let myms = new Array<MsgClass>(); //this.msgcomps;
             let mySub = this.startingSubject;
             let mymsgSub = this.msgSubject;
             let myf = function (name: string, message: string) {
                 myms.push(new MsgClass(name, message));
-                mymsgSub.next(myms);
-                console.log(myms);
+                mymsgSub.next(myms);                
             }
             if (this.chatConn) {
                 this.chatConn.client.broadcastMessage = function (name: string, message: string) {
@@ -52,10 +51,14 @@ export class ChatService {
                     mySub.next(true);                    
                 });
             }
+            else {
+                console.log("Cannot init chat Conn");
+            }
         }     
     }
     sendChat(name: string, message: string): void  {
         if (this.hubOK) this.chatConn.server.send(name, message);
+        else { console.log("Hub is not setup"); }
     }
      
 }
