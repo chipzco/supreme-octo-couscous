@@ -40,3 +40,11 @@ jspm_packages
 .idea
 
 vwd.webinfo
+
+
+#vscrap
+.vs
+Properties
+bin
+obj
+packages
