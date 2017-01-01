@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var signal_r_component_1 = require("./signal-r.component");
 var chat_component_1 = require("./chat.component");
+var chat2_component_1 = require("./chat2.component");
 var SignalRRoutingModule = (function () {
     function SignalRRoutingModule() {
     }
@@ -21,7 +22,8 @@ SignalRRoutingModule = __decorate([
     core_1.NgModule({
         imports: [router_1.RouterModule.forChild([
                 { path: 'signal', component: signal_r_component_1.SignalRComponent },
-                { path: 'chat', component: chat_component_1.ChatComponent }
+                { path: 'chat', component: chat_component_1.ChatComponent },
+                { path: 'chat2', component: chat2_component_1.Chat2Component }
             ])],
         exports: [router_1.RouterModule]
     }),

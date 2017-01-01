@@ -15,11 +15,16 @@ var forms_1 = require("@angular/forms");
 var signal_r_component_1 = require("./signal-r.component");
 var task_component_1 = require("./task.component");
 var chat_component_1 = require("./chat.component");
+var chat2_component_1 = require("./chat2.component");
 var channel_service_1 = require("./channel.service");
+var chat2_service_1 = require("./chat2.service");
 var chat_service_1 = require("./chat.service");
 var channelConfig = new channel_service_1.ChannelConfig();
 channelConfig.url = "http://localhost:9123/signalr";
 channelConfig.hubName = "EventHub";
+var chatConfig = new channel_service_1.ChannelConfig();
+chatConfig.url = "http://localhost:60180/signalr";
+chatConfig.hubName = "tSRHub";
 var SignalRModule = (function () {
     function SignalRModule() {
     }
@@ -28,8 +33,11 @@ var SignalRModule = (function () {
 SignalRModule = __decorate([
     core_1.NgModule({
         imports: [common_1.CommonModule, signal_r_routing_module_1.SignalRRoutingModule, forms_1.FormsModule],
-        declarations: [signal_r_component_1.SignalRComponent, task_component_1.TaskComponent, chat_component_1.ChatComponent],
-        providers: [chat_service_1.ChatService, channel_service_1.ChannelService,
+        declarations: [signal_r_component_1.SignalRComponent, task_component_1.TaskComponent, chat_component_1.ChatComponent, chat2_component_1.Chat2Component],
+        providers: [chat_service_1.ChatService,
+            chat2_service_1.Chat2Service,
+            { provide: 'chat.config', useValue: chatConfig },
+            channel_service_1.ChannelService,
             { provide: 'channel.config', useValue: channelConfig }
         ]
     }),
