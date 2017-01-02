@@ -15,8 +15,7 @@ var Chat2Component = (function () {
     function Chat2Component(chatservice) {
         this.chatservice = chatservice;
         this.message = "";
-        this.messages = new Array();
-        this.connectionState$ = this.chatservice.connectionState$.map(function (state) { return channel_service_1.ConnectionState[state]; });
+        this.connectionState = this.chatservice.connectionState$.map(function (state) { return channel_service_1.ConnectionState[state]; });
     }
     Chat2Component.prototype.SendSignal = function () {
         this.chatservice.sendChat(this.name, this.message);
@@ -30,8 +29,6 @@ var Chat2Component = (function () {
     */
     Chat2Component.prototype.ngOnInit = function () {
         this.name = " I AMTESTING";
-        this.messages = new Array();
-        var myms = this.messages;
         this.msgcomps = this.chatservice.msgObs; //this.chatservice.msgcomps;
         this.chatservice.start();
     };

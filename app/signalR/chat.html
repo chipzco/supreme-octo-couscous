@@ -1,5 +1,7 @@
 ﻿<div class="container">
     <div class="chatcontainer">
+		<div class="name">{{connectionState | async}} </div>	
+	
         <input type="text" id="message" [(ngModel)]="message" (keyup.enter)="SendSignal()" />
         <input type="button" id="sendmessage" (click)="SendSignal()" value="SendSignal" class="btn btn-primary" />
         <input type="hidden" id="displayname" />

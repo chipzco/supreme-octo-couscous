@@ -13,14 +13,12 @@ import {  ChannelConfig,ConnectionState } from './channel.service';
 
 
 export class Chat2Component implements OnInit { 
-    message: string = "";
-    messages: Array<string>;
+    message: string = "";    
     name: string;  
-	connectionState$: Observable<string>;	
+	connectionState: Observable<string>;	
     msgcomps: Observable<Array<MsgClass>>;
     constructor(private chatservice: Chat2Service) {
-        this.messages = new Array<string>();      
-		  this.connectionState$ = this.chatservice.connectionState$.map((state: ConnectionState) => { return ConnectionState[state]; });
+		this.connectionState = this.chatservice.connectionState$.map((state: ConnectionState) => { return ConnectionState[state]; });
     }
     SendSignal(): void {
         this.chatservice.sendChat(this.name, this.message);
@@ -34,9 +32,7 @@ export class Chat2Component implements OnInit {
     */
    
     ngOnInit(): void {
-        this.name = " I AMTESTING";
-        this.messages = new Array<string>();
-        let myms = this.messages;
+        this.name = " I AMTESTING";        
         this.msgcomps = this.chatservice.msgObs; //this.chatservice.msgcomps;
         this.chatservice.start();
     }	 
