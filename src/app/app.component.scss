@@ -1,0 +1,13 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #921;
+$header-color: orange;
+
+
+h1 {
+	color:$header-color;
+	font-family: $font-stack;	
+}
+p {
+	color:$primary-color;
+	font-family: $font-stack;	
+}
