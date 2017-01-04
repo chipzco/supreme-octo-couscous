@@ -1,0 +1,5 @@
+<div id="board" class="board">
+    <div class="row" *ngFor="let y of rowGen">
+        <square *ngFor="let x of colGen" [x]=x [y]=y [colors]="colorArr" [sqcolor]="getSquareColor(x,y)" (instanceSq)="holdSqRef($event)" (clickedSq)="passclickedSq($event)"></square>
+    </div>
+</div>
