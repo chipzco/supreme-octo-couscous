@@ -1,0 +1,66 @@
+.black {	
+	background-color:black; 
+	color:white;	
+}
+
+.white {	
+	background-color:yellow; 
+	color: black;	
+}
+
+.green {	
+	background-color:green; 
+	color: white;	
+}
+
+.blue {	
+	background-color:blue; 
+	color: white;	
+}
+.orange {	
+	background-color: orange; 
+	color: black;	
+}
+.grey {	
+	background-color: #808080; 
+	color: black;	
+}
+
+.pathMove-select {
+	background-color: yellow;
+}
+a.pathMove, .pathMove {
+	font-family: Arial; 
+	font-size: 14px;
+	line-height: 15px;		
+	text-align:center;
+	height: 17px;
+	width: 28px;
+}
+a.pathMove: hover  {
+	background-color: green;
+}
+
+
+.square {	
+	padding-left:5px;	
+	width :100px;
+	height:100px;
+	text-align:center;
+	line-height: 80px;
+}
+
+.board {
+	width:802px;
+	padding-left:15px;	
+	height:820px;	
+	border: 1px black solid;
+	text-align:right;
+	margin-left: auto;
+	margin-right: 10px;
+}
+li {
+    
+    font-size: 14px;
+}
+	

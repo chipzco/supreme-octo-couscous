@@ -1,0 +1,33 @@
+
+
+
+ <div class="row">		
+	<div class="col-md-8">	
+		<div class="board"> 
+			<div class="row" *ngFor="let y of cols">
+				<div *ngFor="let x of rows" [ngClass]=getClass(x,y) (click)="setPath(x,y)">			
+					{{getSq(x,y).alg_not}}
+				</div>
+			</div>		
+			<button [disabled]="!squaresSelected()" (click)="showPaths()" class="btn-primary">Generate Knight Moves!</button>
+		</div>			
+	</div>	
+	
+     
+	<div class="col-md-4">						
+        <div>Select a series of moves to see the path on the board</div>
+        <ul>
+            <li *ngFor="let t of mymoves; let i=index;">
+                <div>
+                    <span class="pathMove" (click)="colorPath(t.path)"><b>{{i+1}}:</b>    Min Num Turns: {{ t.numTurns }}</span>
+                    <div>
+                        <span *ngFor="let co of t.path; let fin=last" (mouseleave)="colorPathSquareRev($event,co)" (click)="colorPathSquare($event,co)"><a class="pathMove">{{ co.alg_not }}</a><i *ngIf="!fin"> to </i></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+		
+	</div>	
+</div>
+      
+

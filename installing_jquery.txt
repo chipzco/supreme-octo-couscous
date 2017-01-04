@@ -1,0 +1,24 @@
+    ease do not take the post as an endorsement of using jQuery with Angular 2. I do not think it’s a good idea. Most stuff you use jQuery for cam be done directly from Angular 2.
+
+    However, there might be legitimate reasons for using jQuery, like using jQuery widgets and plugins that do not have a non-jQuery based equivalent. If you are facing that, try this guide: 
+
+If you are using the Angular CLI (my personal recommendation), you can use jQuery with Angular 2 in very few and easy steps as follows:
+
+First: Install jQuery, the actual library
+
+	
+npm install jquery --save
+
+Then: Install jQuery TypeScript autocomplete
+
+	
+npm install @types/jquery --save-dev
+
+Finally: Go to the ./angular-cli.json file at the root of your Angular CLI project folder, and find the scripts: [] property, add this inside it:
+
+	
+"../node_modules/jquery/dist/jquery.min.js"
+
+(or use the slim version if that’s your cup of tea, keep the rest of the path as-is)
+
+After that, jQuery will be available for you as a global variable. You can log jQuery’s version (which is available as jQuery.fn.jquery) to ensure it’s working brilliantly.
