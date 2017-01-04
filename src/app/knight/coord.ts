@@ -7,7 +7,7 @@ export enum sqStates {
 }
 export enum sqColor { white, black  }
 
-export class Coord {	
+export class Coord {		
 	protected _algebraic_letter: string;
    	protected _algebraic_num: number;	
     constructor(public x: number,public y: number) {  
