@@ -28,6 +28,10 @@ export class KnightService {
 	testObserver(): Observable<number> {
 		let testSubjObserver=new Subject<number>();		
 		let counter=0;
+		let  display_holder=function(): void { 	
+			console.log(counter); 						
+			testSubjObserver.next(counter);	
+		}
 		let recfn=function() {
 			//all_possible_moves.forEach(function(element,x) 			
 			if (counter < 15)  {
@@ -36,10 +40,7 @@ export class KnightService {
 				counter++;
 			}			
 		}
-		let  display_holder=function(): void { 	
-			console.log(counter); 						
-			testSubjObserver.next(counter);	
-		}
+		
 		recfn();		
 		return (testSubjObserver.asObservable());
 	}
@@ -78,11 +79,7 @@ export class KnightService {
 			let turns_min_holder=getMinTurnsArr(turns_holder_arr);			
 			moveSubjObserver.next(turns_min_holder);	
 		}
-		var isCoordEqual=function(coord1: Coord,coord2: Coord):  boolean {
-			if (coord1.x==coord2.x && coord1.y==coord2.y)
-				return true;
-			return false;	
-		}	
+		
 
 		let getMinTurnsArr=function (tholder: Array<TurnsHolder>): Array<TurnsHolder> {		
 			let myArray=tholder.slice();

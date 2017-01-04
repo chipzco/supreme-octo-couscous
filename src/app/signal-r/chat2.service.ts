@@ -1,5 +1,4 @@
 ﻿import { Injectable, Inject } from '@angular/core';
-import { map } from 'rxjs/operator/map';
 import { Subject, Observable } from 'rxjs/Rx';
 import { JQueryService } from './../jquery.service';
 import { ChannelConfig, ConnectionState, MsgClass } from './connection-state.enum';

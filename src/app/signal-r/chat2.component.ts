@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { JQueryService } from './../jquery.service';
-import { map } from 'rxjs/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 

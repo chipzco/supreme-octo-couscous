@@ -11,5 +11,5 @@ import { JQueryService, WindowExtend, JQMinSpec } from './jquery.service';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
 
-@NgModule({ imports: [CommonModule,BrowserModule, FormsModule, HttpModule,  KnightModule, TicTacModule, SignalRModule,AppRoutingModule, ], declarations: [  AppComponent, AboutComponent ], providers: [JQueryService, { provide: WindowExtend, useValue: window }], bootstrap: [AppComponent] })
+@NgModule ({ imports: [CommonModule, BrowserModule, FormsModule, HttpModule,  KnightModule, TicTacModule, SignalRModule,AppRoutingModule, ], declarations: [  AppComponent, AboutComponent ], providers: [JQueryService, { provide: WindowExtend, useValue: window }], bootstrap: [AppComponent] })
 export class AppModule { }
