@@ -5,7 +5,7 @@ export  enum patact {
     unknown
 }
 export class Language {
-    public languagename: string;
+    public lname: string;
     public id: number;
 }
 export class Video {
