@@ -1,3 +1,33 @@
 <p>
   videos works!
 </p>
+div class="row">
+<div class="col-md-6">
+    <table class="table table-striped">
+        <thead>
+            <th><a (click)="onSort(3)">#</a></th>
+            <th><a (click)="onSort(0)">Name</a></th>
+            <th><a (click)="onSort(1)">Power</a></th>
+            <th><a (click)="onSort(2)">Alter Ego</a></th>
+            <td></td>
+        </thead>
+        <tbody>
+            <tr *ngFor="let video of videos_obj|async" (click)="onSelect(video)" [class.makered]="video === selectedVideo">
+                <td><span class="badge">{{hero.id}}</span></td>
+                <td>{{video.filename}}</td>
+                <td>{{video.subjectname}}</td>
+                <td> {{video.patact}}</td>
+                <td><button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="selectedHero" class="col-md-6">
+    <h2>
+        {{selectedHero.name | uppercase}} is my hero
+    </h2>
+    <div>
+        <span>power: {{selectedHero.power}}</span><span>alter ego: {{selectedHero.alterEgo}}</span>	<button (click)="gotoDetail()">View Details</button>
+    </div>
+</div>
+</div>
