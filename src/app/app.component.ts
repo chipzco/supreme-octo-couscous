@@ -26,9 +26,12 @@ export class AppComponent {
 	}	
 	setMyUrlState(url: string): void  {
 		if (this.crumbs.length >3)
-			this.crumbs=[];
-		this.crumbs.push(url);
-		this.currPath=url;
+            this.crumbs = [];
+        let urlc = url.replace('/', '');
+        if (this.crumbs.findIndex(c=>c==urlc)== -1)
+            this.crumbs.push(urlc);
+        this.currPath = url;
+        this.mynum = this.crumbs.length-1;
 		console.log(url);
 	}	
 	ngOnInit() {		

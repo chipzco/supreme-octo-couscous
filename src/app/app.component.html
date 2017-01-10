@@ -41,3 +41,9 @@
 </div>
 
 <router-outlet></router-outlet>
+
+<div class="container">
+    <div class="footer">
+        <span *ngFor="let c of crumbs; let i=index"> {{c}} <span *ngIf="i < mynum">&gt;</span></span>
+    </div>
+ </div>

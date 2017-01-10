@@ -14,6 +14,6 @@ export class ChannelConfig {
 }
 
 export class MsgClass {
-    constructor(public name: string = "", public message: string = "") { }
+    constructor(public name = '', public message = '') { }
 }
 
