@@ -16,7 +16,7 @@ export class Chat2Service {
     private hubConnection: any;
     private hubProxy: any;
     constructor(private jq: JQueryService,
-        @Inject("chat.config") private chatConfig: ChannelConfig) {
+        @Inject('chat.config') private chatConfig: ChannelConfig) {
         this.hubOK = false;
         this.msgcomps = new Array<MsgClass>();
         this.msgComp = new MsgClass();
@@ -54,7 +54,7 @@ export class Chat2Service {
                     myms.push(new MsgClass(name, message));
                     mymsgSub.next(myms);
                 }
-                this.hubProxy.on("broadcastMessage", (name: string, message: string) => {
+                this.hubProxy.on('broadcastMessage', (name: string, message: string) => {
                     myf(name, message);
                 });
             }
@@ -76,7 +76,7 @@ export class Chat2Service {
         // Create a function that the hub can call to broadcast messages.
         let mySub = this.startingSubject;
         this.hubConnection.start().done(function () {
-            console.log("connection to hub done");
+            console.log('connection to hub done');
             mySub.next(true);
         });
 
@@ -84,8 +84,8 @@ export class Chat2Service {
 
     }
     sendChat(name: string, message: string): void {
-        if (this.hubOK) this.hubProxy.invoke("send", name, message);
-        else { console.log("Hub is not setup"); }
+        if (this.hubOK) this.hubProxy.invoke('send', name, message);
+        else { console.log('Hub is not setup'); }
     }
 
 }

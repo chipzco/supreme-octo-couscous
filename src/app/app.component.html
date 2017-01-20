@@ -22,7 +22,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" routerLink="/report">Reports</a></li>
-                                <li><a href="#" routerLink="/videoreport">Video Report</a></li>              
+                                <li><a href="#" routerLink="/videos">Video Report</a></li>              
 
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">Nav header</li>                                
@@ -41,3 +41,9 @@
 </div>
 
 <router-outlet></router-outlet>
+
+<div class="container">
+    <div class="footer">
+        <span *ngFor="let c of crumbs; let i=index"> {{c}} <span *ngIf="i < mynum">&gt;</span></span>
+    </div>
+ </div>
