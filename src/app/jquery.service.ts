@@ -33,6 +33,7 @@ export class JQueryService {
                 }
             }
         }
+        console.log('in const jq service');
     }
     get JQuery(): any {
         return <any>this._$666;
