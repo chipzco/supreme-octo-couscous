@@ -5,17 +5,17 @@
 <div class="col-md-6">
     <table class="table table-striped">
         <thead>     
-            <th><a (click)="onSort(3)">#</a></th>
-             <th><a (click)="onSort(2)">Videoid</a></th>
-            <th><a (click)="onSort(0)">FileName</a></th>
-            <th><a (click)="onSort(1)">Subject Name</a></th>            
-            <th><a (click)="onSort(2)">Patient or actor</a></th>
+            <th>#</th>
+             <th><a (click)="onSort(0)">Videoid</a></th>
+            <th><a (click)="onSort(1)">FileName</a></th>
+            <th><a (click)="onSort(2)">Subject Name</a></th>            
+            <th><a (click)="onSort(3)">Patient or actor</a></th>
             <th>Language</th>
             <th>Transcripts</th>
             <td></td>
         </thead>
         <tbody>
-            <tr *ngFor="let video of videos_obj|async" (click)="onSelect(video)" [class.makered]="video === selectedVideo">
+            <tr *ngFor="let video of videos_orig" >
                 <td><span class="badge">{{video.id}}</span></td>
                 <td><span class="badge">{{video.videoid}}</span></td>
                 <td>{{video.filename}}</td>
@@ -35,12 +35,5 @@
         </tbody>
     </table>
 </div>
-<div *ngIf="selectedHero" class="col-md-6">
-    <h2>
-        {{selectedHero.name | uppercase}} is my hero
-    </h2>
-    <div>
-        <span>power: {{selectedHero.power}}</span><span>alter ego: {{selectedHero.alterEgo}}</span>	<button (click)="gotoDetail()">View Details</button>
-    </div>
-</div>
+
 </div>
