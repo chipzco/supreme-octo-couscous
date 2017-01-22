@@ -1,0 +1,54 @@
+﻿<div class="container">
+    <div [hidden]="submitted">
+        <h1>Video Form</h1>
+        <form (ngSubmit)="onSubmit()" #videoForm="ngForm">
+            <div class="form-group">
+                <label for="videoid">Video ID</label>
+                <input type="text" class="form-control" id="videoid" required [(ngModel)]="video.videoid" name="videoid" #videoid="ngModel">
+                <div [hidden]="videoid.valid || videoid.pristine" class="alert alert-danger">
+                    Video  is required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="filename">File Name</label>
+                <input type="text" class="form-control" id="filename" required [(ngModel)]="video.filename" name="filename">
+            </div>
+            <div class="form-group">
+                <label for="subjectname">Subject Name</label>
+                <input type="text" class="form-control" id="subjectname" [(ngModel)]="video.subjectname" name="subjectname">
+            </div>
+            <div class="form-group">
+                <label for="patientact">Patient or Actor</label>
+                <select id="patientact" class="form-control" [(ngModel)]="video.patientact" name="patientact" required>
+                    <option *ngFor="let pow of patlabels" [value]="pow">{{pow}}</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default" [disabled]="!videoForm.form.valid">Submit</button>
+        </form>
+   </div>
+
+    <div [hidden]="!submitted">
+        <h2>You submitted the following:</h2>
+        <div class="row">
+            <div class="col-xs-3">Videoid</div>
+            <div class="col-xs-9 pull-left">{{ video.videoid }}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">FileName</div>
+            <div class="col-xs-9  pull-left">{{ video.filename }}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">Subject</div>
+            <div class="col-xs-9 pull-left">{{ video.subjectname }}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">Patient Or Actor</div>
+            <div class="col-xs-9 pull-left">{{ video.patientact }}</div>
+        </div>
+        
+        <br>
+        <button class="btn btn-default" (click)="submitted=false">Edit</button>
+    </div>
+
+
+ </div>
