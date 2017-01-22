@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label for="patientact">Patient or Actor</label>
                 <select id="patientact" class="form-control" [(ngModel)]="video.patientact" name="patientact" required>
-                    <option *ngFor="let pow of patlabels" [value]="pow">{{pow}}</option>
+                    <option *ngFor="let pow of patlabels; let id=index" [value]="id">{{pow}}</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-default" [disabled]="!videoForm.form.valid">Submit</button>

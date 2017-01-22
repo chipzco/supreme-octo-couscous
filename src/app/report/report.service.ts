@@ -13,8 +13,8 @@ import { patact } from './videos/video';
 @Injectable()
 export class ReportService {
     //private videosUrl = 'http://localhost:8000/api/video/list';  // URL to web api
-    //private videosUrl = 'http://localhost:8000/videoapi';  // URL to web api
-    private videosUrl = 'web/videoapi';  // URL to web api
+    private videosUrl = 'http://localhost:8000/videoapi';  // URL to web api
+    //private videosUrl = 'web/videoapi';  // URL to web api
     
     constructor(private http: Http) { }
 
@@ -26,6 +26,10 @@ export class ReportService {
                .catch(this.handleError);*/
 
         return videos_obs;
+    }
+    getVideo(id:number): Observable<Video> {
+        let video_obs = this.http.get(this.videosUrl+'/'+ id).map(response => response.json().data as Video).catch(this.handleError2);
+        return video_obs;
     }
 
     private handleError2(error: any): Observable<any> {

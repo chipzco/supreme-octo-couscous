@@ -1,39 +1,37 @@
-<p>
-  videos works!
-</p>
-<div class="row">
-<div class="col-md-6">
-    <table class="table table-striped">
-        <thead>     
-            <th>#</th>
-             <th><a (click)="onSort(0)">Videoid</a></th>
-            <th><a (click)="onSort(1)">FileName</a></th>
-            <th><a (click)="onSort(2)">Subject Name</a></th>            
-            <th><a (click)="onSort(3)">Patient or actor</a></th>
-            <th>Language</th>
-            <th>Transcripts</th>
-            <td></td>
-        </thead>
-        <tbody>
-            <tr *ngFor="let video of videos_orig" >
-                <td><span class="badge">{{video.id}}</span></td>
-                <td><span class="badge">{{video.videoid}}</span></td>
-                <td>{{video.filename}}</td>
-                <td>{{video.subjectname}}</td>               
-                <td> {{patlabels[video.patientact]}}</td>
-                <td>{{video.language.lname}}</td>
+<div class="container">
+    <h2>Video Listing</h2>
+    
+        
+            <table class="table table-striped">
+                <thead>
+                <th>#</th>
+                <th><a (click)="onSort(0)">Videoid</a></th>
+                <th><a (click)="onSort(1)">FileName</a></th>
+                <th><a (click)="onSort(2)">Subject Name</a></th>
+                <th><a (click)="onSort(3)">Patient or actor</a></th>
+                <th>Language</th>
+                <th>Transcripts</th>
+                <td></td>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let video of videos_orig">
+                        <td><span class="badge">{{video.id}}</span></td>
+                        <td><span class="badge"><a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a></span></td>
+                        <td>{{video.filename}}</td>
+                        <td>{{video.subjectname}}</td>
+                        <td> {{patlabels[video.patientact]}}</td>
+                        <td>{{video.language.lname}}</td>
 
-                <td>
-                    <span *ngFor="let t of video.transcripts">
-                        {{t.lname}}
-                    </span>
+                        <td>
+                            <span *ngFor="let t of video.transcripts">
+                                {{t.lname}}
+                            </span>
 
-                </td>
+                        </td>
 
-                <td><button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
+                        <td><button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        
 </div>

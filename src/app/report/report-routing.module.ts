@@ -7,6 +7,7 @@ import   { VideosComponent }   from './videos/videos.component';
 @NgModule({
   imports: [RouterModule.forChild([    
       { path: 'videos', component: VideosComponent },
+      { path: 'videoform/:id', component: VideoFormComponent },
       { path: 'videoform', component: VideoFormComponent }
 	
   ])],
