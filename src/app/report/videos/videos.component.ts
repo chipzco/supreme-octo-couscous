@@ -17,7 +17,10 @@ export class VideosComponent implements OnInit {
     patlabels: Array<string>;
     sortComp: sortFn;
     ngOnInit() {
-        this.reportservice.getVideos().subscribe(videos => this.videos_orig = videos);
+        //this.reportservice.getVideos().subscribe(videos => this.videos_orig = videos);
+        this.videos_orig=this.reportservice.getVideosCached()
+        if (this.videos_orig == null)
+            this.reportservice.getVideos().subscribe(videos => this.videos_orig = videos);		
         this.patlabels = [patact[patact.unassigned], patact[patact.patient], patact[patact.actor], patact[patact.unknown]];
         this.sortComp = new sortFn("videoid,filename,subjectname,patientact", "NUM,CHAR,CHAR,NUM", 0, false);
     }
