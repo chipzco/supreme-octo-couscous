@@ -21,7 +21,7 @@ export class ReportService {
     private videoCache: Video[];
     private langCache: Language[];
     getVideos(): Observable<Video[]> {
-        let videos_obs = this.http.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2);
+        let videos_obs = this.http.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2).publishLast().refCount();
 		/*let myp=this.http.get(this.heroesUrl)
                .toPromise()
                .then(response => response.json().data as Hero[])
@@ -40,8 +40,18 @@ export class ReportService {
         return video_obs;
     }
 
+    postVideo(video: Video): Observable<any> {
+        let saveObs: Observable<any>;
+        if (video.id > 0) 
+            saveObs = this.http.put(this.videosUrl + '/' + video.id, video).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+        else
+            saveObs = this.http.post(this.videosUrl, video).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+        saveObs.subscribe(a => this.videoCache = null);
+        return saveObs;
+    }
+
     getLangs(): Observable<Language[]> {        
-        let lang_obs = this.http.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2);		
+        let lang_obs = this.http.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2).publishLast().refCount();;		
         lang_obs.subscribe(langs => this.langCache = langs);
         return lang_obs;
     }

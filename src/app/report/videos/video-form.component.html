@@ -31,14 +31,24 @@
             </div>          
 
             <div class="form-group" *ngIf="video.id!=null || video.id !=0">
-                <label>Transcripts</label>    
-                <span *ngFor="let t of video.transcripts">
-                    {{t.lname}}
+                <label>Set Transcripts: </label>    
+                <span *ngFor="let t of video.transcripts; let i=index">
+                    {{t.lname}}  <a href="#" (click)="$event.preventDefault();delTranscript(i);">X</a>
                     &nbsp; &nbsp; 
                 </span> 
             </div>
-
-            <button type="submit" class="btn btn-default" [disabled]="!videoForm.form.valid">Submit</button>
+			<div class="form-group">
+				<label>Transcript Languages</label>		                
+                <input type="button" value="New Dropdown" class="btn-xs" (click)="addRow()" [disabled]="!dataReady()">
+                <input type="button" value="Remove" class="btn-xs" (click)="removeRow()" *ngIf="selOptions.length>0">
+				<span *ngFor="let num of selOptions">
+				  <select name="addtran{{num}}" [(ngModel)]="selrep[num]">
+					<option value="0">--CHOOSE ONE</option>
+                     <option *ngFor="let lang of langs" [ngValue]="lang.id">{{lang.lname}}</option>
+				  </select>                                        
+				</span>                              
+			</div>
+            <button type="submit" class="btn btn-primary" [disabled]="!videoForm.form.valid">Save</button>
         </form>
    </div>
 
@@ -64,10 +74,25 @@
             <div class="col-xs-3">Patient Or Actor</div>
             <div class="col-xs-9 pull-left">{{ video.patientact }}</div>
         </div>
-        
-        <br>
-        <button class="btn btn-default" (click)="submitted=false">Edit</button>
-    </div>
+        <div class="row">
+            <div class="col-xs-3">Transcripts</div>
+            <div class="col-xs-9 pull-left">
+                <span *ngFor="let t of video.transcripts">
+                    {{ t.lname }}  id= {{ t.id }}  
+                </span>
+            </div>
+        </div>
+        <hr />
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;" [style.width]="(progress/100)*100 + '%'">
+                {{progress}}%
+            </div>
+        </div>
+
+
+            <br>
+            <button class="btn btn-default" (click)="submitted=false">Edit</button>
+        </div>
 
 
  </div>
