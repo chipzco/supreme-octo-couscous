@@ -15,10 +15,11 @@ export class ReportService {
     //private videosUrl = 'http://localhost:8000/api/video/list';  // URL to web api
 	private videosUrl = 'http://localhost:8000/videoapi';  // URL to web api
     //private videosUrl = 'web/videoapi';  // URL to web api
-    
+    private langUrl ='http://localhost:8000/langapi'
     constructor(private http: Http) { }
 	
-	private videoCache: Video[];
+    private videoCache: Video[];
+    private langCache: Language[];
     getVideos(): Observable<Video[]> {
         let videos_obs = this.http.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2);
 		/*let myp=this.http.get(this.heroesUrl)
@@ -28,13 +29,21 @@ export class ReportService {
         videos_obs.subscribe(videos => this.videoCache = videos);		
         return videos_obs;
     }
-	getVideosCached(): Video[] {
-		
+	getVideosCached(): Video[] {		
 		return this.videoCache;
-	}
+    }
+    getLangsCached(): Language[] {
+        return this.langCache;
+    }
     getVideo(id:number): Observable<Video> {
         let video_obs = this.http.get(this.videosUrl+'/'+ id).map(response => response.json().data as Video).catch(this.handleError2);
         return video_obs;
+    }
+
+    getLangs(): Observable<Language[]> {        
+        let lang_obs = this.http.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2);		
+        lang_obs.subscribe(langs => this.langCache = langs);
+        return lang_obs;
     }
 
     private handleError2(error: any): Observable<any> {
