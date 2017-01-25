@@ -1,9 +1,10 @@
 <div class="container">
-    <h2>Video Listing</h2>
-            <app-modal myModal="fu" infotext="what the fuck would happen here!!" (eventClickedButton)="checkAction($event)"></app-modal>
-        
-            <table class="table table-striped">
-                <thead>
+    <div [hidden]="deleteRunning">
+        <h2>Video Listing</h2>
+        <app-modal myModal="fu" infotext="what the fuck would happen here!!" (eventClickedButton)="checkAction($event)"></app-modal>
+
+        <table class="table table-striped">
+            <thead>
                 <th>#</th>
                 <th><a (click)="onSort(0)">Videoid</a></th>
                 <th><a (click)="onSort(1)">FileName</a></th>
@@ -13,25 +14,26 @@
                 <th>Transcripts</th>
                 <td></td>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let video of videos_orig">
-                        <td><span class="badge">{{video.id}}</span></td>
-                        <td><span class="badge"><a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a></span></td>
-                        <td>{{video.filename}}</td>
-                        <td>{{video.subjectname}}</td>
-                        <td> {{patlabels[video.patientact]}}</td>
-                        <td>{{video.language.lname}}</td>
+            <tbody>
+                <tr *ngFor="let video of videos_orig">
+                    <td><span class="badge">{{video.id}}</span></td>
+                    <td><span class="badge"><a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a></span></td>
+                    <td>{{video.filename}}</td>
+                    <td>{{video.subjectname}}</td>
+                    <td> {{patlabels[video.patientact]}}</td>
+                    <td>{{video.language.lname}}</td>
 
-                        <td>
-                            <span *ngFor="let t of video.transcripts">
-                                {{t.lname}}
-                            </span>
+                    <td>
+                        <span *ngFor="let t of video.transcripts">
+                            {{t.lname}}
+                        </span>
 
-                        </td>
+                    </td>
 
-                        <td><button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(video.id)">x</button></td>
-                    </tr>
-                </tbody>
-            </table>
-          
+                    <td><button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(video.id)">x</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>  
+    <app-fakeloader [startStop]="startStop"></app-fakeloader> 
 </div>

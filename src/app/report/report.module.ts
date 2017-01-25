@@ -7,12 +7,13 @@ import { VideoFormComponent } from './videos/video-form.component';
 import { RepeaterDirective } from './repeater.directive';
 import { ReportService } from './report.service';
 import { ModalComponent } from '../modal/modal.component';
+import { FakeloaderComponent } from './fakeloader/fakeloader.component';
 
 @NgModule({
   imports: [
       CommonModule, ReportRoutingModule, FormsModule
   ],
-  declarations: [VideosComponent, VideoFormComponent, RepeaterDirective, ModalComponent],
+  declarations: [VideosComponent, VideoFormComponent, RepeaterDirective, ModalComponent, FakeloaderComponent],
   providers: [ReportService]
 })
 export class ReportModule { }
