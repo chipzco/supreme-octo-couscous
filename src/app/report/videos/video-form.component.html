@@ -52,6 +52,11 @@
         </form>
    </div>
 
+    <hr />
+        <app-fakeloader [startStop]="startStop" processRunningText="The video is being saved. Please wait..." processFinishedText="Video has been saved."></app-fakeloader> 
+    <hr />
+    <!-- <button class="btn-danger" (click)="checkLoader()">run loader</button> <button class="btn-danger" (click)="stopLoader()">stop loader</button> -->
+
     <div [hidden]="!submitted">
         <h2>You submitted the following:</h2>
         <div class="row">
@@ -82,16 +87,10 @@
                 </span>
             </div>
         </div>
-        <hr />
-        <div class="progress">
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;" [style.width]="(progress/100)*100 + '%'">
-                {{progress}}%
-            </div>
-        </div>
-
+       
 
             <br>
-            <button class="btn btn-default" (click)="submitted=false">Edit</button>
+            <button class="btn btn-default" (click)="submitted=false">Edit</button>            
         </div>
 
 

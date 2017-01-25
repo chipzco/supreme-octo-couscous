@@ -26,8 +26,8 @@ export class VideoFormComponent implements OnInit {
 	selOptions: Array<number>;
     selOptionNum: number;
     private MAX_EVENTS: number = 2; //two calls to api must complete before form is ready.
+    private starStop_s: Subject<boolean> = new Subject<boolean>(); //start stop fake loader
     constructor(private videoservice: ReportService, private route: ActivatedRoute) {    }
-
     ngOnInit(): void {
         console.log('start init comp');
         this.gotData = new Array<string>();
@@ -43,8 +43,10 @@ export class VideoFormComponent implements OnInit {
         if (this.langs == null)
             this.videoservice.getLangs().subscribe(langs => { this.langs = langs; this.changeGotData('gotlangs'); });
         else 
-            this.changeGotData('gotlangs');
-        
+            this.changeGotData('gotlangs');             
+    }
+    get startStop(): Observable<boolean> {
+        return this.starStop_s.asObservable();
     }
     addRow(): void {
         let isTransSet: boolean = true;
@@ -74,6 +76,12 @@ export class VideoFormComponent implements OnInit {
     addTrans(val: number): void {
         console.log(val);
     }
+    checkLoader(): void {
+        this.starStop_s.next(true); //start         
+    }
+    stopLoader(): void {
+        this.starStop_s.next(false); //start         
+    }
 	
     /**
      * Must get both video and all languages langs may or may not be observable (sometimes cached)        
@@ -100,6 +108,7 @@ export class VideoFormComponent implements OnInit {
     onSubmit() {
         if (!this.submitted) {
             this.submitted = true;
+            this.starStop_s.next(true); //start 
             for (let x = 0; x < this.selrep.length; x++) {
                 if (this.selrep[x] != 0) {
                     let lang: Language = this.langs.find(a => a.id == this.selrep[x]);
@@ -107,21 +116,26 @@ export class VideoFormComponent implements OnInit {
                     if (lang && this.video.transcripts.findIndex(a => a.id == this.selrep[x]) == -1)
                         this.video.transcripts.push(lang);
                 }
-            }
-            let obsPosted: Observable<any> = this.videoservice.postVideo(this.video);
+            }                
+            let obsPosted: Observable<any> = this.videoservice.postVideo(this.video);            
+            /*
             var progobs = Observable.interval(100).takeUntil(obsPosted);
             progobs.subscribe(a => this.setProgress(a));
+            */
             obsPosted.subscribe(data => this.finishPosting(data));
         }
     }
+    /*
     setProgress(x: number): void {
         this.progress = x * 100 / 50;
         if (this.progress > 100) {
             this.progress = 100;        
         }
     }
+    */
     finishPosting(data: any): void {
         console.log(data);
-        this.progress = 100;
+        this.starStop_s.next(false);
+        //this.progress = 100;
     }
  }
