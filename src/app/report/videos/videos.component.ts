@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ReportService } from '../report.service';
 import { Observable } from 'rxjs/Observable';
 import { Video } from './video';
@@ -11,11 +12,12 @@ import { sortFn, sortClass } from '../sort-fn';
   styleUrls: ['./videos.component.scss']
 })
 export class VideosComponent implements OnInit {
-    constructor(private reportservice: ReportService) { }
+    constructor(private reportservice: ReportService, private router: Router) { }
     videos_obj: Observable<Array<Video>>;
     videos_orig: Array<Video>;
     patlabels: Array<string>;
     sortComp: sortFn;
+    private deleteid: number;
     ngOnInit() {
         //this.reportservice.getVideos().subscribe(videos => this.videos_orig = videos);
         this.videos_orig=this.reportservice.getVideosCached()
@@ -34,8 +36,21 @@ export class VideosComponent implements OnInit {
 
         this.videos_orig = this.sortComp.sort<Video>(this.videos_orig, sortIndex, rev);
     }
-    onDelete(id: number): void {
-        this.reportservice.deleteVideo(id).subscribe(a => console.log(a));        
+    private onDelete(id: number): void {
+        this.reportservice.deleteVideo(id).subscribe(a => this.afterDelete(a));        
+    }
+    private afterDelete(data: any) {
+        console.log(data);
+        this.router.navigate(['/about']);
+    }
+    onSetDelete(id: number): void {
+        this.deleteid = id;
+        console.log(id);
+    }
+    checkAction(yesno: boolean) {
+        console.log(yesno);
+        if (yesno && this.deleteid)
+            this.onDelete(this.deleteid);
     }
 
 }

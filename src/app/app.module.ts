@@ -8,10 +8,10 @@ import { KnightModule } from './knight/knight.module';
 import { TicTacModule } from './tictac/tictac.module';
 import { SignalRModule } from './signal-r/signal-r.module';
 import { ReportModule } from './report/report.module';
-
 import { JQueryService, WindowExtend, JQMinSpec } from './jquery.service';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
+
 
 @NgModule ({ imports: [CommonModule, BrowserModule, FormsModule, HttpModule, 
 		KnightModule, 
@@ -19,7 +19,7 @@ import { AboutComponent } from './about.component';
         SignalRModule, 
         ReportModule,
 		AppRoutingModule, ], 
-		declarations: [  AppComponent, AboutComponent ], 
+		declarations: [  AppComponent, AboutComponent], 
 		providers: [JQueryService, { provide: WindowExtend, useValue: window }], bootstrap: [AppComponent] 
 })
 export class AppModule { }

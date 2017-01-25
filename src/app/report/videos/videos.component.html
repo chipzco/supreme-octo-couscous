@@ -1,6 +1,6 @@
 <div class="container">
     <h2>Video Listing</h2>
-    
+            <app-modal myModal="fu" infotext="what the fuck would happen here!!" (eventClickedButton)="checkAction($event)"></app-modal>
         
             <table class="table table-striped">
                 <thead>
@@ -29,9 +29,9 @@
 
                         </td>
 
-                        <td><button class="delete" (click)="onDelete(video.id); $event.stopPropagation()">x</button></td>
+                        <td><button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(video.id)">x</button></td>
                     </tr>
                 </tbody>
             </table>
-        
+          
 </div>
