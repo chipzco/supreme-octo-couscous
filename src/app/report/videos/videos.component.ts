@@ -34,6 +34,8 @@ export class VideosComponent implements OnInit {
 
         this.videos_orig = this.sortComp.sort<Video>(this.videos_orig, sortIndex, rev);
     }
-
+    onDelete(id: number): void {
+        this.reportservice.deleteVideo(id).subscribe(a => console.log(a));        
+    }
 
 }

@@ -49,7 +49,11 @@ export class ReportService {
         saveObs.subscribe(a => this.videoCache = null);
         return saveObs;
     }
-
+    deleteVideo(id: number): Observable<any> {
+        let delObs: Observable<any> = this.http.delete(this.videosUrl + '/' + id).map(resp => resp.json()).catch(this.handleError2).publish().refCount();
+        delObs.subscribe(a => this.videoCache = null);
+        return delObs;
+    }
     getLangs(): Observable<Language[]> {        
         let lang_obs = this.http.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2).publishLast().refCount();;		
         lang_obs.subscribe(langs => this.langCache = langs);
