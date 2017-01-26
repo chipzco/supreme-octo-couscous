@@ -14,9 +14,11 @@ import { patact } from './videos/video';
 export class ReportService {
     //private videosUrl = 'http://localhost:8000/api/video/list';  // URL to web api
 	//private videosUrl = 'http://localhost:8000/videoapi';  // URL to web api
+    //private langUrl = 'http://localhost:8000/langapi'
     private videosUrl = 'web/videoapi';  // URL to web api
-    //private langUrl ='http://localhost:8000/langapi'
-	private langUrl ='web/langapi'
+    private langUrl = 'web/langapi'
+    
+	
     constructor(private http: Http) { }
 	
     private videoCache: Video[];

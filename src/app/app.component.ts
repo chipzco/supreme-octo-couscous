@@ -25,11 +25,13 @@ export class AppComponent {
 			
 	}	
 	setMyUrlState(url: string): void  {
-		if (this.crumbs.length >3)
-            this.crumbs = [];
+        if (this.crumbs.length > 8)
+            this.crumbs.splice(0,2);
         let urlc = url.replace('/', '');
-        if (this.crumbs.findIndex(c=>c==urlc)== -1)
-            this.crumbs.push(urlc);
+        let x = this.crumbs.findIndex(c => c == urlc);
+        if (x > -1)
+            this.crumbs.splice(x, 1);
+        this.crumbs.push(urlc);
         this.currPath = url;
         this.mynum = this.crumbs.length-1;
 		console.log(url);
