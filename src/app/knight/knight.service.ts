@@ -2,7 +2,7 @@ import { Injectable }     from '@angular/core';
 import { Observable } from 'rxjs/Observable';  
 import { Coord } from './coord';
 import { Subject } from 'rxjs/Subject';
-
+import { WatcherService } from '../watcher.service';
 
 
 @Injectable()
@@ -13,7 +13,7 @@ export class KnightService {
     //private turns_holder: number[];
 	//private MAX_TURNS: number=2;
 	
-	constructor() { 
+    constructor(private watcherservice: WatcherService) { 
 		
 	}
 	
@@ -55,7 +55,8 @@ export class KnightService {
 	startKnightPath(start: Coord, end: Coord, MAX_X: number=8, MAX_Y: number=8): Observable<Array<TurnsHolder>> {		
 		let turns_holder_arr=new Array<TurnsHolder>();  //hold the array of number of turns for each successful path 		
 		const MAX_TURNS=8;
-		let moveSubjObserver=new Subject<Array<TurnsHolder>>();
+        let moveSubjObserver = new Subject<Array<TurnsHolder>>();
+        
 		var generateKnightMoves=function(coord: Coord):  Coord[] {
 			let moves=new Array<Coord>();
 			moves[0]=new Coord(coord.x-2,coord.y+1);
@@ -73,13 +74,19 @@ export class KnightService {
 			if (coord1.x==coord2.x && coord1.y==coord2.y)
 				return true;
 			return false;	
-		}			
+        }
+        let tmpWatchSvc = this.watcherservice;
+        let sendEvent = function (turns_min_holder: TurnsHolder[]): void {
+            tmpWatchSvc.addValWatchAllTurns(turns_min_holder);
+        }
 		var display_holder=function(): void { 	
 			//console.log(turns_holder); 
 			let turns_min_holder=getMinTurnsArr(turns_holder_arr);			
-			moveSubjObserver.next(turns_min_holder);	
+            moveSubjObserver.next(turns_min_holder);	
+            //add to event
+            sendEvent(turns_min_holder);            
 		}
-		
+        
 
 		let getMinTurnsArr=function (tholder: Array<TurnsHolder>): Array<TurnsHolder> {		
 			let myArray=tholder.slice();
@@ -134,8 +141,10 @@ export class KnightService {
 			}	
 		}	
 		
-		makeKnightMoveAync(start,end,new TurnsHolder());
-		return (moveSubjObserver.asObservable());
+        makeKnightMoveAync(start, end, new TurnsHolder());
+        let myshared: Observable<Array<TurnsHolder>> = moveSubjObserver.asObservable().share();
+       //this.watcherservice.watchTurnsHolder = myshared;
+        return myshared;
 	}		
 }
   

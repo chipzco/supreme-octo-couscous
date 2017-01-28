@@ -9,6 +9,7 @@ import { TicTacModule } from './tictac/tictac.module';
 import { SignalRModule } from './signal-r/signal-r.module';
 import { ReportModule } from './report/report.module';
 import { JQueryService, WindowExtend, JQMinSpec } from './jquery.service';
+import { WatcherService } from './watcher.service';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
 
@@ -20,6 +21,6 @@ import { AboutComponent } from './about.component';
         ReportModule,
 		AppRoutingModule, ], 
 		declarations: [  AppComponent, AboutComponent], 
-		providers: [JQueryService, { provide: WindowExtend, useValue: window }], bootstrap: [AppComponent] 
+        providers: [WatcherService,JQueryService, { provide: WindowExtend, useValue: window }], bootstrap: [AppComponent] 
 })
 export class AppModule { }
