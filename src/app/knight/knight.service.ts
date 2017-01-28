@@ -76,15 +76,15 @@ export class KnightService {
 			return false;	
         }
         let tmpWatchSvc = this.watcherservice;
-        let sendEvent = function (turns_min_holder: TurnsHolder[]): void {
-            tmpWatchSvc.addValWatchAllTurns(turns_min_holder);
+        let sendEvent = function (turns_holder_count: number): void {
+            tmpWatchSvc.addValWatchAllTurns(turns_holder_count);
         }
 		var display_holder=function(): void { 	
 			//console.log(turns_holder); 
 			let turns_min_holder=getMinTurnsArr(turns_holder_arr);			
             moveSubjObserver.next(turns_min_holder);	
             //add to event
-            sendEvent(turns_min_holder);            
+            sendEvent(turns_min_holder.length);            
 		}
         
 
@@ -142,8 +142,7 @@ export class KnightService {
 		}	
 		
         makeKnightMoveAync(start, end, new TurnsHolder());
-        let myshared: Observable<Array<TurnsHolder>> = moveSubjObserver.asObservable().share();
-       //this.watcherservice.watchTurnsHolder = myshared;
+        let myshared: Observable<Array<TurnsHolder>> = moveSubjObserver.asObservable().share();        
         return myshared;
 	}		
 }

@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { Coord, Square, Board, sqStates, sqColor } from  './coord';
 import { Observable } from 'rxjs/Observable';  
 import { KnightService, TurnsHolder } from './knight.service';
-
+import { WatcherService } from '../watcher.service';
 
 @Component({	  
 	moduleId: module.id.toString(),
@@ -14,8 +14,8 @@ import { KnightService, TurnsHolder } from './knight.service';
 
 export class KnightComponent implements OnInit {
 	public mymoves: Array<TurnsHolder>;
-	
-	constructor(private knightService: KnightService) {  }   
+
+    constructor(private knightService: KnightService, private watchService: WatcherService) { }   
 	
 	board:  Board;	
 	squares: Square[];
@@ -31,6 +31,7 @@ export class KnightComponent implements OnInit {
 		this.rows=[0,1,2,3,4,5,6,7];
         this.pathSquares = new Array<Square>(); //this is holding start end squares. 
         this.pathSelectSquare = null;
+        this.watchService.watchAllTurns.subscribe(a => console.warn(a));
 	}
 	getSq(x: number, y: number ) {
 		return this.board.getSquare(x,y);
