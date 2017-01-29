@@ -24,7 +24,7 @@ export class AppComponent {
     constructor(private r: ActivatedRoute, private router: Router, private watcherservice: WatcherService) {		
         this.crumbs = [];
         this.knightWatcherSet = false;
-        this.watcherservice.watchAllTurns.subscribe(a => console.log(" Lent of turnsholder: " + a));
+        this.watcherservice.watchAllTurns.subscribe(a => console.log(" Length of turnsholder from app comp subscription: " + a));
 		//this.currPath=r.url;
 		// r.url.subscribe((s:UrlSegment[]) => { console.log("url", s); this.currPath=s[0].path; console.log(this.currPath);});	
 			

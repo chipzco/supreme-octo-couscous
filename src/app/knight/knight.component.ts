@@ -31,7 +31,7 @@ export class KnightComponent implements OnInit {
 		this.rows=[0,1,2,3,4,5,6,7];
         this.pathSquares = new Array<Square>(); //this is holding start end squares. 
         this.pathSelectSquare = null;
-        this.watchService.watchAllTurns.subscribe(a => console.warn(a));
+        this.watchService.watchAllTurns.subscribe(a => console.log(" Observing turnsholder length from Knight component " + a));
 	}
 	getSq(x: number, y: number ) {
 		return this.board.getSquare(x,y);
@@ -76,7 +76,8 @@ export class KnightComponent implements OnInit {
 		this.knightService.startKnightPath(this.pathSquares[0],this.pathSquares[1]).subscribe(a=>this.mymoves=a);
 	}	
 
-    colorPath(path: Array<Coord>): void {
+    colorPath(path: Array<Coord>, event: any): void {
+        event.target.style.backgroundColor = "green";
         this.board.clearBoardState(this.pathSquares); //this.pathSquares
         let x = 0;
         for (let c of path) {
@@ -90,7 +91,8 @@ export class KnightComponent implements OnInit {
     colorPathSquareRev(event: any, co: Coord) {
         event.target.style.backgroundColor = "white";
         let sq: Square = this.board.getSquare(co.x, co.y);
-        //sq.currState = sqStates.Path;
+        if (sq.currState == sqStates.Selected)
+            sq.currState = sqStates.None;
     }
     colorPathSquare(event: any, co: Coord ) {
         
@@ -104,8 +106,9 @@ export class KnightComponent implements OnInit {
         //this.pathSelectSquare = new Square(sq.x, sq.y, sq.sqcolor);
         //this.pathSelectSquare.currState = sq.currState;    //store the copy of square and its current state
 		event.target.style.backgroundColor="red";
-		let sq: Square=this.board.getSquare(co.x,co.y);
-        sq.currState = sqStates.Selected;
+        let sq: Square = this.board.getSquare(co.x, co.y);
+        if (sq.currState != sqStates.Start && sq.currState != sqStates.End)
+            sq.currState = sqStates.Selected;
 	}
 }
 
