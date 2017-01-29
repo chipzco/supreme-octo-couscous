@@ -7,6 +7,12 @@ import { ReportService } from '../report.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/switchMap';
+import { LoaderTexts } from '../fakeloader/loader-texts';
+
+
+const vid_Saved_Text = "The video is being saved to the database. Please wait...";
+const vid_FinSaved_Text = "Finished saving video in database repository";
+
 @Component ({
 	selector: 'video-form',
 	moduleId: module.id.toString(),
@@ -25,6 +31,7 @@ export class VideoFormComponent implements OnInit {
 	selrep: Array<number>;
 	selOptions: Array<number>;
     selOptionNum: number;
+    loadTexts: LoaderTexts;
     private MAX_EVENTS: number = 2; //two calls to api must complete before form is ready.
     private starStop_s: Subject<boolean> = new Subject<boolean>(); //start stop fake loader
     constructor(private videoservice: ReportService, private route: ActivatedRoute) {    }
@@ -36,6 +43,7 @@ export class VideoFormComponent implements OnInit {
 		this.selOptions=[0];
         this.patlabels = [patact[patact.unassigned], patact[patact.patient], patact[patact.actor], patact[patact.unknown]];
         this.video = new Video(0, '', '', patact.unassigned, 0, new Language(), []);
+        this.loadTexts = new LoaderTexts(vid_Saved_Text, vid_FinSaved_Text);
         this.route.params
             .switchMap((params: Params) => +params['id'] ? this.videoservice.getVideo(+params['id']) : Observable.of<Video>(this.video))
             .subscribe(hero => { this.video = hero; this.changeGotData('gotvideo'); });

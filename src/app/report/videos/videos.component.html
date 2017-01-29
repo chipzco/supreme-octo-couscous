@@ -1,6 +1,20 @@
 <div class="container">
-    <div [hidden]="deleteRunning">
+    <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader> 
+    <div [hidden]="hideWhenRunning">
         <h2>Video Listing</h2>
+            <div  class="pull-right">
+                <a href="#" routerLink="/videoform">Create new Video</a> 
+                &nbsp;&nbsp;&nbsp;
+                <a href="#" (click)="getVideosBackEnd();$event.preventDefault()" >Reload</a>
+            </div>
+        
+
+
+        
+        
+        
+
+
         <app-modal myModal="vidDelCheck" infotext="Are you sure you want to delete this video?" (eventClickedButton)="checkAction($event)"></app-modal>
 
         <table class="table table-striped">
@@ -17,7 +31,7 @@
             <tbody>
                 <tr *ngFor="let video of videos_orig">
                     <td><span class="badge">{{video.id}}</span></td>
-                    <td><span class="badge"><a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a></span></td>
+                    <td><a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a></td>
                     <td>{{video.filename}}</td>
                     <td>{{video.subjectname}}</td>
                     <td> {{patlabels[video.patientact]}}</td>
@@ -36,6 +50,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>  
-    <app-fakeloader [startStop]="startStop"></app-fakeloader> 
+    </div>      
 </div>

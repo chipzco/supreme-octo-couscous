@@ -53,7 +53,7 @@
    </div>
 
     <hr />
-        <app-fakeloader [startStop]="startStop" processRunningText="The video is being saved. Please wait..." processFinishedText="Video has been saved."></app-fakeloader> 
+        <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader> 
     <hr />
     <!-- <button class="btn-danger" (click)="checkLoader()">run loader</button> <button class="btn-danger" (click)="stopLoader()">stop loader</button> -->
 
@@ -90,7 +90,7 @@
        
 
             <br>
-            <button class="btn btn-default" (click)="submitted=false">Edit</button>            
+            <button class="btn btn-default" routerLink="/videos">Return to Videos</button>            
         </div>
 
 
