@@ -23,7 +23,9 @@ export class KnightComponent implements OnInit {
 	rows: number[];
     pathSquares: Square[];
     pathSelectSquare: Square;
-	ngOnInit(): void {		
+    pathSelected: number;
+    ngOnInit(): void {
+        this.pathSelected = -1;
 		this.board=new Board(8,8);
 		this.squares=this.board.getAllSquares();
 		//console.log(this.squares);	
@@ -72,12 +74,14 @@ export class KnightComponent implements OnInit {
 			this.pathSquares=[];
 		}		
 	}
-	showPaths(): void {
+    showPaths(): void {
+        this.pathSelected = -1;
 		this.knightService.startKnightPath(this.pathSquares[0],this.pathSquares[1]).subscribe(a=>this.mymoves=a);
 	}	
 
-    colorPath(path: Array<Coord>, event: any): void {
-        event.target.style.backgroundColor = "green";
+    colorPath(path: Array<Coord>, event: any, i: number): void {
+        //event.target.style.backgroundColor = "green";
+        this.pathSelected = i;
         this.board.clearBoardState(this.pathSquares); //this.pathSquares
         let x = 0;
         for (let c of path) {
@@ -88,28 +92,39 @@ export class KnightComponent implements OnInit {
             x++;
         }
     }
-    colorPathSquareRev(event: any, co: Coord) {
-        event.target.style.backgroundColor = "white";
-        let sq: Square = this.board.getSquare(co.x, co.y);
-        if (sq.currState == sqStates.Selected)
-            sq.currState = sqStates.None;
-    }
-    colorPathSquare(event: any, co: Coord ) {
-        
-        /*
-        if (this.pathSelectSquare) {
-            let sqold: Square;
-            sqold = this.board.getSquare(this.pathSelectSquare.x, this.pathSelectSquare.y);
-            sqold.currState = this.pathSelectSquare.currState;
+    getPathClass(ix: number) {
+        let cssClasses;
+        if (ix == this.pathSelected) {
+            cssClasses = {
+                'pathMove-select': true,
+                'pathMove': true
+            }
+        } else {
+            cssClasses = {
+                'pathMove': true,
+                'pathMove-select': false
+            }
         }
-        */
-        //this.pathSelectSquare = new Square(sq.x, sq.y, sq.sqcolor);
-        //this.pathSelectSquare.currState = sq.currState;    //store the copy of square and its current state
-		event.target.style.backgroundColor="red";
-        let sq: Square = this.board.getSquare(co.x, co.y);
-        if (sq.currState != sqStates.Start && sq.currState != sqStates.End)
-            sq.currState = sqStates.Selected;
-	}
+        return cssClasses;
+    }	
+
+
+    colorPathSquareRev(event: any, co: Coord, i: number) {
+        if (i == this.pathSelected) {
+            event.target.style.backgroundColor = "white";
+            let sq: Square = this.board.getSquare(co.x, co.y);
+            if (sq.currState == sqStates.Selected)
+                sq.currState = sqStates.Path;
+        }
+    }
+    colorPathSquare(event: any, co: Coord, i: number) {
+        if (i == this.pathSelected) {                        
+            event.target.style.backgroundColor = "red";
+            let sq: Square = this.board.getSquare(co.x, co.y);
+            if (sq.currState != sqStates.Start && sq.currState != sqStates.End)
+                sq.currState = sqStates.Selected;
+        }
+    }
 }
 
 
