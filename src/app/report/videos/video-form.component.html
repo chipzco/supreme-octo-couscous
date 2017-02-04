@@ -73,7 +73,7 @@
         </div>
         <div class="row">
             <div class="col-xs-3">Language</div>
-            <div class="col-xs-9 pull-left">{{ video.language.lname }}  id= {{ video.language.id }}</div>
+            <div class="col-xs-9 pull-left">{{ video.language.lname }} </div>
         </div>
         <div class="row">
             <div class="col-xs-3">Patient Or Actor</div>
@@ -83,15 +83,13 @@
             <div class="col-xs-3">Transcripts</div>
             <div class="col-xs-9 pull-left">
                 <span *ngFor="let t of video.transcripts">
-                    {{ t.lname }}  id= {{ t.id }}  
+                    {{ t.lname }}  &nbsp;
                 </span>
             </div>
         </div>
-       
-
-            <br>
-            <button class="btn btn-default" routerLink="/videos">Return to Videos</button>            
-        </div>
+        <br/>
+        <button class="btn btn-default" routerLink="/videos">Return to Video Listing</button>            
+   </div>
 
 
  </div>
