@@ -6,23 +6,28 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Video } from  './videos/video';
+import { Video } from './videos/video';
+import { Study } from './studies/study';
 import { Language } from './videos/video';
 import { patact } from './videos/video';
+import { AppSettings } from '../app-settings';
 
 @Injectable()
 export class ReportService {
     //private videosUrl = 'http://localhost:8000/api/video/list';  // URL to web api
-	private videosUrl = 'http://localhost:8000/videoapi';  // URL to web api
-    private langUrl = 'http://localhost:8000/langapi'
-   //private videosUrl = 'web/videoapi';  // URL to web api
-   //private langUrl = 'web/langapi'
-    
+	//private videosUrl = 'http://localhost:8000/api/video';  // URL to web api
+    //private langUrl = 'http://localhost:8000/api/lang'
+   //private videosUrl = 'web/api/video';  // URL to web api
+    //private langUrl = 'web/api/lang'
+    private videosUrl = AppSettings.API_VIDEO;
+    private langUrl = AppSettings.API_LANG;
 	
     constructor(private http: Http) { }
 	
     private videoCache: Video[];
     private langCache: Language[];
+    private studyCache: Study[];
+
     getVideos(): Observable<Video[]> {
         let videos_obs = this.http.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2).publishLast().refCount();
 		/*let myp=this.http.get(this.heroesUrl)
