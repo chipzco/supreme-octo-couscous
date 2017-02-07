@@ -34,9 +34,23 @@ export class StudyFormComponent implements OnInit {
    onSubmit() {
        if (!this.submitted) {
            this.submitted = true;
+           this.starStop_s.next(true); //start 
+           let objsPosted = this.studyservice.postStudy(this.study);
+           objsPosted.subscribe(data => this.finishPosting(data), ERR => this.errorPosting(ERR));
+           //objsPosted.catch(err => this.errorPosting(err)).subscribe(a => console.log(a));           
        }
    }
-
+   private finishPosting(data: any): void {
+       console.log(data);
+       this.starStop_s.next(false);
+       //this.progress = 100;
+   }
+   private errorPosting(err: any): void  {     
+       this.starStop_s.next(false); 
+       console.warn("something happened!");       
+       console.log(err);
+   }
+     
    convToJsonDate(d: Date): string {
        return JSON.stringify(d);
    }

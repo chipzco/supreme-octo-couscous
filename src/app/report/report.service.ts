@@ -59,7 +59,7 @@ export class ReportService {
     }
     deleteVideo(id: number): Observable<any> {
         let delObs: Observable<any> = this.http.delete(this.videosUrl + '/' + id).map(resp => resp.json()).catch(this.handleError2).publish().refCount();
-        delObs.subscribe(a => this.videoCache = null);
+        delObs.subscribe(a => this.videoCache = null,e=>console.log('caught on service'));
         return delObs;
     }
     getLangs(): Observable<Language[]> {        
@@ -84,4 +84,14 @@ export class ReportService {
         let study_obs = this.http.get(this.studyUrl + '/' + id).map(response => response.json().data as Study).catch(this.handleError2);
         return study_obs;
     }
+    postStudy(study: Study): Observable<any> {
+        let saveObs: Observable<any>;
+        if (study.id > 0)
+            saveObs = this.http.put(this.studyUrl + '/' + study.id, study).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+        else
+            saveObs = this.http.post(this.studyUrl, study).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+        saveObs.subscribe(a => this.studyCache = null);
+        return saveObs;
+    }
+
 }
