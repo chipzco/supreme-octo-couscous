@@ -3,7 +3,7 @@ export class Study {
         public id: number,
         public protocol: string,
         public CRO: string,
-        public StartDate: Date,
-        public DueDate: Date        
+        public StartDate?: Date,
+        public DueDate?: Date        
     ) { }     
 }

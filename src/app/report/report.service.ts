@@ -21,7 +21,7 @@ export class ReportService {
     //private langUrl = 'web/api/lang'
     private videosUrl = AppSettings.API_VIDEO;
     private langUrl = AppSettings.API_LANG;
-	
+    private studyUrl = AppSettings.API_STUDY;
     constructor(private http: Http) { }
 	
     private videoCache: Video[];
@@ -80,5 +80,8 @@ export class ReportService {
         return Observable.throw(error || 'backend server error');
     }
 
-
+    getStudy(id: number): Observable<Study> {
+        let study_obs = this.http.get(this.studyUrl + '/' + id).map(response => response.json().data as Study).catch(this.handleError2);
+        return study_obs;
+    }
 }

@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute, Params } from '@angular/router';
+import { Study } from './study';
+import { ReportService } from '../report.service';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/switchMap';
+import { LoaderTexts } from '../fakeloader/loader-texts';
+const stud_Saved_Text = "The study is being saved to the database. Please wait...";
+const stud_FinSaved_Text = "Finished saving study in database repository";
 @Component({
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
@@ -7,9 +15,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudyFormComponent implements OnInit {
 
-  constructor() { }
+    study: Study;
+    loadTexts: LoaderTexts;
+    private starStop_s: Subject<boolean> = new Subject<boolean>(); //start stop fake loader
+    constructor(private studyservice: ReportService, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+   ngOnInit() {
+       this.study = new Study(0,'',null,null);
+       this.loadTexts = new LoaderTexts(stud_Saved_Text, stud_FinSaved_Text);
+       this.route.params.switchMap((params: Params) => +params['id'] ? this.studyservice.getStudy(+params['id']) : Observable.of<Study>(this.study))
+           .subscribe(study => this.study = study);
   }
+   get startStop(): Observable<boolean> {
+       return this.starStop_s.asObservable();
+   }
 
+   submitted = false;
+   onSubmit() {
+       if (!this.submitted) {
+           this.submitted = true;
+       }
+   }
+
+   convToJsonDate(d: Date): string {
+       return JSON.stringify(d);
+   }
 }
