@@ -35,19 +35,37 @@ export class sortFn {
     protected sortfn(a: any, b: any, fieldname: string, fieldsort: string, reverse: boolean): number {
         let fieldvalue_a = a[fieldname];
         let fieldvalue_b = b[fieldname];
-        if (fieldvalue_a == null || fieldvalue_b == null)
+        
+        let isnullorempty = function (val): boolean {
+            let retflag = (val == null || val.length == 0);            
+            return retflag;
+        }
+        if (isnullorempty(fieldvalue_a) && isnullorempty(fieldvalue_b))
             return 0;
         switch (fieldsort) {
-            case 'CHAR', 'DATE':
-                if (reverse)
-                    return fieldvalue_b.localeCompare(fieldvalue_a); //+(fieldvalue_b > fieldvalue_a) || +(fieldvalue_a === fieldvalue_b) - 1;															
-                return fieldvalue_a.localeCompare(fieldvalue_b);  //+(fieldvalue_a > fieldvalue_b) || +(fieldvalue_a === fieldvalue_b) - 1;															
+            case 'CHAR':                      
+                if (reverse)                  
+                    return fieldvalue_b.localeCompare(fieldvalue_a);                                
+                return fieldvalue_a.localeCompare(fieldvalue_b);  
+            case 'DATE':                    
+                if (reverse) {
+                    if (isnullorempty(fieldvalue_a))
+                        return -1; 
+                    if (isnullorempty(fieldvalue_b))
+                        return 1; 
+                    return Date.parse(fieldvalue_b) - Date.parse(fieldvalue_a);
+                }
+                if (isnullorempty(fieldvalue_a))
+                    return 1;
+                if (isnullorempty(fieldvalue_b))
+                    return -1; 
+                return Date.parse(fieldvalue_a) - Date.parse(fieldvalue_b);          
             case 'NUM':
                 if (reverse)
                     return fieldvalue_b - fieldvalue_a;
-                return fieldvalue_a - fieldvalue_b;            
+                return fieldvalue_a - fieldvalue_b;                            
             default:
-                console.log("Wrong sort.........");
+                console.log("Incorrect sort specified.");
         }
         return 0;
     }

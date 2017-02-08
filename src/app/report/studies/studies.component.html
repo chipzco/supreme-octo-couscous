@@ -1,11 +1,11 @@
 <div class="container">
     <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader>
     <div [hidden]="hideWhenRunning">
-        <h2>study Listing</h2>
+        <h2>Study Listing</h2>
         <div class="pull-right">
             <a href="#" routerLink="/studyform">Create new study</a>
             &nbsp;&nbsp;&nbsp;
-            <a href="#" (click)="getstudysBackEnd();$event.preventDefault()">Reload</a>
+            <a href="#" (click)="getStudiesBackEnd();$event.preventDefault()">Reload</a>
         </div>
 
 
@@ -25,7 +25,7 @@
                     <td><span class="badge">{{study.id}}</span></td>
                     <td><a href="#" [routerLink]="['/studyform',study.id]">{{study.protocol}}</a></td>
                     <td>{{study.cRO}}</td>
-                    <td>{{study.startDate | date}}</td>
+                    <td>{{study.startDate | date: 'MM/dd/yyyy' }}</td>
                     <td>{{study.dueDate | date: 'MM/dd/yyyy' }}</td>
                     <td>
                         <!-- <button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(study.id)">x</button>-->

@@ -8,13 +8,13 @@ import 'rxjs/add/operator/switchMap';
 import { LoaderTexts, LoaderStatus } from '../fakeloader/loader-texts';
 const stud_Saved_Text = "The study is being saved to the database. Please wait...";
 const stud_FinSaved_Text = "Finished saving study in database repository";
+const stud_SaveError_Text = "Error: unable to save study to database";
 @Component({
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss']
 })
-export class StudyFormComponent implements OnInit {
-
+export class StudyFormComponent implements OnInit {    
     study: Study;
     loadTexts: LoaderTexts;
     private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>(); //start stop fake loader
@@ -22,7 +22,7 @@ export class StudyFormComponent implements OnInit {
 
    ngOnInit() {
        this.study = new Study(0,'',null,null);
-       this.loadTexts = new LoaderTexts(stud_Saved_Text, stud_FinSaved_Text);
+       this.loadTexts = new LoaderTexts(stud_Saved_Text, stud_FinSaved_Text, stud_SaveError_Text);
        this.route.params.switchMap((params: Params) => +params['id'] ? this.studyservice.getStudy(+params['id']) : Observable.of<Study>(this.study))
            .subscribe(study => this.study = study);
     }
@@ -45,7 +45,7 @@ export class StudyFormComponent implements OnInit {
        this.starStop_s.next(LoaderStatus.Stop);
        //this.progress = 100;
    }
-   private errorPosting(err: any): void  {
+   private errorPosting(err: any): void  {      
        this.starStop_s.next(LoaderStatus.Error); 
        console.log("An Error Happened: " + err);       
        //console.log(err);

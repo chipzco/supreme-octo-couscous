@@ -46,7 +46,7 @@ export class StudiesComponent implements OnInit {
         this.loadTexts = new LoaderTexts(stud_processRunningText, stud_processFinishedText, stud_errorText);
         if (this.studies_orig == null)
             this.getStudiesBackEnd();
-    }
+    }    
     getStudiesBackEnd() {
         this.loadTexts = new LoaderTexts(stud_processRunningText, stud_processFinishedText, stud_errorText);
         this.hideWhenRunning = true;
