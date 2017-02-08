@@ -7,15 +7,15 @@ import { Video } from './video';
 import { Language } from './video';
 import { patact } from './video';
 import { sortFn, sortClass } from '../sort-fn';
-import { LoaderTexts } from '../fakeloader/loader-texts';
+import { LoaderTexts, LoaderStatus } from '../fakeloader/loader-texts';
 
 
 const del_processRunningText= "Please wait while the video is being deleted from the database repository";
 const del_processFinishedText="Finished deleting video from database repository";
- 
+const del_errorText = "Could not DELETE the video from database. Server Error";
 const vid_processRunningText= "Please wait while the videos are being loaded from the database repository";
 const vid_processFinishedText= "Finished loading videos from database repository";
-
+const vid_errorText = "Could not load the videos from database. Server Error";
 
 
 @Component({
@@ -31,7 +31,7 @@ export class VideosComponent implements OnInit {
     sortComp: sortFn;
     private deleteid: number;
     hideWhenRunning: boolean;
-    private starStop_s: Subject<boolean> = new Subject<boolean>();
+    private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>();
     loadTexts: LoaderTexts;   
 
     ngOnInit() {
@@ -44,24 +44,28 @@ export class VideosComponent implements OnInit {
         if (this.videos_orig == null)
             this.getVideosBackEnd();            
     }
-    get startStop(): Observable<boolean> {
+    get startStop(): Observable<LoaderStatus> {
         return this.starStop_s.asObservable();
     }
 
     getVideosBackEnd() {
-        this.loadTexts = new LoaderTexts(vid_processRunningText, vid_processFinishedText);
+        this.loadTexts = new LoaderTexts(vid_processRunningText, vid_processFinishedText, vid_errorText);
         this.hideWhenRunning = true;
-        setTimeout(() => this.starStop_s.next(true), 1);
-        this.reportservice.getVideos().subscribe(videos => this.setVideosInList(videos));
+        setTimeout(() => this.starStop_s.next(LoaderStatus.Start), 1);
+        this.reportservice.getVideos().subscribe(videos => this.setVideosInList(videos), err => this.setListError(err));
     }
 
     get diagnostic() { return JSON.stringify(this.loadTexts); }
 
     private setVideosInList(videos: Video[]) {
         this.videos_orig = videos;
-        this.hideWhenRunning = false;   
-        this.starStop_s.next(false); //finish    
+        this.hideWhenRunning = false;
+        this.starStop_s.next(LoaderStatus.Stop); //finish    
     }
+    private setListError(e: any) {        
+        this.starStop_s.next(LoaderStatus.Error); //finish    
+    }
+
     onSort(sortIndex: number): void {
         let rev: boolean = false;
         //flip direction sort 
@@ -70,11 +74,11 @@ export class VideosComponent implements OnInit {
 
         this.videos_orig = this.sortComp.sort<Video>(this.videos_orig, sortIndex, rev);
     }
-    private onDelete(id: number): void {              
-        this.loadTexts = new LoaderTexts(del_processRunningText, del_processFinishedText);
+    private onDelete(id: number): void {
+        this.loadTexts = new LoaderTexts(del_processRunningText, del_processFinishedText, del_errorText);
         this.hideWhenRunning = true;
-        setTimeout(() => this.starStop_s.next(true), 1);
-        this.reportservice.deleteVideo(id).subscribe(a => this.afterDelete(a));        
+        setTimeout(() => this.starStop_s.next(LoaderStatus.Start), 1);
+        this.reportservice.deleteVideo(id).subscribe(a => this.afterDelete(a), e => this.starStop_s.next(LoaderStatus.Error));        
     }
     private afterDelete(data: any) {               
         this.reportservice.getVideos().subscribe(videos => this.setVideosInList(videos) );		

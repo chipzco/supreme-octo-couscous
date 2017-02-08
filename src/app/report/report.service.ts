@@ -34,7 +34,7 @@ export class ReportService {
                .toPromise()
                .then(response => response.json().data as Hero[])
                .catch(this.handleError);*/
-        videos_obs.subscribe(videos => this.videoCache = videos);		
+        videos_obs.subscribe(videos => this.videoCache = videos,e=>console.log(e));		
         return videos_obs;
     }
 	getVideosCached(): Video[] {		
@@ -54,30 +54,32 @@ export class ReportService {
             saveObs = this.http.put(this.videosUrl + '/' + video.id, video).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
         else
             saveObs = this.http.post(this.videosUrl, video).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
-        saveObs.subscribe(a => this.videoCache = null);
+        saveObs.subscribe(a => this.videoCache = null, e => console.log(e));
         return saveObs;
     }
     deleteVideo(id: number): Observable<any> {
         let delObs: Observable<any> = this.http.delete(this.videosUrl + '/' + id).map(resp => resp.json()).catch(this.handleError2).publish().refCount();
-        delObs.subscribe(a => this.videoCache = null,e=>console.log('caught on service'));
+        delObs.subscribe(a => this.videoCache = null,e=>console.log(e));
         return delObs;
     }
     getLangs(): Observable<Language[]> {        
-        let lang_obs = this.http.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2).publishLast().refCount();;		
-        lang_obs.subscribe(langs => this.langCache = langs);
+        let lang_obs = this.http.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2).publishLast().refCount();		
+        lang_obs.subscribe(langs => this.langCache = langs,err=>console.log(err.json()));
         return lang_obs;
     }
 
     private handleError2(error: any): Observable<any> {
-        console.error('An error occurred', error); // for demo purposes only
+        //console.error('An error occurred', error); // for demo purposes only
+        
         if (error instanceof Response) {
             //return Observable.throw(error.json().error || 'backend server error');
             // if you're using lite-server, use the following line
             // instead of the line above:
-            //return Observable.throw(error.text() || 'backend server error');
-            return Observable.throw('backend server error');
-        }
-        return Observable.throw(error || 'backend server error');
+            //return Observable.throw(error.text() || 'backend server error');            
+            return Observable.throw(error || 'backend RESPONSE server error');
+        }     
+        else    
+            return Observable.throw(error || 'backend server error');
     }
 
     getStudy(id: number): Observable<Study> {
@@ -90,8 +92,21 @@ export class ReportService {
             saveObs = this.http.put(this.studyUrl + '/' + study.id, study).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
         else
             saveObs = this.http.post(this.studyUrl, study).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
-        saveObs.subscribe(a => this.studyCache = null);
+        saveObs.subscribe(a => this.studyCache = null, a => console.log(a));
         return saveObs;
     }
+    deleteStudy(id: number): Observable<any> {
+        let delObs: Observable<any> = this.http.delete(this.studyUrl + '/' + id).map(resp => resp.json()).catch(this.handleError2).publish().refCount();
+        delObs.subscribe(a => this.studyCache = null, e => console.log(e));
+        return delObs;
+    }
 
+    getStudiesCached(): Study[] {
+        return this.studyCache;
+    }
+    getStudies(): Observable<Study[]> {
+        let study_obs = this.http.get(this.studyUrl).map(response => response.json().data as Study[]).catch(this.handleError2).publishLast().refCount();		
+        study_obs.subscribe(s => this.studyCache = s, e => console.log(e));
+        return study_obs;
+    }
 }

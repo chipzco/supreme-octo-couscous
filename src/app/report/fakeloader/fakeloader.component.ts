@@ -1,6 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
-import { LoaderTexts } from './loader-texts';
+import { LoaderTexts, LoaderStatus } from './loader-texts';
 @Component({
   selector: 'app-fakeloader',
   templateUrl: './fakeloader.component.html',
@@ -9,25 +9,25 @@ import { LoaderTexts } from './loader-texts';
 
 export class FakeloaderComponent implements OnInit {
     hideLoader: boolean = false;
-    @Input() startStop: Observable<boolean>;    
+    @Input() startStop: Observable<LoaderStatus>;    
     @Input() loadTexts: LoaderTexts;
 
     progress: number;
-    infotext: string;
+    infotext: string;    
     constructor() {
         this.hideLoader = true;
         this.loadTexts = new LoaderTexts("RUNNING RUNNING!!!","Finished!!!!");        
-        this.infotext = "nothing happening right now";
+        this.infotext = "nothing happening right now";        
     }
     ngOnInit() {
         this.hideLoader = true;
         this.startStop.subscribe(a => this.processRun(a));
     }
-    processRun(start: boolean): void {
-        if (start)
+    processRun(status: LoaderStatus): void {      
+        if (status == LoaderStatus.Start)
             this.startProgress();
         else
-            this.finishPosting(); 
+            this.finishPosting(status); 
     }
     startProgress(): void  {
         this.progress = 0;
@@ -42,10 +42,16 @@ export class FakeloaderComponent implements OnInit {
             this.progress = 100;
         }
     }
-    finishPosting(): void {        
+    finishPosting(status: LoaderStatus): void {        
         this.progress = 100;
-        this.infotext = this.loadTexts.processFinishedText;
-        setTimeout(() => this.hideLoader = true,500);        
+        if (status == LoaderStatus.Stop) {
+            this.infotext = this.loadTexts.processFinishedText;
+            setTimeout(() => this.hideLoader = true, 500);
+        }
+        else {
+            this.infotext = this.loadTexts.errorText;
+            this.progress = 0;
+        }            
     }
 
 }

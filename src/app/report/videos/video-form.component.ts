@@ -7,7 +7,7 @@ import { ReportService } from '../report.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/switchMap';
-import { LoaderTexts } from '../fakeloader/loader-texts';
+import { LoaderTexts, LoaderStatus } from '../fakeloader/loader-texts';
 
 
 const vid_Saved_Text = "The video is being saved to the database. Please wait...";
@@ -33,7 +33,7 @@ export class VideoFormComponent implements OnInit {
     selOptionNum: number;
     loadTexts: LoaderTexts;
     private MAX_EVENTS: number = 2; //two calls to api must complete before form is ready.
-    private starStop_s: Subject<boolean> = new Subject<boolean>(); //start stop fake loader
+    private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>(); //start stop fake loader
     constructor(private videoservice: ReportService, private route: ActivatedRoute) {    }
     ngOnInit(): void {
         console.log('start init comp');
@@ -49,11 +49,11 @@ export class VideoFormComponent implements OnInit {
             .subscribe(hero => { this.video = hero; this.changeGotData('gotvideo'); });
         this.langs = this.videoservice.getLangsCached();
         if (this.langs == null)
-            this.videoservice.getLangs().subscribe(langs => { this.langs = langs; this.changeGotData('gotlangs'); });
+            this.videoservice.getLangs().subscribe(langs => { this.langs = langs; this.changeGotData('gotlangs'); }, err => this.errorPosting(err));
         else 
             this.changeGotData('gotlangs');             
     }
-    get startStop(): Observable<boolean> {
+    get startStop(): Observable<LoaderStatus> {
         return this.starStop_s.asObservable();
     }
     addRow(): void {
@@ -85,10 +85,10 @@ export class VideoFormComponent implements OnInit {
         console.log(val);
     }
     checkLoader(): void {
-        this.starStop_s.next(true); //start         
+        this.starStop_s.next(LoaderStatus.Start); //start         
     }
     stopLoader(): void {
-        this.starStop_s.next(false); //start         
+        this.starStop_s.next(LoaderStatus.Stop); //start         
     }
 	
     /**
@@ -116,34 +116,26 @@ export class VideoFormComponent implements OnInit {
     onSubmit() {
         if (!this.submitted) {
             this.submitted = true;
-            this.starStop_s.next(true); //start 
+            this.checkLoader(); //start 
             for (let x = 0; x < this.selrep.length; x++) {
                 if (this.selrep[x] != 0) {
-                    let lang: Language = this.langs.find(a => a.id == this.selrep[x]);
-                    //console.log("here:");   console.log(this.video.transcripts.findIndex(a => a.id == this.selrep[x]));
+                    let lang: Language = this.langs.find(a => a.id == this.selrep[x]);                    
                     if (lang && this.video.transcripts.findIndex(a => a.id == this.selrep[x]) == -1)
                         this.video.transcripts.push(lang);
                 }
             }                
-            let obsPosted: Observable<any> = this.videoservice.postVideo(this.video);            
-            /*
-            var progobs = Observable.interval(100).takeUntil(obsPosted);
-            progobs.subscribe(a => this.setProgress(a));
-            */
-            obsPosted.subscribe(data => this.finishPosting(data));
+            let obsPosted: Observable<any> = this.videoservice.postVideo(this.video);
+            obsPosted.subscribe(data => this.finishPosting(data), e => this.errorPosting(e));
         }
     }
-    /*
-    setProgress(x: number): void {
-        this.progress = x * 100 / 50;
-        if (this.progress > 100) {
-            this.progress = 100;        
-        }
+
+    errorPosting(e: any): void {
+        console.log(e);
+        this.loadTexts = new LoaderTexts(vid_Saved_Text, vid_FinSaved_Text,e.toString());
+        this.starStop_s.next(LoaderStatus.Error);
     }
-    */
     finishPosting(data: any): void {
         console.log(data);
-        this.starStop_s.next(false);
-        //this.progress = 100;
+        this.stopLoader();   
     }
  }

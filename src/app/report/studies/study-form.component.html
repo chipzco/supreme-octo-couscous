@@ -11,15 +11,15 @@
             </div>
             <div class="form-group">
                 <label for="CRO">CRO</label>
-                <input type="text" class="form-control" id="CRO" required [(ngModel)]="study.CRO" name="CRO">
+                <input type="text" class="form-control" id="CRO" required [(ngModel)]="study.cRO" name="cRO">
             </div>
             <div class="form-group">
                 <label for="StartDate">Start Date</label>
-                <input type="date" class="form-control" id="StartDate" [(ngModel)]="study.StartDate" name="StartDate">
+                <input type="date" #startDate class="form-control" id="StartDate" (change)="study.startDate=startDate.value" name="startDate" [value]="study.startDate|date:'yyyy-MM-dd'">
             </div>
             <div class="form-group">
                 <label for="DueDate">Due Date</label>
-                <input type="date" class="form-control" id="DueDate" [(ngModel)]="study.DueDate" name="DueDate">
+                <input type="date" #dueDate  class="form-control" id="DueDate" (change)="study.dueDate=dueDate.value" name="dueDate" [value]="study.dueDate|date:'yyyy-MM-dd'">   
             </div>
           
             <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>
@@ -39,17 +39,17 @@
         </div>
         <div class="row">
             <div class="col-xs-3">CRO</div>
-            <div class="col-xs-9  pull-left">{{ study.CRO }}</div>
+            <div class="col-xs-9  pull-left">{{ study.cRO }}</div>
         </div>
         <div class="row">
             <div class="col-xs-3">Start Date</div>
-            <div class="col-xs-9 pull-left">{{ study.StartDate }} {{convToJsonDate(study.StartDate)}}</div>
+            <div class="col-xs-9 pull-left">{{ study.startDate }}</div>
         </div>
         <div class="row">
             <div class="col-xs-3">Due Date</div>
-            <div class="col-xs-9 pull-left">{{ study.DueDate }} </div>
+            <div class="col-xs-9 pull-left">{{ study.dueDate }} </div>
         </div>       
         <br />
-        <button class="btn btn-default" routerLink="/studys">Return to study Listing</button>
+        <button class="btn btn-default" routerLink="/studies">Return to study Listing</button>
     </div>
 </div>

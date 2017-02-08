@@ -38,18 +38,14 @@ export class sortFn {
         if (fieldvalue_a == null || fieldvalue_b == null)
             return 0;
         switch (fieldsort) {
-            case 'CHAR':
+            case 'CHAR', 'DATE':
                 if (reverse)
                     return fieldvalue_b.localeCompare(fieldvalue_a); //+(fieldvalue_b > fieldvalue_a) || +(fieldvalue_a === fieldvalue_b) - 1;															
                 return fieldvalue_a.localeCompare(fieldvalue_b);  //+(fieldvalue_a > fieldvalue_b) || +(fieldvalue_a === fieldvalue_b) - 1;															
             case 'NUM':
                 if (reverse)
                     return fieldvalue_b - fieldvalue_a;
-                return fieldvalue_a - fieldvalue_b;
-            case 'DATE':
-                if (reverse)
-                    return fieldvalue_b - fieldvalue_a;
-                return fieldvalue_a - fieldvalue_b;
+                return fieldvalue_a - fieldvalue_b;            
             default:
                 console.log("Wrong sort.........");
         }
