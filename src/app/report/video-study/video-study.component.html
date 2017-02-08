@@ -1,0 +1,30 @@
+<div class="container">
+    <div [hidden]="submitted">
+        <h1>Study Form</h1>
+        <form (ngSubmit)="onSubmit()" #studyForm="ngForm">
+            <div class="form-group">
+                <label for="studyid">Study Protocol</label>
+                <input type="text" class="form-control" id="studyid" required [(ngModel)]="study.protocol" name="protocol" #protocol="ngModel">
+                <div [hidden]="protocol.valid || protocol.pristine" class="alert alert-danger">
+                    protocol  is required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="CRO">CRO</label>
+                <input type="text" class="form-control" id="CRO" required [(ngModel)]="study.cRO" name="cRO" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="purpose">Purpose</label>
+                <input type="text" class="form-control" id="purpose" required [(ngModel)]="videoStudy.purpose" name="purpose">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <input type="text" class="form-control" id="notes" required [(ngModel)]="videoStudy.notes" name="notes">
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>
+        </form>
+    </div>
+</div>

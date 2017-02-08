@@ -50,6 +50,7 @@
             <div class="col-xs-9 pull-left">{{ study.dueDate }} </div>
         </div>       
         <br />
-        <button class="btn btn-default" routerLink="/studies">Return to study Listing</button>
+        <button class="btn btn-primary" routerLink="/studies">Return to study Listing</button>
+        <button class="btn-danger" [routerLink]="['/studyform',study.id]">Edit this Study Again</button>        
     </div>
 </div>

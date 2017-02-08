@@ -11,12 +11,13 @@ import { ModalTriggerComponent } from '../modal/modal-trigger.component';
 import { FakeloaderComponent } from './fakeloader/fakeloader.component';
 import { StudiesComponent } from './studies/studies.component';
 import { StudyFormComponent } from './studies/study-form.component';
+import { VideoStudyComponent } from './video-study/video-study.component';
 
 @NgModule({
   imports: [
       CommonModule, ReportRoutingModule, FormsModule
   ],
-  declarations: [VideosComponent, VideoFormComponent, RepeaterDirective, ModalComponent, ModalTriggerComponent,FakeloaderComponent, StudiesComponent, StudyFormComponent],
+  declarations: [VideosComponent, VideoFormComponent, RepeaterDirective, ModalComponent, ModalTriggerComponent,FakeloaderComponent, StudiesComponent, StudyFormComponent, VideoStudyComponent],
   providers: [ReportService]
 })
 export class ReportModule { }
