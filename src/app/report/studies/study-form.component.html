@@ -51,6 +51,6 @@
         </div>       
         <br />
         <button class="btn btn-primary" routerLink="/studies">Return to study Listing</button>
-        <button class="btn-danger" [routerLink]="['/studyform',study.id]">Edit this Study Again</button>        
+        <button class="btn-danger" (click)="submitted=false">Edit this Study Again</button>        
     </div>
 </div>

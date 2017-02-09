@@ -30,7 +30,8 @@ export class VideoStudyComponent implements OnInit {
     video: Video;
     remotecalls: Array<remoteCallStates>;
     remotePrefill: boolean;
-    constructor(private videoservice: ReportService, private route: ActivatedRoute) { this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>(); }
+    submitted: boolean;
+    constructor(private videoservice: ReportService, private route: ActivatedRoute) { this.submitted = false;this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>(); }
   ngOnInit() { 
       this.videoStudy = new VideoStudy(0, '', '');
       this.studies = this.videoservice.getStudiesCached();
@@ -69,4 +70,9 @@ export class VideoStudyComponent implements OnInit {
               this.videoStudy.study = selStudy;
       }
   }
+
+  onSubmit(): void {
+      this.submitted = true;
+  }
+
 }

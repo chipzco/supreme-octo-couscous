@@ -42,6 +42,7 @@ export class StudyFormComponent implements OnInit {
    }
    private finishPosting(data: any): void {
        // console.log(data);
+       this.study = data;
        this.starStop_s.next(LoaderStatus.Stop);
        //this.progress = 100;
    }

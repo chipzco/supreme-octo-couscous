@@ -86,9 +86,9 @@ export class ReportService {
     postStudy(study: Study): Observable<any> {
         let saveObs: Observable<any>;
         if (study.id > 0)
-            saveObs = this.http.put(this.studyUrl + '/' + study.id, study).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+            saveObs = this.http.put(this.studyUrl + '/' + study.id, study).map(response => response.json() as Study).catch(this.handleError2).publishLast().refCount();
         else
-            saveObs = this.http.post(this.studyUrl, study).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+            saveObs = this.http.post(this.studyUrl, study).map(response => response.json() as Study).catch(this.handleError2).publishLast().refCount();
         saveObs.subscribe(a => this.studyCache = null, a => console.log(a));
         return saveObs;
     }

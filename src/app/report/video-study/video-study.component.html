@@ -4,7 +4,7 @@
         <form (ngSubmit)="onSubmit()" #studyForm="ngForm">
             <div class="form-group">
                 <label for="studyid">Study Protocol</label>                
-                <select id="language" class="form-control" [(ngModel)]="videoStudy.study" name="study" required #protocol="ngModel">
+                <select id="studyid" class="form-control" [(ngModel)]="videoStudy.study" name="study" required #protocol="ngModel">
                     <option *ngFor="let s of studies" [ngValue]="s">{{s.protocol}}</option>
                 </select>
                 <div [hidden]="protocol.valid || protocol.pristine" class="alert alert-danger">
@@ -29,5 +29,16 @@
 
             <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>
         </form>
+    </div>
+    <div [hidden]="!submitted">
+        <h3>Saving video-study</h3>
+        Study:  <span *ngIf="videoStudy.study">{{videoStudy.study.protocol}}</span>
+        <br />
+        Purpose: {{videoStudy.purpose}}
+
+        <br />
+        Notes: {{videoStudy.notes}}
+
+
     </div>
 </div>
