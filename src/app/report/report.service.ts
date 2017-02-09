@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Video } from './videos/video';
 import { Study } from './studies/study';
+import { VideoStudy } from './video-study/video-study';
 import { Language } from './videos/video';
 import { patact } from './videos/video';
 import { AppSettings } from '../app-settings';
@@ -29,11 +30,7 @@ export class ReportService {
     private studyCache: Study[];
 
     getVideos(): Observable<Video[]> {
-        let videos_obs = this.http.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2).publishLast().refCount();
-		/*let myp=this.http.get(this.heroesUrl)
-               .toPromise()
-               .then(response => response.json().data as Hero[])
-               .catch(this.handleError);*/
+        let videos_obs = this.http.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2).publishLast().refCount();	
         videos_obs.subscribe(videos => this.videoCache = videos,e=>console.log(e));		
         return videos_obs;
     }
@@ -43,7 +40,7 @@ export class ReportService {
     getLangsCached(): Language[] {
         return this.langCache;
     }
-    getVideo(id:number): Observable<Video> {
+    getVideo(id: number): Observable<Video> {        
         let video_obs = this.http.get(this.videosUrl+'/'+ id).map(response => response.json().data as Video).catch(this.handleError2);
         return video_obs;
     }
@@ -108,5 +105,9 @@ export class ReportService {
         let study_obs = this.http.get(this.studyUrl).map(response => response.json().data as Study[]).catch(this.handleError2).publishLast().refCount();		
         study_obs.subscribe(s => this.studyCache = s, e => console.log(e));
         return study_obs;
+    }
+    getVideoStudy(id: number): Observable<VideoStudy> {
+        let video_obs = this.http.get(this.videosUrl + '/' + id).map(response => response.json().data as VideoStudy).catch(this.handleError2);
+        return video_obs;
     }
 }

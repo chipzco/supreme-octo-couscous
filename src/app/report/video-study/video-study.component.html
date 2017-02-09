@@ -3,16 +3,14 @@
         <h1>Study Form</h1>
         <form (ngSubmit)="onSubmit()" #studyForm="ngForm">
             <div class="form-group">
-                <label for="studyid">Study Protocol</label>
-                <input type="text" class="form-control" id="studyid" required [(ngModel)]="study.protocol" name="protocol" #protocol="ngModel">
+                <label for="studyid">Study Protocol</label>                
+                <select id="language" class="form-control" [(ngModel)]="videoStudy.study" name="study" required #protocol="ngModel">
+                    <option *ngFor="let s of studies" [ngValue]="s">{{s.protocol}}</option>
+                </select>
                 <div [hidden]="protocol.valid || protocol.pristine" class="alert alert-danger">
-                    protocol  is required
+                    study  protocol  is required
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="CRO">CRO</label>
-                <input type="text" class="form-control" id="CRO" required [(ngModel)]="study.cRO" name="cRO" readonly>
-            </div>
+            </div>           
             
             <div class="form-group">
                 <label for="purpose">Purpose</label>
@@ -22,6 +20,11 @@
             <div class="form-group">
                 <label for="notes">Notes</label>
                 <input type="text" class="form-control" id="notes" required [(ngModel)]="videoStudy.notes" name="notes">
+            </div>
+
+            <div>
+
+
             </div>
 
             <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>

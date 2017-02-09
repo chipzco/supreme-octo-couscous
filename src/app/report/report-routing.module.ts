@@ -14,7 +14,7 @@ import { VideoStudyComponent } from './video-study/video-study.component';
       { path: 'studyform', component: StudyFormComponent },
       { path: 'studyform/:id', component: StudyFormComponent },
       { path: 'studies', component: StudiesComponent },
-      { path: 'videostudies', component: VideoStudyComponent }	
+      { path: 'videostudies/:videoid', component: VideoStudyComponent }	
   ])],
   exports: [RouterModule]
 })

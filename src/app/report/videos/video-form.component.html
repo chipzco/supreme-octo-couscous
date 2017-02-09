@@ -89,7 +89,7 @@
         </div>
         <br/>
         <button class="btn btn-primary" routerLink="/videos">Return to Video Listing</button>            
-        <button class="btn btn-warning" routerLink="/videostudies">Manage Linked Studies</button>            
+        <button class="btn btn-warning" [routerLink]="['/videostudies',video.id]">Manage Linked Studies</button>         {{video.id}}    
    </div>
 
 
