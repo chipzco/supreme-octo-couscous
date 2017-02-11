@@ -4,9 +4,9 @@
         <form (ngSubmit)="onSubmit()" #videoForm="ngForm">
             <div class="form-group">
                 <label for="videoid">Video ID</label>
-                <input type="text" class="form-control" id="videoid" required [(ngModel)]="video.videoid" name="videoid" #videoid="ngModel">
+                <input type="number" class="form-control" id="videoid" required [(ngModel)]="video.videoid" name="videoid" #videoid="ngModel">
                 <div [hidden]="videoid.valid || videoid.pristine" class="alert alert-danger">
-                    Video  is required
+                    VideoId: required and should be a number
                 </div>
             </div>
             <div class="form-group">
@@ -23,31 +23,36 @@
                     <option *ngFor="let pow of patlabels; let id=index" [value]="id">{{pow}}</option>
                 </select>
             </div>
-            <div class="form-group">
+           <div class="form-group">
                 <label for="language">Language</label>
                 <select id="language" class="form-control" [(ngModel)]="video.language" name="language" required>
                     <option *ngFor="let lang of langs" [ngValue]="lang">{{lang.lname}}</option>
                 </select>
             </div>          
 
-            <div class="form-group" *ngIf="video.id!=null || video.id !=0">
-                <label>Set Transcripts: </label>    
+
+            <div class="form-group" *ngIf="video && video.transcripts &&  (video.id!=null || video.id !=0)">
+                <label>Set Transcripts: </label>
                 <span *ngFor="let t of video.transcripts; let i=index">
                     {{t.lname}}  <a href="#" (click)="$event.preventDefault();delTranscript(i);">X</a>
-                    &nbsp; &nbsp; 
-                </span> 
+                    &nbsp; &nbsp;
+                </span>
             </div>
-			<div class="form-group">
-				<label>Transcript Languages</label>		                
+
+
+
+            <div class="form-group">
+                <label>Transcript Languages</label>
                 <input type="button" value="New Dropdown" class="btn-xs" (click)="addRow()" [disabled]="!dataReady()">
                 <input type="button" value="Remove" class="btn-xs" (click)="removeRow()" *ngIf="selOptions.length>0">
-				<span *ngFor="let num of selOptions">
-				  <select name="addtran{{num}}" [(ngModel)]="selrep[num]">
-					<option value="0">--CHOOSE ONE</option>
-                     <option *ngFor="let lang of langs" [ngValue]="lang.id">{{lang.lname}}</option>
-				  </select>                                        
-				</span>                              
-			</div>
+                <span *ngFor="let num of selOptions">
+                    <select name="addtran{{num}}" [(ngModel)]="selrep[num]">
+                        <option value="0">--CHOOSE ONE</option>
+                        <option *ngFor="let lang of langs" [ngValue]="lang.id">{{lang.lname}}</option>
+                    </select>
+                </span>
+            </div>
+           
             <button type="submit" class="btn btn-primary" [disabled]="!videoForm.form.valid">Save</button>
         </form>
    </div>
@@ -89,7 +94,7 @@
         </div>
         <br/>
         <button class="btn btn-primary" routerLink="/videos">Return to Video Listing</button>            
-        <button class="btn btn-warning" [routerLink]="['/videostudies',video.id]">Manage Linked Studies</button>         {{video.id}}    
+        <button class="btn btn-warning" *ngIf="showVideoStudyBtn" [routerLink]="['/videostudies',video.id]">Manage Linked Studies</button>         {{video.id}}    
    </div>
 
 

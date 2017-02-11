@@ -45,12 +45,12 @@ export class ReportService {
         return video_obs;
     }
 
-    postVideo(video: Video): Observable<any> {
+    postVideo(video: Video): Observable<Video> {
         let saveObs: Observable<any>;
         if (video.id > 0) 
-            saveObs = this.http.put(this.videosUrl + '/' + video.id, video).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+            saveObs = this.http.put(this.videosUrl + '/' + video.id, video).map(response => response.json() as Video).catch(this.handleError2).publishLast().refCount();
         else
-            saveObs = this.http.post(this.videosUrl, video).map(response => response.json()).catch(this.handleError2).publishLast().refCount();
+            saveObs = this.http.post(this.videosUrl, video).map(response => response.json() as Video).catch(this.handleError2).publishLast().refCount();
         saveObs.subscribe(a => this.videoCache = null, e => console.log(e));
         return saveObs;
     }

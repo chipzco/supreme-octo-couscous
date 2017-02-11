@@ -32,15 +32,14 @@ export class VideoFormComponent implements OnInit {
 	selOptions: Array<number>;
     selOptionNum: number;
     loadTexts: LoaderTexts;
+    showVideoStudyBtn: boolean;
     private MAX_EVENTS: number = 2; //two calls to api must complete before form is ready.
     private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>(); //start stop fake loader
-    constructor(private videoservice: ReportService, private route: ActivatedRoute) {    }
+    constructor(private videoservice: ReportService, private route: ActivatedRoute) { this.showVideoStudyBtn = false;   }
     ngOnInit(): void {
         console.log('start init comp');
         this.gotData = new Array<string>();
-		this.selrep=[0];
-		this.selOptionNum=0;
-		this.selOptions=[0];
+        this.initTranscriptDrops();
         this.patlabels = [patact[patact.unassigned], patact[patact.patient], patact[patact.actor], patact[patact.unknown]];
         this.video = new Video(0, '', '', patact.unassigned, 0, new Language(), []);
         this.loadTexts = new LoaderTexts(vid_Saved_Text, vid_FinSaved_Text);
@@ -56,6 +55,12 @@ export class VideoFormComponent implements OnInit {
     get startStop(): Observable<LoaderStatus> {
         return this.starStop_s.asObservable();
     }
+    initTranscriptDrops(): void {
+        this.selrep = [0];
+        this.selOptionNum = 0;
+        this.selOptions = [0];
+    }
+
     addRow(): void {
         let isTransSet: boolean = true;
         for (let x = 0; x < this.selrep.length; x++) {
@@ -88,7 +93,8 @@ export class VideoFormComponent implements OnInit {
         this.starStop_s.next(LoaderStatus.Start); //start         
     }
     stopLoader(): void {
-        this.starStop_s.next(LoaderStatus.Stop); //start         
+        this.starStop_s.next(LoaderStatus.Stop); //start    
+        this.showVideoStudyBtn = true;     
     }
 	
     /**
@@ -134,8 +140,26 @@ export class VideoFormComponent implements OnInit {
         this.loadTexts = new LoaderTexts(vid_Saved_Text, vid_FinSaved_Text,e.toString());
         this.starStop_s.next(LoaderStatus.Error);
     }
-    finishPosting(data: any): void {
+    finishPosting(data: Video): void {
         console.log(data);
+        this.initTranscriptDrops();        
+        this.submitted = false;
+        //this.video = new Video(0, '', '', patact.unassigned, 0, new Language(), []);
+        //let tmptranscripts = this.copyTranscripts(data.transcripts);
+        //console.log(tmptranscripts);
+        this.video.id = data.id;        
         this.stopLoader();   
+    }
+    copyTranscripts(trans: Array<Language>): Array<Language> {
+        let tcopy = Array<Language>();
+        let doPop: boolean = true;
+        while (doPop) {
+            let t = trans.pop();            
+            if (t)
+                tcopy.push(t);
+            else
+                doPop = false;
+        }
+        return tcopy;
     }
  }

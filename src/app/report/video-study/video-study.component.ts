@@ -36,7 +36,7 @@ export class VideoStudyComponent implements OnInit {
       this.videoStudy = new VideoStudy(0, '', '');
       this.studies = this.videoservice.getStudiesCached();
       this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid']))
-          .subscribe(hero => { this.video = hero; this.remoteCallChecker(remoteCallStates.gotVideo) });
+          .subscribe(vid => { this.video = vid; this.remoteCallChecker(remoteCallStates.gotVideo) });
       this.route.params.switchMap((params: Params) => this.getVideoStudy(+params['id'])).subscribe(vs => { this.videoStudy = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudy) });
       this.videoservice.getStudies().subscribe(s => { this.studies = s; this.remoteCallChecker(remoteCallStates.gotStudies); });
   }
@@ -59,8 +59,9 @@ export class VideoStudyComponent implements OnInit {
 
   private remoteCallChecker(newstate: remoteCallStates): void {
       this.remotecalls.push(newstate);
-      if (this.remotecalls.length == this.MAX_EVENTS && this.remotePrefill && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 ) {
+      if (this.remotecalls.length >= this.MAX_EVENTS && this.remotePrefill && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 ) {
           this.setDefStudy();
+          this.remotecalls = [];//empty array. since no longer needed and no need to set defstudy anymore
       }
   }
   private setDefStudy(): void {
