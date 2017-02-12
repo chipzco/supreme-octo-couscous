@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Video } from './../videos/video';
+import { Video, Language } from './../videos/video';
+import { patact } from '../videos/video';
 import { Study } from './../studies/study';
 import { VideoStudy } from './video-study';
 import { ReportService } from '../report.service';
@@ -31,7 +32,10 @@ export class VideoStudyComponent implements OnInit {
     remotecalls: Array<remoteCallStates>;
     remotePrefill: boolean;
     submitted: boolean;
-    constructor(private videoservice: ReportService, private route: ActivatedRoute) { this.submitted = false;this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>(); }
+    constructor(private videoservice: ReportService, private route: ActivatedRoute) {
+        this.submitted = false; this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>();
+        this.video = new Video(0, "", "", patact.unassigned,0, new Language(),[]);
+    }
   ngOnInit() { 
       this.videoStudy = new VideoStudy(0, '', '');
       this.studies = this.videoservice.getStudiesCached();

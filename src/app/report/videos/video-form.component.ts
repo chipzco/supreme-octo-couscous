@@ -143,7 +143,7 @@ export class VideoFormComponent implements OnInit {
     finishPosting(data: Video): void {
         console.log(data);
         this.initTranscriptDrops();        
-        this.submitted = false;
+        //this.submitted = false;
         //this.video = new Video(0, '', '', patact.unassigned, 0, new Language(), []);
         //let tmptranscripts = this.copyTranscripts(data.transcripts);
         //console.log(tmptranscripts);
