@@ -25,8 +25,11 @@
                                 <li><a href="#" routerLink="/videoform">New Study Video</a></li>              
                                 <li><a href="#" routerLink="/studies">Study Listing</a></li>
                                 <li><a href="#" routerLink="/studyform">New Study</a></li>              
-
-                                <li role="separator" class="divider"></li>
+								<li><a [routerLink]="['/reports', { outlets: {report_content: ['videoform']}}]">Secondscreen</a></li>
+                                <li><a [routerLink]="['/reports', { outlets: {report_content: ['studyform']}}]">study screen</a></li>
+                                
+								
+								<li role="separator" class="divider"></li>
                                 <li class="dropdown-header"></li>                                
                                 <li><a href="#" routerLink="/chat2">Chat 2</a></li>
                                 <li><a href="#">One more separated link</a></li>
