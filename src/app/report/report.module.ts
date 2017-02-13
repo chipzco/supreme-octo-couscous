@@ -13,12 +13,13 @@ import { StudiesComponent } from './studies/studies.component';
 import { StudyFormComponent } from './studies/study-form.component';
 import { VideoStudyComponent } from './video-study/video-study.component';
 import { ReportsComponent } from './reports.component';
+import { AdminLinksComponent } from './admin-links/admin-links.component';
 
 @NgModule({
   imports: [
       CommonModule, ReportRoutingModule, FormsModule
   ],
-  declarations: [ReportsComponent,VideosComponent, VideoFormComponent, RepeaterDirective, ModalComponent, ModalTriggerComponent,FakeloaderComponent, StudiesComponent, StudyFormComponent, VideoStudyComponent],
+  declarations: [ReportsComponent,VideosComponent, VideoFormComponent, RepeaterDirective, ModalComponent, ModalTriggerComponent,FakeloaderComponent, StudiesComponent, StudyFormComponent, VideoStudyComponent, AdminLinksComponent],
   providers: [ReportService]
 })
 export class ReportModule { }

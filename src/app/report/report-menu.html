@@ -1,9 +1,14 @@
-
-    <div class="container">
-	<div class="col-md4">
-		<div class="mitem"> report menu should go here.	</div>
-		<div class="mitem"> {{hello}}	</div>
-	</div>
-</div>
-
- <router-outlet name="report_content"></router-outlet>
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-collapse collapse">                        
+            <ul class="nav navbar-nav navbar-left">       
+                <li class="navbar-text">ADMIN &gt;&gt;</li>                         
+                <li><a class="navbar-link" [routerLink]="['/reports', { outlets: {admin: ['studies']}}]">Manage Studies</a></li>
+                <li><a class="navbar-link" [routerLink]="['/reports', { outlets: {admin: ['studyform']}}]">Create New Study</a></li>
+                <li><a class="navbar-link" [routerLink]="['/reports', { outlets: {admin: ['videos']}}]">Manage Videos</a></li>
+                <li><a class="navbar-link" [routerLink]="['/reports', { outlets: {admin: ['videoform']}}]">Create New Video</a></li>                
+            </ul>
+        </div>
+    </nav>
+ </div>
+    <router-outlet name="admin"></router-outlet>
