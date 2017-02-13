@@ -25,7 +25,7 @@
                     <td><span class="badge">{{video.id}}</span></td>
                     <td>
                         <span *ngIf="IsAdmin">
-                            <a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a>
+                            <a href="#" [routerLink]="['/reports',{ outlets: { admin: ['videoform',video.id]}}]">{{video.videoid}}</a>
                         </span>
                         <span *ngIf="!IsAdmin">
                             {{video.videoid}}

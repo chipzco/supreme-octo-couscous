@@ -93,8 +93,8 @@
             </div>
         </div>
         <br/>
-        <button class="btn btn-primary" routerLink="/videos">Return to Video Listing</button>            
-        <button class="btn btn-warning" *ngIf="showVideoStudyBtn" [routerLink]="['/videostudies',video.id]">Manage Linked Studies</button>  
+        <button class="btn btn-primary" [routerLink]="['/reports', { outlets: { admin:['videos']}}]">Return to Video Listing</button>            
+        <button class="btn btn-warning" *ngIf="showVideoStudyBtn" [routerLink]="['/reports',{ outlets: { admin: ['videostudies',video.id]}}]">Manage Linked Studies</button>  
    </div>
 
 

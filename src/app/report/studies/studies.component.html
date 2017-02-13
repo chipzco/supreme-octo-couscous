@@ -23,7 +23,7 @@
                     <td><span class="badge">{{study.id}}</span></td>
                     <td>
                         <span *ngIf="IsAdmin">
-                            <a href="#" [routerLink]="['/studyform',study.id]">{{study.protocol}}</a>
+                            <a href="#" [routerLink]="['/reports', { outlets: { admin: ['studyform',study.id] }}]">{{study.protocol}}</a>
                         </span>
                         <span *ngIf="!IsAdmin">
                             {{study.protocol}}
