@@ -39,15 +39,14 @@ export class VideosComponent implements OnInit {
     IsAdmin: boolean;
     ngOnInit() {
         //this.reportservice.getVideos().subscribe(videos => this.videos_orig = videos);
+        this.watcherservice.isAdmin.subscribe(val => this.IsAdmin = val);
         this.hideWhenRunning = false;        
         this.patlabels = [patact[patact.unassigned], patact[patact.patient], patact[patact.actor], patact[patact.unknown]];
         this.sortComp = new sortFn("videoid,filename,subjectname,patientact", "NUM,CHAR,CHAR,NUM", 0, false);
         this.videos_orig = this.reportservice.getVideosCached();        
         this.loadTexts = new LoaderTexts(vid_processRunningText, vid_processFinishedText);
         if (this.videos_orig == null)
-            this.getVideosBackEnd();
-        this.watcherservice.isAdmin.subscribe(val => this.IsAdmin = val);
-        console.log("Admin: " + this.IsAdmin);
+            this.getVideosBackEnd();                
     }
     get startStop(): Observable<LoaderStatus> {
         return this.starStop_s.asObservable();
@@ -64,6 +63,7 @@ export class VideosComponent implements OnInit {
 
     private setVideosInList(videos: Video[]) {
         this.videos_orig = videos;
+        console.log("Admin: " + this.IsAdmin);
         this.hideWhenRunning = false;
         this.starStop_s.next(LoaderStatus.Stop); //finish    
     }

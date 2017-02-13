@@ -2,9 +2,7 @@
     <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader>
     <div [hidden]="hideWhenRunning">
         <h2>Study Listing</h2>
-        <div class="pull-right">
-            <a href="#" routerLink="/studyform">Create new study</a>
-            &nbsp;&nbsp;&nbsp;
+        <div class="pull-right">           
             <a href="#" (click)="getStudiesBackEnd();$event.preventDefault()">Reload</a>
         </div>
 
@@ -23,13 +21,21 @@
             <tbody>
                 <tr *ngFor="let study of studies_orig">
                     <td><span class="badge">{{study.id}}</span></td>
-                    <td><a href="#" [routerLink]="['/studyform',study.id]">{{study.protocol}}</a></td>
+                    <td>
+                        <span *ngIf="IsAdmin">
+                            <a href="#" [routerLink]="['/studyform',study.id]">{{study.protocol}}</a>
+                        </span>
+                        <span *ngIf="!IsAdmin">
+                            {{study.protocol}}
+                        </span>
+                    </td>
                     <td>{{study.cRO}}</td>
                     <td>{{study.startDate | date: 'MM/dd/yyyy' }}</td>
                     <td>{{study.dueDate | date: 'MM/dd/yyyy' }}</td>
                     <td>
-                        <!-- <button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(study.id)">x</button>-->
-                        <modal-trigger caption="X" myModal="studDelCheck" className="delete" type="button" (click)="onSetDelete(study.id)"></modal-trigger>
+                        <span *ngIf="IsAdmin">                            
+                            <modal-trigger caption="X" myModal="studDelCheck" className="delete" type="button" (click)="onSetDelete(study.id)"></modal-trigger>
+                        </span>
                     </td>
                 </tr>
             </tbody>

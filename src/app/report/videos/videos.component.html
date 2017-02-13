@@ -2,17 +2,9 @@
     <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader> 
     <div [hidden]="hideWhenRunning">
         <h2>Video Listing</h2>
-            <div  class="pull-right">
-                <a href="#" routerLink="/videoform">Create new Video</a> 
-                &nbsp;&nbsp;&nbsp;
+            <div  class="pull-right">              
                 <a href="#" (click)="getVideosBackEnd();$event.preventDefault()" >Reload</a>
-            </div>
-        
-
-
-        
-        
-        
+            </div>      
 
 
         <app-modal myModal="vidDelCheck" infotext="Are you sure you want to delete this video?" (eventClickedButton)="checkAction($event)"></app-modal>

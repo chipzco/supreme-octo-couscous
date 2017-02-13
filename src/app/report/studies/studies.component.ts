@@ -44,12 +44,13 @@ export class StudiesComponent implements OnInit {
 
     ngOnInit() {
         this.hideWhenRunning = false;
+        this.watcherservice.isAdmin.subscribe(val => this.IsAdmin = val);
         this.sortComp = new sortFn("protocol,cRO,startDate,dueDate", "CHAR,CHAR,DATE,DATE", 0, false);
         this.studies_orig = this.reportservice.getStudiesCached();
         this.loadTexts = new LoaderTexts(stud_processRunningText, stud_processFinishedText, stud_errorText);
         if (this.studies_orig == null)
             this.getStudiesBackEnd();
-        this.watcherservice.isAdmin.subscribe(val => this.IsAdmin = val);
+        
     }    
     getStudiesBackEnd() {
         this.loadTexts = new LoaderTexts(stud_processRunningText, stud_processFinishedText, stud_errorText);
@@ -60,6 +61,7 @@ export class StudiesComponent implements OnInit {
     private setStudiesInList(studies: Study[]) {
         this.studies_orig = studies;
         this.hideWhenRunning = false;
+        console.log("admin is now: " + this.IsAdmin);
         this.starStop_s.next(LoaderStatus.Stop); //finish    
     }
     private setListError(e: any) {
