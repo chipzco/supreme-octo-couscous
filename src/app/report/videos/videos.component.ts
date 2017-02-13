@@ -8,6 +8,7 @@ import { Language } from './video';
 import { patact } from './video';
 import { sortFn, sortClass } from '../sort-fn';
 import { LoaderTexts, LoaderStatus } from '../fakeloader/loader-texts';
+import { WatcherService } from '../../watcher.service';
 
 
 const del_processRunningText= "Please wait while the video is being deleted from the database repository";
@@ -24,7 +25,9 @@ const vid_errorText = "Could not load the videos from database. Server Error";
   styleUrls: ['./videos.component.scss']
 })
 export class VideosComponent implements OnInit {
-    constructor(private reportservice: ReportService, private router: Router) { }
+    constructor(private reportservice: ReportService, private router: Router, private watcherservice: WatcherService) {
+        this.IsAdmin = false;    
+    }
     videos_obj: Observable<Array<Video>>;
     videos_orig: Array<Video>;
     patlabels: Array<string>;
@@ -32,8 +35,8 @@ export class VideosComponent implements OnInit {
     private deleteid: number;
     hideWhenRunning: boolean;
     private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>();
-    loadTexts: LoaderTexts;   
-
+    loadTexts: LoaderTexts;
+    IsAdmin: boolean;
     ngOnInit() {
         //this.reportservice.getVideos().subscribe(videos => this.videos_orig = videos);
         this.hideWhenRunning = false;        
@@ -42,7 +45,9 @@ export class VideosComponent implements OnInit {
         this.videos_orig = this.reportservice.getVideosCached();        
         this.loadTexts = new LoaderTexts(vid_processRunningText, vid_processFinishedText);
         if (this.videos_orig == null)
-            this.getVideosBackEnd();            
+            this.getVideosBackEnd();
+        this.watcherservice.isAdmin.subscribe(val => this.IsAdmin = val);
+        console.log("Admin: " + this.IsAdmin);
     }
     get startStop(): Observable<LoaderStatus> {
         return this.starStop_s.asObservable();

@@ -38,10 +38,11 @@ export class AppComponent {
             this.crumbs.splice(x, 1);
         let linktext = this.showname(urlc);
         this.crumbs.push(new Crumb(urlc, linktext));
+        this.watcherservice.adminSite= urlc.indexOf("admin") > -1 ? true : false;        
         this.currPath = url;
         this.mynum = this.crumbs.length - 1;
         this.getKnightWatcherData();
-		console.log(url);
+        console.log(url);        
     }	
     getKnightWatcherData(): void {        
         console.log("knwight watches count: " + this.watcherservice.watchesSet);

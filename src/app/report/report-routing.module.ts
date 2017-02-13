@@ -20,6 +20,7 @@ import { AdminLinksComponent } from './admin-links/admin-links.component';
                 { path: 'studyform/:id', component: StudyFormComponent, outlet: 'admin' },
                 { path: 'studies', component: StudiesComponent, outlet: 'admin' },
                 { path: 'videos', component: VideosComponent, outlet: 'admin' },
+                { path: 'videostudies/:videoid', component: VideoStudyComponent, outlet: 'admin' }	
             ]
         },
       { path: 'videos', component: VideosComponent },
@@ -27,8 +28,8 @@ import { AdminLinksComponent } from './admin-links/admin-links.component';
       { path: 'videoform', component: VideoFormComponent },
       { path: 'studyform', component: StudyFormComponent },
       { path: 'studyform/:id', component: StudyFormComponent },
-      { path: 'studies', component: StudiesComponent },
-      { path: 'videostudies/:videoid', component: VideoStudyComponent }	
+      { path: 'studies', component: StudiesComponent }
+    
   ])],
   exports: [RouterModule]
 })

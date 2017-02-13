@@ -27,11 +27,19 @@
                 <th>Language</th>
                 <th>Transcripts</th>
                 <td></td>
-                </thead>
+            </thead>
             <tbody>
                 <tr *ngFor="let video of videos_orig">
                     <td><span class="badge">{{video.id}}</span></td>
-                    <td><a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a></td>
+                    <td>
+                        <span *ngIf="IsAdmin">
+                            <a href="#" [routerLink]="['/videoform',video.id]">{{video.videoid}}</a>
+                        </span>
+                        <span *ngIf="!IsAdmin">
+                            {{video.videoid}}
+                        </span>
+                    </td>
+                    
                     <td>{{video.filename}}</td>
                     <td>{{video.subjectname}}</td>
                     <td> {{patlabels[video.patientact]}}</td>
@@ -43,9 +51,11 @@
                         </span>
 
                     </td>
-
-                    <td><!-- <button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(video.id)">x</button>-->
-                          <modal-trigger caption="X" myModal="vidDelCheck" className="delete" type="button" (click)="onSetDelete(video.id)"></modal-trigger>   
+                    <td ><!-- <button class="delete" data-toggle="modal" data-target="#fu" (click)="onSetDelete(video.id)">x</button>-->
+                        <span *ngIf="IsAdmin">
+                            <modal-trigger caption="X" myModal="vidDelCheck" className="delete" type="button" (click)="onSetDelete(video.id)"></modal-trigger>
+                            <a href="#" class="delete" [routerLink]="['/reports', { outlets: {admin: ['videostudies',video.id]}}]" title="Manage Video-Study Links">V-S</a>
+                        </span>
                     </td>
                 </tr>
             </tbody>

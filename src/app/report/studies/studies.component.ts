@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { sortFn, sortClass } from '../sort-fn';
 import { LoaderTexts, LoaderStatus } from '../fakeloader/loader-texts';
 import { Study } from './study';
-
+import { WatcherService } from '../../watcher.service';
 const del_processRunningText = "Please wait while the study is being deleted from the database repository";
 const del_processFinishedText = "Finished deleting study from database repository";
 const del_errorText = "Could not DELETE the study from database. Server Error";
@@ -28,11 +28,14 @@ export class StudiesComponent implements OnInit {
     sortComp: sortFn;
     private deleteid: number;
     hideWhenRunning: boolean;
+    IsAdmin: boolean;
     private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>();
     loadTexts: LoaderTexts;   
 
 
-    constructor(private reportservice: ReportService, private router: Router) { }
+    constructor(private reportservice: ReportService, private router: Router, private watcherservice: WatcherService) {
+        this.IsAdmin = false;
+    }
 
     get startStop(): Observable<LoaderStatus> {
         return this.starStop_s.asObservable();
@@ -46,6 +49,7 @@ export class StudiesComponent implements OnInit {
         this.loadTexts = new LoaderTexts(stud_processRunningText, stud_processFinishedText, stud_errorText);
         if (this.studies_orig == null)
             this.getStudiesBackEnd();
+        this.watcherservice.isAdmin.subscribe(val => this.IsAdmin = val);
     }    
     getStudiesBackEnd() {
         this.loadTexts = new LoaderTexts(stud_processRunningText, stud_processFinishedText, stud_errorText);
