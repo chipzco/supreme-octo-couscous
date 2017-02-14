@@ -23,6 +23,7 @@ export class ReportService {
     private videosUrl = AppSettings.API_VIDEO;
     private langUrl = AppSettings.API_LANG;
     private studyUrl = AppSettings.API_STUDY;
+    private videostudyUrl = AppSettings.API_VIDEOSTUDY;
     constructor(private http: Http) { }
 	
     private videoCache: Video[];
@@ -109,5 +110,13 @@ export class ReportService {
     getVideoStudy(id: number): Observable<VideoStudy> {
         let video_obs = this.http.get(this.videosUrl + '/' + id).map(response => response.json().data as VideoStudy).catch(this.handleError2);
         return video_obs;
+    }
+    postVideoStudy(videostudy: VideoStudy): Observable<any> {
+        let saveObs: Observable<any>;
+        if (videostudy.id > 0)
+            saveObs = this.http.put(this.videostudyUrl + '/' + videostudy.id, videostudy).map(response => response.json() as VideoStudy).catch(this.handleError2);
+        else
+            saveObs = this.http.post(this.videostudyUrl, videostudy).map(response => response.json() as VideoStudy).catch(this.handleError2);        
+        return saveObs;
     }
 }

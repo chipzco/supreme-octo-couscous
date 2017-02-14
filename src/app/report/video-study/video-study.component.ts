@@ -25,7 +25,7 @@ const enum remoteCallStates {
 })
 
 export class VideoStudyComponent implements OnInit {
-    MAX_EVENTS: number=2;
+    MAX_EVENTS: number=3;
     videoStudy: VideoStudy;
     studies: Study[];
     video: Video;
@@ -63,8 +63,12 @@ export class VideoStudyComponent implements OnInit {
 
   private remoteCallChecker(newstate: remoteCallStates): void {
       this.remotecalls.push(newstate);
-      if (this.remotecalls.length >= this.MAX_EVENTS && this.remotePrefill && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 ) {
-          this.setDefStudy();
+      console.log(this.remotecalls);
+      if (this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo)) {
+          if (this.remotePrefill)
+            this.setDefStudy();
+          this.videoStudy.video = this.video;   
+          console.log(this.videoStudy);
           this.remotecalls = [];//empty array. since no longer needed and no need to set defstudy anymore
       }
   }
@@ -78,6 +82,7 @@ export class VideoStudyComponent implements OnInit {
 
   onSubmit(): void {
       this.submitted = true;
+      this.videoservice.postVideoStudy(this.videoStudy).subscribe(a => this.videoStudy = a);
   }
 
 }

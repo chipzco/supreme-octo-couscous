@@ -10,5 +10,7 @@ export class AppSettings {
     public static get API_STUDY(): string {
         return IsAppLive ? "web/api/study" : "http://localhost:8000/api/study";
     }
-
+    public static get API_VIDEOSTUDY(): string {
+        return IsAppLive ? "web/api/videostudy" : "http://localhost:8000/api/videostudy";
+    }
 }
