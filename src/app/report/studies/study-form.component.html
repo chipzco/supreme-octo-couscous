@@ -1,7 +1,7 @@
 <div class="container">
     <div [hidden]="submitted">
         <h1>Study Form</h1>
-        <form (ngSubmit)="onSubmit()" #studyForm="ngForm">
+        <form (ngSubmit)="study.startDate=startDate.value;study.dueDate=dueDate.value;onSubmit()" #studyForm="ngForm">
             <div class="form-group">
                 <label for="studyid">Study Protocol</label>
                 <input type="text" class="form-control" id="studyid" required [(ngModel)]="study.protocol" name="protocol" #protocol="ngModel">

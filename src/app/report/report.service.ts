@@ -108,7 +108,7 @@ export class ReportService {
         return study_obs;
     }
     getVideoStudy(id: number): Observable<VideoStudy> {
-        let video_obs = this.http.get(this.videosUrl + '/' + id).map(response => response.json().data as VideoStudy).catch(this.handleError2);
+        let video_obs = this.http.get(this.videostudyUrl + '/' + id).map(response => response.json().data as VideoStudy).catch(this.handleError2);
         return video_obs;
     }
     postVideoStudy(videostudy: VideoStudy): Observable<any> {

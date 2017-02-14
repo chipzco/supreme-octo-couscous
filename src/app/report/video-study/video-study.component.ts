@@ -41,7 +41,7 @@ export class VideoStudyComponent implements OnInit {
       this.studies = this.videoservice.getStudiesCached();
       this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid']))
           .subscribe(vid => { this.video = vid; this.remoteCallChecker(remoteCallStates.gotVideo) });
-      this.route.params.switchMap((params: Params) => this.getVideoStudy(+params['id'])).subscribe(vs => { this.videoStudy = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudy) });
+      this.route.params.switchMap((params: Params) => (+params['id']) ? this.getVideoStudy(+params['id']) : Observable.of<VideoStudy>(this.videoStudy)).subscribe(vs => { this.videoStudy = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudy) });
       this.videoservice.getStudies().subscribe(s => { this.studies = s; this.remoteCallChecker(remoteCallStates.gotStudies); });
   }
 
