@@ -32,7 +32,7 @@ export class StudyFormComponent implements OnInit {
 
    submitted = false;
    onSubmit() {
-       if (!this.submitted) {
+       if (!this.submitted) {           
            this.submitted = true;
            this.starStop_s.next(LoaderStatus.Start); //start 
            let objsPosted = this.studyservice.postStudy(this.study);
