@@ -14,7 +14,8 @@ import { LoaderTexts, LoaderStatus } from '../fakeloader/loader-texts';
 const enum remoteCallStates {
     gotVideo,
     gotStudies,
-    gotVideoStudy
+    gotVideoStudy,
+    gotVideoStudies
 }
 
 
@@ -27,6 +28,7 @@ const enum remoteCallStates {
 export class VideoStudyComponent implements OnInit {
     MAX_EVENTS: number=3;
     videoStudy: VideoStudy;
+    videoStudies: Array<VideoStudy>;
     studies: Study[];
     video: Video;
     remotecalls: Array<remoteCallStates>;
@@ -34,7 +36,8 @@ export class VideoStudyComponent implements OnInit {
     submitted: boolean;
     constructor(private videoservice: ReportService, private route: ActivatedRoute) {
         this.submitted = false; this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>();
-        this.video = new Video(0, "", "", patact.unassigned,0, new Language(),[]);
+        this.video = new Video(0, "", "", patact.unassigned, 0, new Language(), []);
+        this.videoStudies = new Array<VideoStudy>();
     }
   ngOnInit() { 
       this.videoStudy = new VideoStudy(0, '', '');
@@ -43,6 +46,12 @@ export class VideoStudyComponent implements OnInit {
           .subscribe(vid => { this.video = vid; this.remoteCallChecker(remoteCallStates.gotVideo) });
       this.route.params.switchMap((params: Params) => (+params['id']) ? this.getVideoStudy(+params['id']) : Observable.of<VideoStudy>(this.videoStudy)).subscribe(vs => { this.videoStudy = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudy) });
       this.videoservice.getStudies().subscribe(s => { this.studies = s; this.remoteCallChecker(remoteCallStates.gotStudies); });
+
+
+
+      let objsvs = this.route.params.switchMap((params: Params) => (+params['videoid']) ? this.videoservice.getVideoStudies(+params['videoid']) : Observable.of<Array<VideoStudy>>(new Array<VideoStudy>()));
+      objsvs.subscribe(vs => { this.videoStudies = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudies) });
+      
   }
 
   private getVideo(videoid: number): Observable<Video> {     
@@ -82,7 +91,11 @@ export class VideoStudyComponent implements OnInit {
 
   onSubmit(): void {
       this.submitted = true;
-      this.videoservice.postVideoStudy(this.videoStudy).subscribe(a => this.videoStudy = a);
+      this.videoservice.postVideoStudy(this.videoStudy).subscribe(a => this.postSave(a));
+  }
+  postSave(vs: VideoStudy): void {
+      this.videoStudy = vs;
+      this.videoservice.getVideoStudies(this.video.id).subscribe( (vs) => { this.videoStudies = vs; this.submitted = false; });
   }
 
 }

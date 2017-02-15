@@ -11,14 +11,16 @@
 
         <table class="table table-striped">
             <thead>
-                <th>#</th>
-                <th><a (click)="onSort(0)">Videoid</a></th>
-                <th><a (click)="onSort(1)">FileName</a></th>
-                <th><a (click)="onSort(2)">Subject Name</a></th>
-                <th><a (click)="onSort(3)">Patient or actor</a></th>
-                <th>Language</th>
-                <th>Transcripts</th>
-                <td></td>
+                <tr>
+                    <th>#</th>
+                    <th><a (click)="onSort(0)">Videoid</a></th>
+                    <th><a (click)="onSort(1)">FileName</a></th>
+                    <th><a (click)="onSort(2)">Subject Name</a></th>
+                    <th><a (click)="onSort(3)">Patient or actor</a></th>
+                    <th>Language</th>
+                    <th>Transcripts</th>
+                    <td></td>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let video of videos_orig">

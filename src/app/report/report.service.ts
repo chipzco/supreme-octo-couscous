@@ -119,4 +119,11 @@ export class ReportService {
             saveObs = this.http.post(this.videostudyUrl, videostudy).map(response => response.json() as VideoStudy).catch(this.handleError2);        
         return saveObs;
     }
+    getVideoStudies(vid = 0): Observable<VideoStudy[]> {
+        let vsurl = this.videostudyUrl;
+        if (vid)
+            vsurl += "/?vid=" + vid;
+        let study_obs = this.http.get(vsurl).map(response => response.json().data as VideoStudy[]).catch(this.handleError2).publishLast().refCount();        
+        return study_obs;
+    }
 }
