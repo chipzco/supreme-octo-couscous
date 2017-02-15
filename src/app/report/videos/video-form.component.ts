@@ -45,7 +45,7 @@ export class VideoFormComponent implements OnInit {
         this.loadTexts = new LoaderTexts(vid_Saved_Text, vid_FinSaved_Text);
         this.route.params
             .switchMap((params: Params) => +params['id'] ? this.videoservice.getVideo(+params['id']) : Observable.of<Video>(this.video))
-            .subscribe(hero => { this.video = hero; this.changeGotData('gotvideo'); });
+            .subscribe(vid => {  this.video=vid; this.changeGotData('gotvideo'); });
         this.langs = this.videoservice.getLangsCached();
         if (this.langs == null)
             this.videoservice.getLangs().subscribe(langs => { this.langs = langs; this.changeGotData('gotlangs'); }, err => this.errorPosting(err));
