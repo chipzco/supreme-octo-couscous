@@ -41,17 +41,31 @@ export class VideoStudyComponent implements OnInit {
     }
   ngOnInit() { 
       this.videoStudy = new VideoStudy(0, '', '');
-      this.studies = this.videoservice.getStudiesCached();
-      this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid']))
-          .subscribe(vid => { this.video = vid; this.remoteCallChecker(remoteCallStates.gotVideo) });
-      this.route.params.switchMap((params: Params) => (+params['id']) ? this.getVideoStudy(+params['id']) : Observable.of<VideoStudy>(this.videoStudy)).subscribe(vs => { this.videoStudy = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudy) });
-      this.videoservice.getStudies().subscribe(s => { this.studies = s; this.remoteCallChecker(remoteCallStates.gotStudies); });
-
-
-
+      
+      this.route.params.switchMap((params: Params) => (+params['id']) ? this.getVideoStudy(+params['id']) : Observable.of<VideoStudy>(this.videoStudy)).subscribe(vs=>this.videoStudyOnSubscribe(vs));
       let objsvs = this.route.params.switchMap((params: Params) => (+params['videoid']) ? this.videoservice.getVideoStudies(+params['videoid']) : Observable.of<Array<VideoStudy>>(new Array<VideoStudy>()));
       objsvs.subscribe(vs => { this.videoStudies = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudies) });
       
+  }
+
+  private videoStudyOnSubscribe(vs: VideoStudy) {
+      this.videoStudy = vs;
+      
+      console.log(vs);
+      this.remoteCallChecker(remoteCallStates.gotVideoStudy);
+      this.studies = this.videoservice.getStudiesCached();
+      if (!this.studies)
+          this.videoservice.getStudies().subscribe(s => { this.studies = s; this.remoteCallChecker(remoteCallStates.gotStudies); });
+      else
+          this.remoteCallChecker(remoteCallStates.gotStudies);
+      if (vs.id && vs.video && vs.video.id) {
+          this.remoteCallChecker(remoteCallStates.gotVideo);
+          this.video = vs.video;
+      }
+      else {
+         
+         this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid'])).subscribe(vid => { this.video = vid; this.remoteCallChecker(remoteCallStates.gotVideo) });
+      }
   }
 
   private getVideo(videoid: number): Observable<Video> {     
@@ -72,8 +86,10 @@ export class VideoStudyComponent implements OnInit {
 
   private remoteCallChecker(newstate: remoteCallStates): void {
       this.remotecalls.push(newstate);
-      console.log(this.remotecalls);
-      if (this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo)) {
+      console.log(this.remotecalls.length);
+      console.log("got studies" + this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) + " found video:" + this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo));
+      if (this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo) >=0) {
+          console.warn('hi');
           if (this.remotePrefill)
             this.setDefStudy();
           this.videoStudy.video = this.video;   
@@ -82,6 +98,7 @@ export class VideoStudyComponent implements OnInit {
       }
   }
   private setDefStudy(): void {
+      console.log('im herer'); 
       if (this.videoStudy.study && this.videoStudy.study.id) {
           let selStudy = this.studies.filter(c => c.id == this.videoStudy.study.id)[0];
           if (selStudy)

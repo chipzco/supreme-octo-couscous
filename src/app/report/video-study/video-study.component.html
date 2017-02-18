@@ -49,7 +49,7 @@
                         <td>{{vs.study.protocol}} </td>
                         <td>{{vs.purpose}} </td>
                         <td>{{vs.notes}} </td>
-                        <td></td>
+                        <td><a href="#" title="edit this video study" [routerLink]="['/reports', { outlets: {admin: ['videostudies',video.id, {id:vs.id}]}}]">E</a></td>
                 </tbody>
             </table>
 
