@@ -46,7 +46,7 @@ export class FakeloaderComponent implements OnInit {
         this.progress = 100;
         if (status == LoaderStatus.Stop) {
             this.infotext = this.loadTexts.processFinishedText;
-            setTimeout(() => this.hideLoader = true, 500);
+            setTimeout(() => this.hideLoader = true, 900);
         }
         else {
             this.infotext = this.loadTexts.errorText;

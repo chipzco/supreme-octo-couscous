@@ -33,30 +33,44 @@ export class VideoStudyComponent implements OnInit {
     remotecalls: Array<remoteCallStates>;
     remotePrefill: boolean;
     submitted: boolean;
+    postSaveLinks: boolean;
     defvideoid: number;
     selvsid: number;
     error: boolean;
     emitGetVideoList: Subject<number>;
-
+    loadTexts: LoaderTexts;
+    private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>();
     get emitVideoList(): Observable<number> {
         return this.emitGetVideoList.asObservable();
         //return this.route.params.map((params: Params) => +params['videoid']); 
     }
-    
-    constructor(private videoservice: ReportService, private route: ActivatedRoute) {
-        this.submitted = false; this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>();
+    get startStop(): Observable<LoaderStatus> {
+        return this.starStop_s.asObservable();
+    }
+
+    constructor(private videoservice: ReportService, private route: ActivatedRoute) {        
+        this.remotePrefill = false;
+        this.remotecalls = new Array<remoteCallStates>();                
+        this.emitGetVideoList = new Subject<number>();
+        this.loadTexts = new LoaderTexts("Saving video-study", "Finished Saving Video Study", "Error saving Video Study");        
+    }
+    private resetOnLoad(): void {
+        this.submitted = false; 
         this.video = new Video(0, "", "", patact.unassigned, 0, new Language(), []);       
+        this.remotecalls = new Array<remoteCallStates>();        
         this.defvideoid = 0;
-        this.selvsid = 0;
+        this.selvsid = 0;       
         this.videoStudy = new VideoStudy(0, '', '');
         this.error = false;
-        this.emitGetVideoList = new Subject<number>();
+        this.postSaveLinks = false;
     }
-  ngOnInit() {       
+    ngOnInit() {
+      this.resetOnLoad();
       this.route.params.switchMap((params: Params) => this.onMapGetVsid(+params['id'])).subscribe(vs => this.videoStudyOnSubscribe(vs));
-      this.defvideoid = +this.route.snapshot.params['videoid'];      
+      this.defvideoid = +this.route.snapshot.params['videoid'];           
     }
-  private onMapGetVsid(vsid?: number): Observable<VideoStudy> {
+    private onMapGetVsid(vsid?: number): Observable<VideoStudy> {
+      this.resetOnLoad(); //need to reset variables if calling this again (ngOnInit is not called then)
       if (vsid) {
           this.selvsid = vsid;
           return this.getVideoStudy(vsid);
@@ -82,7 +96,7 @@ export class VideoStudyComponent implements OnInit {
           //this.emitGetVideoList.next(vs.video.id); //not sure if this should be loaded again
       }
       else
-          this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid'])).subscribe(v => this.onSubscribeVideo(v), e => this.error = true);      
+          this.route.params.switchMap((params: Params) => this.getVideo(+params['videoid'])).subscribe(v => this.onSubscribeVideo(v), e => this.error = true);      
   }
   
 
@@ -127,11 +141,26 @@ export class VideoStudyComponent implements OnInit {
 
   onSubmit(): void {
       this.submitted = true;
-      this.videoservice.postVideoStudy(this.videoStudy).subscribe(a => this.postSave(a));
+      let loadingVSTxt = this.getDispSavedVS(this.videoStudy);
+      this.loadTexts = new LoaderTexts(loadingVSTxt, "Finished Saving Video Study", "Error saving Video Study");
+      setTimeout(() => this.starStop_s.next(LoaderStatus.Start), 0); //to activate the new loader texts
+      this.videoservice.postVideoStudy(this.videoStudy).subscribe(a => this.postSave(a), e => this.starStop_s.next(LoaderStatus.Error));
+  }
+  private getDispSavedVS(vs: VideoStudy): string {
+      let myJsObjStr = "Saving video-study info... <br/> ";
+      if (vs.study && vs.study.id)
+          myJsObjStr += "<br/>Study Protocol: " + vs.study.protocol;      
+      myJsObjStr += "Purpose: " + vs.purpose;
+      myJsObjStr += "<br/>Notes: " + vs.notes;
+      myJsObjStr += "<br/>Id: " + vs.id;
+      
+      return myJsObjStr;
   }
   postSave(vs: VideoStudy): void {
       this.videoStudy = vs;
       this.setDefStudy();
+      this.starStop_s.next(LoaderStatus.Stop); //finish    
+      this.postSaveLinks = true;
       this.emitGetVideoList.next(this.video.id);
   }
 }

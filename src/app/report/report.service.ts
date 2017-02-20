@@ -41,8 +41,8 @@ export class ReportService {
     getLangsCached(): Language[] {
         return this.langCache;
     }
-    getVideo(id: number): Observable<Video> {        
-        let video_obs = this.http.get(this.videosUrl+'/'+ id).map(response => response.json().data as Video).catch(this.handleError2);
+    getVideo(id: number): Observable<Video> {
+        let video_obs = this.http.get(this.videosUrl + '/' + id).map(response => response.json().data as Video).catch(this.handleError2).publishLast().refCount();
         return video_obs;
     }
 

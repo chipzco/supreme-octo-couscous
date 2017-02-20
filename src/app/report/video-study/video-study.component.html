@@ -29,18 +29,20 @@
 
             <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>
         </form>        
-    </div>
+    </div>    
+ 
     <div [hidden]="!submitted">
-        <h3>Saving video-study</h3>
-        Study:  <span *ngIf="videoStudy.study">{{videoStudy.study.protocol}}</span>
-        <br />
-        Purpose: {{videoStudy.purpose}}
+        <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader>                
 
-        <br />
-        Notes: {{videoStudy.notes}}
-        <br/>
-        id: {{videoStudy.id}}
+        <p *ngIf="postSaveLinks">
+            <a [routerLink]="['/reports', { outlets: {admin: ['videostudies',video.id]}}]" title="Manage Video-Study Links">Add New Video Study</a>
+            <br />
+            <a href="#" (click)="$event.preventDefault();submitted=false">Edit this Video Study Again</a>
+        </p>
     </div>
+
+
+
     <div [hidden]="error">
         <video-study-list [eventGetList]="emitVideoList" [selvsid]="selvsid"></video-study-list>
     </div>
