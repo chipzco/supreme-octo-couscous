@@ -10,11 +10,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let vs of videoStudies">
+        <tr *ngFor="let vs of videoStudies" [ngClass]="vs.id==selvsid ? 'alert-info': ''">
             <td><span class="badge">{{vs.id}}</span></td>
             <td>{{vs.study.protocol}} </td>
             <td>{{vs.purpose}} </td>
             <td>{{vs.notes}} </td>
-            <td><a href="#" title="edit this video study" [routerLink]="['/reports', { outlets: {admin: ['videostudies',video.id, {id:vs.id}]}}]">E</a></td>
+            <td><a href="#" title="edit this video study" [routerLink]="['/reports', { outlets: {admin: ['videostudies',videoid, {id:vs.id}]}}]">E</a></td>
     </tbody>
 </table>

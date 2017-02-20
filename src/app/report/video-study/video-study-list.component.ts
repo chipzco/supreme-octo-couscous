@@ -11,19 +11,27 @@ import { ReportService } from '../report.service';
 
 export class VideoStudyListComponent implements OnInit {
     @Input() videoid: number;    //pass video id from parent
+    @Input() selvsid: number; //the selected video study (highlight it)
     @Input() eventGetList: Observable<number>; //observable that can contain video id as value
     videoStudies: Array<VideoStudy>;
 
     constructor(private videoservice: ReportService) {
         this.videoStudies = new Array<VideoStudy>();
+        this.selvsid = 0;
     }
 
     ngOnInit(): void {
+        let obs: Observable<Array<VideoStudy>> = new Observable<Array<VideoStudy>>();
         if (this.videoid && this.videoid > 0)
-            this.videoservice.getVideoStudies(this.videoid).subscribe(vs => this.videoStudies = vs);
-        //this.eventGetList.switchMap(vid => this.videoservice.getVideoStudies(vid)).subscribe(vs => { this.videoStudies = vs; console.warn('hsdkfhsdkfhdskjfs') });
-        this.eventGetList.subscribe(a => console.log("GOT IT : " + a));
-        console.log("hrere in init");
+            obs=this.videoservice.getVideoStudies(this.videoid);        
+        else 
+            obs=this.eventGetList.switchMap(id => this.onMapGetId(id));    
+        obs.subscribe(vs => this.videoStudies = vs)
+    }
+    private onMapGetId(vid: number): Observable<Array<VideoStudy>> {        
+        this.videoid = vid;
+        console.log('swwitch map' + vid);
+        return this.videoservice.getVideoStudies(vid);
     }
 
     
