@@ -34,23 +34,27 @@ export class VideoStudyComponent implements OnInit {
     remotecalls: Array<remoteCallStates>;
     remotePrefill: boolean;
     submitted: boolean;
+    private emitGetVideoList: Subject<number>;
+
+    get emitVideoList(): Observable<number> {
+        //return this.emitGetVideoList.asObservable();
+        return this.route.params.map((params: Params) => (+params['id'])); 
+    }
+    
     constructor(private videoservice: ReportService, private route: ActivatedRoute) {
         this.submitted = false; this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>();
         this.video = new Video(0, "", "", patact.unassigned, 0, new Language(), []);
         this.videoStudies = new Array<VideoStudy>();
+        this.emitGetVideoList = new Subject<number>();
     }
   ngOnInit() { 
-      this.videoStudy = new VideoStudy(0, '', '');
-      
+      this.videoStudy = new VideoStudy(0, '', '');      
       this.route.params.switchMap((params: Params) => (+params['id']) ? this.getVideoStudy(+params['id']) : Observable.of<VideoStudy>(this.videoStudy)).subscribe(vs=>this.videoStudyOnSubscribe(vs));
-      let objsvs = this.route.params.switchMap((params: Params) => (+params['videoid']) ? this.videoservice.getVideoStudies(+params['videoid']) : Observable.of<Array<VideoStudy>>(new Array<VideoStudy>()));
-      objsvs.subscribe(vs => { this.videoStudies = vs; this.remoteCallChecker(remoteCallStates.gotVideoStudies) });
-      
+      this.route.params.subscribe((params: Params) => { this.emitGetVideoList.next(+params['videoid']); console.warn(+params['videoid']); });         
   }
 
   private videoStudyOnSubscribe(vs: VideoStudy) {
-      this.videoStudy = vs;
-      
+      this.videoStudy = vs;      
       console.log(vs);
       this.remoteCallChecker(remoteCallStates.gotVideoStudy);
       this.studies = this.videoservice.getStudiesCached();

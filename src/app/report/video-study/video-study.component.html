@@ -31,28 +31,7 @@
         </form>
 
         <div>
-
-            <h3>Video Studies</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Protocol</th>
-                        <th><a (click)="onSort(3)">Purpose</a></th>
-                        <th>Notes</th>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let vs of videoStudies">
-                        <td><span class="badge">{{vs.id}}</span></td>
-                        <td>{{vs.study.protocol}} </td>
-                        <td>{{vs.purpose}} </td>
-                        <td>{{vs.notes}} </td>
-                        <td><a href="#" title="edit this video study" [routerLink]="['/reports', { outlets: {admin: ['videostudies',video.id, {id:vs.id}]}}]">E</a></td>
-                </tbody>
-            </table>
-
+            <video-study-list [eventGetList]="emitVideoList"></video-study-list>
         </div>
     </div>
     <div [hidden]="!submitted">
