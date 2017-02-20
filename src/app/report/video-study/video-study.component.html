@@ -35,7 +35,7 @@
         <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader>                
 
         <p *ngIf="postSaveLinks">
-            <a [routerLink]="['/reports', { outlets: {admin: ['videostudies',video.id]}}]" title="Manage Video-Study Links">Add New Video Study</a>
+            <a href="#" title="Add New Video-Study Links" (click)="newVideoStudy($event)">Add New Video Study</a>
             <br />
             <a href="#" (click)="$event.preventDefault();submitted=false">Edit this Video Study Again</a>
         </p>

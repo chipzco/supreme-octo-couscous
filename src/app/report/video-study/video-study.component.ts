@@ -163,4 +163,15 @@ export class VideoStudyComponent implements OnInit {
       this.postSaveLinks = true;
       this.emitGetVideoList.next(this.video.id);
   }
+
+  newVideoStudy(evt: any): void {
+      evt.preventDefault();
+      this.videoStudy = new VideoStudy(0, '', '');
+      this.videoStudy.video = this.video;      
+      this.remotecalls=[];
+      this.defvideoid = 0;
+      this.submitted = false; //turn off links show form.
+      this.selvsid = 0;    
+      this.postSaveLinks = false;
+  }
 }
