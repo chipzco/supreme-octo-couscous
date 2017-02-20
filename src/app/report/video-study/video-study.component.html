@@ -1,5 +1,5 @@
 <div class="container">
-    <div [hidden]="submitted">
+    <div [hidden]="submitted || error">
         <h3>Linked Study Form for Video : {{video.videoid}} {{video.filename}}</h3>
         <form (ngSubmit)="onSubmit()" #studyForm="ngForm">
             <div class="form-group">
@@ -28,11 +28,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>
-        </form>
-
-        <div>
-            <video-study-list  [eventGetList]="emitVideoList" [selvsid]="selvsid"></video-study-list>
-        </div>
+        </form>        
     </div>
     <div [hidden]="!submitted">
         <h3>Saving video-study</h3>
@@ -44,6 +40,14 @@
         Notes: {{videoStudy.notes}}
         <br/>
         id: {{videoStudy.id}}
+    </div>
+    <div [hidden]="error">
+        <video-study-list [eventGetList]="emitVideoList" [selvsid]="selvsid"></video-study-list>
+    </div>
 
+    <div [hidden]="!error">
+        <p class="alert-danger">
+            Incorrect/Insufficient data passed to load this form.
+        </p>
     </div>
 </div>

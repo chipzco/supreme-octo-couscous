@@ -27,30 +27,32 @@ const enum remoteCallStates {
 
 export class VideoStudyComponent implements OnInit {
     MAX_EVENTS: number=3;
-    videoStudy: VideoStudy;
-    videoStudies: Array<VideoStudy>;
+    videoStudy: VideoStudy;    
     studies: Study[];
     video: Video;
     remotecalls: Array<remoteCallStates>;
     remotePrefill: boolean;
     submitted: boolean;
     defvideoid: number;
-    selvsid: number;    
+    selvsid: number;
+    error: boolean;
+    emitGetVideoList: Subject<number>;
 
     get emitVideoList(): Observable<number> {
-        //return this.emitGetVideoList.asObservable();
-        return this.route.params.map((params: Params) => +params['videoid']); 
+        return this.emitGetVideoList.asObservable();
+        //return this.route.params.map((params: Params) => +params['videoid']); 
     }
     
     constructor(private videoservice: ReportService, private route: ActivatedRoute) {
         this.submitted = false; this.remotePrefill = false; this.remotecalls = new Array<remoteCallStates>();
-        this.video = new Video(0, "", "", patact.unassigned, 0, new Language(), []);
-        this.videoStudies = new Array<VideoStudy>();       
+        this.video = new Video(0, "", "", patact.unassigned, 0, new Language(), []);       
         this.defvideoid = 0;
         this.selvsid = 0;
+        this.videoStudy = new VideoStudy(0, '', '');
+        this.error = false;
+        this.emitGetVideoList = new Subject<number>();
     }
-  ngOnInit() { 
-      this.videoStudy = new VideoStudy(0, '', '');      
+  ngOnInit() {       
       this.route.params.switchMap((params: Params) => this.onMapGetVsid(+params['id'])).subscribe(vs => this.videoStudyOnSubscribe(vs));
       this.defvideoid = +this.route.snapshot.params['videoid'];      
     }
@@ -75,20 +77,28 @@ export class VideoStudyComponent implements OnInit {
       else
           this.remoteCallChecker(remoteCallStates.gotStudies);
       if (vs.id && vs.video && vs.video.id) {
-          this.remoteCallChecker(remoteCallStates.gotVideo);
+          this.remoteCallChecker(remoteCallStates.gotVideo); //got the video
           this.video = vs.video;
+          //this.emitGetVideoList.next(vs.video.id); //not sure if this should be loaded again
       }
-      else          
-         this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid'])).subscribe(vid => { this.video = vid; this.remoteCallChecker(remoteCallStates.gotVideo) });      
+      else
+          this.route.params.switchMap((params: Params) => this.getVideo(+ params['videoid'])).subscribe(v => this.onSubscribeVideo(v), e => this.error = true);      
   }
+  
 
   private getVideo(videoid?: number): Observable<Video> {     
       if (videoid) {          
           return this.videoservice.getVideo(videoid);
       }
+      //dont have the video so this screen should be disabled somehow.
+      this.error = true;
       return Observable.of<Video>(this.video);
   }
-
+  private onSubscribeVideo(video: Video): void {
+      this.video = video;
+      this.remoteCallChecker(remoteCallStates.gotVideo);
+      this.emitGetVideoList.next(this.video.id);
+  }
   
 
     
@@ -97,7 +107,7 @@ export class VideoStudyComponent implements OnInit {
       this.remotecalls.push(newstate);
       //console.log(this.remotecalls.length);
       //console.log("got studies" + this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) + " found video:" + this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo));
-      if (this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo) >=0) {
+      if (!this.error && this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo) >=0) {
           //console.warn('hi');
           if (this.remotePrefill)
             this.setDefStudy();
@@ -121,7 +131,7 @@ export class VideoStudyComponent implements OnInit {
   }
   postSave(vs: VideoStudy): void {
       this.videoStudy = vs;
-      this.videoservice.getVideoStudies(this.video.id).subscribe( (vs) => { this.videoStudies = vs; this.submitted = false; });
+      this.setDefStudy();
+      this.emitGetVideoList.next(this.video.id);
   }
-
 }
