@@ -18,8 +18,8 @@
             <td>{{vs.purpose}} </td>
             <td>{{vs.notes}} </td>
             <td><modal-trigger caption="X" myModal="vsDelCheck" className="delete" type="link" (click)="onSetDelete(vs.id)"></modal-trigger>
-
-                <a href="#" title="edit this video study" [routerLink]="['/reports', { outlets: {admin: ['videostudies',videoid, {id:vs.id}]}}]">E</a>
+                &nbsp;&nbsp;
+                <a href="#" title="edit this video study" (click)="onEventEdit($event,vs)">E</a>
             
             </td>
     </tbody>

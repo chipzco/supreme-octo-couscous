@@ -44,7 +44,7 @@
 
 
     <div [hidden]="error">
-        <video-study-list [eventGetList]="emitVideoList" [selvsid]="selvsid"></video-study-list>
+        <video-study-list [eventGetList]="emitVideoList" [selvsid]="selvsid" (eventEditLink)="editVS($event)"></video-study-list>
     </div>
 
     <div [hidden]="!error">

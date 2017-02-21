@@ -174,4 +174,13 @@ export class VideoStudyComponent implements OnInit {
       this.selvsid = 0;    
       this.postSaveLinks = false;
   }
+  editVS(evt: VideoStudy): void {
+      this.videoStudy = evt;
+      this.remotecalls = [];
+      this.defvideoid = evt.video.id;
+      this.submitted = false; //turn off links show form.
+      this.selvsid = evt.id;
+      this.setDefStudy();
+      this.postSaveLinks = false;
+  }
 }

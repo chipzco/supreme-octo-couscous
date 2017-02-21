@@ -1,4 +1,4 @@
-import { Component, OnInit, Input  } from '@angular/core';
+import { Component, OnInit, Input, Output,EventEmitter  } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { VideoStudy } from './video-study';
@@ -22,6 +22,7 @@ export class VideoStudyListComponent implements OnInit {
     @Input() videoid: number;    //pass video id from parent
     @Input() selvsid: number; //the selected video study (highlight it)
     @Input() eventGetList: Observable<number>; //observable that can contain video id as value
+    @Output() eventEditLink: EventEmitter<VideoStudy> = new EventEmitter<VideoStudy>();
     videoStudies: Array<VideoStudy>;
     loadTexts: LoaderTexts;
     private starStop_s: Subject<LoaderStatus> = new Subject<LoaderStatus>();
@@ -49,6 +50,10 @@ export class VideoStudyListComponent implements OnInit {
         return this.videoservice.getVideoStudies(vid);
     }
 
+    onEventEdit(evt: any, vs: VideoStudy): void {
+        evt.preventDefault();
+        this.eventEditLink.emit(vs);
+    }
     onSetDelete(id: number): void {
         this.deleteid = id;
     }
