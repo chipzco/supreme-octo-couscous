@@ -126,4 +126,10 @@ export class ReportService {
         let study_obs = this.http.get(vsurl).map(response => response.json().data as VideoStudy[]).catch(this.handleError2).publishLast().refCount();        
         return study_obs;
     }
+    deleteVideoStudy(id: number): Observable<any> {
+        let delObs: Observable<any> = this.http.delete(this.videostudyUrl + '/' + id).map(resp => resp.json()).catch(this.handleError2).publish().refCount();      
+        return delObs;
+    }
+
+
 }
