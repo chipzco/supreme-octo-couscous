@@ -45,8 +45,7 @@ export class VideoStudyListComponent implements OnInit {
         obs.subscribe(vs => this.setVideoStudiesInList(vs));
     }
     private onMapGetId(vid: number): Observable<Array<VideoStudy>> {        
-        this.videoid = vid;
-        console.log('swwitch map' + vid);
+        this.videoid = vid;     
         return this.videoservice.getVideoStudies(vid);
     }
 

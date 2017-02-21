@@ -65,12 +65,14 @@ export class VideoStudyComponent implements OnInit {
         this.postSaveLinks = false;
     }
     ngOnInit() {
-      this.resetOnLoad();
-      this.route.params.switchMap((params: Params) => this.onMapGetVsid(+params['id'])).subscribe(vs => this.videoStudyOnSubscribe(vs));
+      //this.resetOnLoad();
+      this.route.params.switchMap((params: Params) => this.onMapGetVsid(+params['id'], +params['videoid'])).subscribe(vs => this.videoStudyOnSubscribe(vs));
       this.defvideoid = +this.route.snapshot.params['videoid'];           
     }
-    private onMapGetVsid(vsid?: number): Observable<VideoStudy> {
+   private onMapGetVsid(vsid?: number, vid?: number): Observable<VideoStudy> {
       this.resetOnLoad(); //need to reset variables if calling this again (ngOnInit is not called then)
+      if (vid)
+          this.defvideoid = vid;
       if (vsid) {
           this.selvsid = vsid;
           return this.getVideoStudy(vsid);
@@ -82,8 +84,7 @@ export class VideoStudyComponent implements OnInit {
       return this.videoservice.getVideoStudy(id);
   } 
   private videoStudyOnSubscribe(vs: VideoStudy) {
-      this.videoStudy = vs;      
-      //console.log(vs);
+      this.videoStudy = vs;            
       this.remoteCallChecker(remoteCallStates.gotVideoStudy);
       this.studies = this.videoservice.getStudiesCached();
       if (!this.studies)
@@ -95,8 +96,10 @@ export class VideoStudyComponent implements OnInit {
           this.video = vs.video;
           //this.emitGetVideoList.next(vs.video.id); //not sure if this should be loaded again
       }
-      else
-          this.route.params.switchMap((params: Params) => this.getVideo(+params['videoid'])).subscribe(v => this.onSubscribeVideo(v), e => this.error = true);      
+      else {
+          if (this.defvideoid)
+              this.getVideo(this.defvideoid).subscribe(v => this.onSubscribeVideo(v), e => this.error = true);      
+     }
   }
   
 
@@ -118,20 +121,15 @@ export class VideoStudyComponent implements OnInit {
     
 
   private remoteCallChecker(newstate: remoteCallStates): void {
-      this.remotecalls.push(newstate);
-      //console.log(this.remotecalls.length);
-      //console.log("got studies" + this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) + " found video:" + this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo));
-      if (!this.error && this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo) >=0) {
-          //console.warn('hi');
+      this.remotecalls.push(newstate);      
+      if (!this.error && this.remotecalls.length >= this.MAX_EVENTS && this.remotecalls.findIndex(val => val == remoteCallStates.gotStudies) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideoStudy) >= 0 && this.remotecalls.findIndex(val => val == remoteCallStates.gotVideo) >=0) {          
           if (this.remotePrefill)
             this.setDefStudy();
-          this.videoStudy.video = this.video;   
-          //console.log(this.videoStudy);
+          this.videoStudy.video = this.video;             
           this.remotecalls = [];//empty array. since no longer needed and no need to set defstudy anymore
       }
   }
-  private setDefStudy(): void {
-      //console.log('im herer'); 
+  private setDefStudy(): void {      
       if (this.videoStudy.study && this.videoStudy.study.id) {
           let selStudy = this.studies.filter(c => c.id == this.videoStudy.study.id)[0];
           if (selStudy)

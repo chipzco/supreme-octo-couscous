@@ -17,9 +17,11 @@
             <td>{{vs.study.protocol}} </td>
             <td>{{vs.purpose}} </td>
             <td>{{vs.notes}} </td>
-            <td><modal-trigger caption="X" myModal="vsDelCheck" className="delete" type="link" (click)="onSetDelete(vs.id)"></modal-trigger>
+            <td><a href="#" title="edit this video study" (click)="onEventEdit($event,vs)">EDIT</a>
                 &nbsp;&nbsp;
-                <a href="#" title="edit this video study" (click)="onEventEdit($event,vs)">E</a>
+                <modal-trigger caption="DELETE" myModal="vsDelCheck" className="delete" type="link" (click)="onSetDelete(vs.id)"></modal-trigger>
+                
+                
             
             </td>
     </tbody>
