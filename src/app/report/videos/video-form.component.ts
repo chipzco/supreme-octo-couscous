@@ -14,8 +14,7 @@ const vid_Saved_Text = "The video is being saved to the database. Please wait...
 const vid_FinSaved_Text = "Finished saving video in database repository";
 
 @Component ({
-	selector: 'video-form',
-	moduleId: module.id.toString(),
+	selector: 'video-form',	
     templateUrl: './video-form.component.html' ,
     styleUrls: ['./videos.component.scss']
 })

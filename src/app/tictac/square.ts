@@ -2,8 +2,7 @@ import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { sqStates, sqColor, Coord, Square } from '../knight/coord';
 import { Observable } from 'rxjs/Observable';
 
-@Component({
-    moduleId: module.id.toString(),
+@Component({  
     selector: 'square',
     templateUrl: './square.component.html',
     styleUrls: ['./tictac.scss']	

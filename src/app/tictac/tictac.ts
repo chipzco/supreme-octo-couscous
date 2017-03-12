@@ -3,8 +3,7 @@ import { sqStates, sqColor,Square, Board } from  '../knight/coord';
 import { Observable } from 'rxjs/Observable'; 
 import { Board2 } from './board2';
 
-@Component({	  
-	moduleId: module.id.toString(),
+@Component({	  	
 	selector: 'tictac',	  
 	templateUrl:  './tictac.component.html',
 	styleUrls: [ './tictac.scss' ]	

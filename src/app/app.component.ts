@@ -7,8 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { WatcherService } from './watcher.service';
 import { Crumb } from './crumb';
 @Component({
-  selector: 'app-root',
-  moduleId: module.id.toString(),
+  selector: 'app-root',  
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

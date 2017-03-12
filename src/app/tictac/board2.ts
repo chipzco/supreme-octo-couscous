@@ -1,8 +1,7 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { sqStates, sqColor, Coord, Square, Board } from '../knight/coord';
 import { Observable } from 'rxjs/Observable';
-@Component({
-    moduleId: module.id.toString(),
+@Component({    
     selector: 'board',
     templateUrl: './board.component.html',    
     styleUrls: ['./tictac.scss']	

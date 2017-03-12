@@ -6,8 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Chat2Service } from './chat2.service';
 import { ChannelConfig, ConnectionState, MsgClass } from './connection-state.enum';
 @Component({
-    selector: 'chat',
-    moduleId: module.id.toString(),
+    selector: 'chat',   
     templateUrl: './chat.html',
     styleUrls: ['./chat.scss']
 })

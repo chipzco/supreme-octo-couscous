@@ -4,8 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { KnightService, TurnsHolder } from './knight.service';
 import { WatcherService } from '../watcher.service';
 
-@Component({	  
-	moduleId: module.id.toString(),
+@Component({	  	
 	selector: 'board',	  
 	templateUrl:  './knight.component.html',
 	styleUrls: [ './knight.component.scss' ]	

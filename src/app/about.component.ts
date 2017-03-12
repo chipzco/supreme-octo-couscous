@@ -1,7 +1,6 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 
-@Component ({	  
-	moduleId: module.id.toString(),
+@Component ({	  	
 	selector: 'about',	  
 	templateUrl:  './about.component.html'	
 })

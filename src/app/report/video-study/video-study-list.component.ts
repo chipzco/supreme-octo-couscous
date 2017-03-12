@@ -13,8 +13,7 @@ const vs_errorText = "Could not load the video-studies from database. Server Err
 
 
 @Component ({
-	selector: 'video-study-list',
-	moduleId: module.id.toString(),
+	selector: 'video-study-list',	
     templateUrl: './video-study-list.component.html',    
 })
 
