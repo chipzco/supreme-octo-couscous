@@ -13,7 +13,6 @@ import { WatcherService } from './watcher.service';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
 
-
 @NgModule ({ imports: [CommonModule, BrowserModule, FormsModule, HttpModule, 
 		KnightModule, 
 		TicTacModule, 
@@ -21,6 +20,8 @@ import { AboutComponent } from './about.component';
         ReportModule,
 		AppRoutingModule, ], 
 		declarations: [  AppComponent, AboutComponent], 
-        providers: [WatcherService,JQueryService, { provide: WindowExtend, useValue: window }], bootstrap: [AppComponent] 
+        providers: [WatcherService,JQueryService], bootstrap: [AppComponent] 
 })
 export class AppModule { }
+
+

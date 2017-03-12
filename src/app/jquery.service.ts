@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 
+export const windowobj: Window=window;
 
 export class WindowExtend extends Window {
     $: JQMinSpec;
@@ -10,15 +11,21 @@ export interface JQMinSpec {
     signalR: any;
     fn: any;
 }
-
+declare var window: WindowExtend;
 
 @Injectable()
 export class JQueryService {
+	
     private _$666: JQMinSpec;
     JQueryOK: boolean;
-    constructor( @Inject(WindowExtend) private outer_windowObj: WindowExtend) {
+	private outer_windowObj: WindowExtend;
+    //constructor( @Inject(WindowExtend) private outer_windowObj: WindowExtend) {
+	constructor() {
+		
         this.JQueryOK = false;
-        if (this.outer_windowObj) {            
+		
+        if (window) {            
+			this.outer_windowObj=window;
             if (this.outer_windowObj.$) {                
                 if (this.outer_windowObj.$.hubConnection) {                  
                     if (this.outer_windowObj.$.signalR) {                        
