@@ -32,7 +32,7 @@ export class Chat2Component implements OnInit {
     */
 
     ngOnInit(): void {
-        this.name = " I AMTESTING";
+        this.name = "Angular 2 browser client";
         this.msgcomps = this.chatservice.msgObs; //this.chatservice.msgcomps;
         this.chatservice.start();
     }

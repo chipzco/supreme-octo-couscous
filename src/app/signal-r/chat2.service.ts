@@ -20,7 +20,7 @@ export class Chat2Service {
         this.hubOK = false;
         this.msgcomps = new Array<MsgClass>();
         this.msgComp = new MsgClass();
-        if (this.jq.JQueryOK) {
+        if (this.jq.signalROK) {
             let $ = this.jq.JQuery;
             console.log('start init comp jq ok');
             this.hubConnection = $.hubConnection();
