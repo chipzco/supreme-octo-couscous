@@ -8,7 +8,7 @@ import { KnightModule } from './knight/knight.module';
 import { TicTacModule } from './tictac/tictac.module';
 import { SignalRModule } from './signal-r/signal-r.module';
 import { ReportModule } from './report/report.module';
-import { JQueryService, WindowExtend, JQMinSpec } from './jquery.service';
+import { JQueryService } from './jquery.service';
 import { WatcherService } from './watcher.service';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
