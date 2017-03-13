@@ -1,40 +1,25 @@
 import { Injectable, Inject } from '@angular/core';
-
-export const windowobj: Window=window;
-
-export class WindowExtend extends Window {
-    $: JQMinSpec;
-}
-
-export interface JQMinSpec {
-    hubConnection: any;
-    signalR: any;
-    fn: any;
-}
-declare var window: WindowExtend;
+import {window_cover} from './window-ref';
+import { WindowExtend, JQMinSpec } from './window-extend';
 
 @Injectable()
-export class JQueryService {
-	
+export class JQueryService {	
     private _$666: JQMinSpec;
-    JQueryOK: boolean;
-	private outer_windowObj: WindowExtend;
-    //constructor( @Inject(WindowExtend) private outer_windowObj: WindowExtend) {
-	constructor() {
-		
-        this.JQueryOK = false;
-		
-        if (window) {            
-			this.outer_windowObj=window;
-            if (this.outer_windowObj.$) {                
-                if (this.outer_windowObj.$.hubConnection) {                  
-                    if (this.outer_windowObj.$.signalR) {                        
+    JQueryOK: boolean;	
+	//constructor(@Inject(WindowExtend) private outer_windowObj: WindowExtend) {		
+	constructor(private outer_windowObj: window_cover) {		
+        this.JQueryOK = false;				
+        if (this.outer_windowObj.g_window_ref) {            			
+            if (this.outer_windowObj.g_window_ref.$) {                
+                if (this.outer_windowObj.g_window_ref.$.hubConnection) {                  
+                    if (this.outer_windowObj.g_window_ref.$.signalR) {                        
                         this.JQueryOK = true;
-                        this._$666 = this.outer_windowObj.$;                        
+                        this._$666 = this.outer_windowObj.g_window_ref.$;                        
                     }
                 }
             }
-        }        
+        }   
+		console.log(this.JQueryOK + " jq service loaded window? ")	
     }
     get JQuery(): any {
         return <any>this._$666;
