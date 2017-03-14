@@ -1,19 +1,13 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
 import { ReportService } from './report.service';
 import  { fakeHttp } from '../testing/fake-http';
 
 
 describe('ReportService', () => {
-  
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [ReportService,{provide: Http, useClass: fakeHttp }]
-    });
+  let service: ReportService; 
+    it('should return at least one video...', () => {
+		service=new ReportService(new fakeHttp());
+		expect(service.getVideos().subscribe(v=>v.length.toBeGreaterThan(0)));
+	});    
   });
-
-  it('should ...', inject([ReportService], (service: ReportService) => {
-    expect(service).toBeTruthy();
-  }));
-});
