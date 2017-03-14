@@ -2,11 +2,14 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { ReportService } from './report.service';
+import  { fakeHttp } from '../testing/fake-http';
+
 
 describe('ReportService', () => {
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ReportService]
+      providers: [ReportService,{provide: Http, useClass: fakeHttp }]
     });
   });
 
