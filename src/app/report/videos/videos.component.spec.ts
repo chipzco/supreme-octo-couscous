@@ -38,4 +38,9 @@ describe('VideosComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should create 2 videos from video cache', () => {
+    expect(component.videos_orig.length).toBe(2);
+  });
+  
+  
 });

@@ -1,31 +1,43 @@
 /* tslint:disable:no-unused-variable */
 import { async, tick, fakeAsync, ComponentFixture, TestBed, ComponentFixtureAutoDetect  } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component,Input,Output,EventEmitter } from '@angular/core';
 import { FakeloaderComponent } from '../fakeloader/fakeloader.component';
 import { VideoStudyComponent } from './video-study.component';
 import { FormsModule } from '@angular/forms';
-import { VideoStudyListComponent } from './video-study-list.component';
-import { ModalComponent } from '../../modal/modal.component';
-import { ModalTriggerComponent } from '../../modal/modal-trigger.component';
+import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { VideoStudy } from './video-study';
 import { reportServiceStub } from '../../testing/report.service.stub';
 import { ActivatedRouteStub} from '../../testing/activated-route-stub';
 import { ReportService } from '../report.service';
 import { ActivatedRoute } from "@angular/router";
-import { VideoStudy } from './video-study';
+
+@Component ({
+	selector: 'video-study-list',	
+    template:  '',    
+})
+class VideoStudyStubList {
+	@Input() videoid: number;    //pass video id from parent
+    @Input() selvsid: number; //the selected video study (highlight it)
+    @Input() eventGetList: Observable<number>; //observable that can contain video id as value
+    @Output() eventEditLink: EventEmitter<VideoStudy> = new EventEmitter<VideoStudy>();
+}
+
 
 describe('VideoStudyComponent', () => {
   let component: VideoStudyComponent;
   let fixture: ComponentFixture<VideoStudyComponent>;
   let activatedRouteStub=new ActivatedRouteStub();
+  let vs=new VideoStudy(999);
   //activatedRouteStub.setparam('id',100);  
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VideoStudyComponent, FakeloaderComponent,VideoStudyListComponent,ModalComponent,ModalTriggerComponent ],
+      declarations: [ VideoStudyComponent, FakeloaderComponent,VideoStudyStubList],
 	  providers: [ 				
 				{ provide: ReportService, useClass: reportServiceStub },
 				{ provide: ActivatedRoute, useValue: activatedRouteStub }		
-			]	
+			],	
 	  imports: [FormsModule]
     })
     .compileComponents();
@@ -41,32 +53,35 @@ describe('VideoStudyComponent', () => {
     expect(component).toBeTruthy();
   });
   
-  it('should show dummy video after loaded',() => {        	  	
-     setTimeout(()=> {fixture.detectChanges(); expect(component.video.id).toBe(5666),200)};	 
-  });  
-  it('should show dummy video after loaded',() => {        	  	
-	 setTimeout(()=>expect(component.studies.length).toBe(2),100);
-  });  
-  /*
-  it('should show dummy video study after passing',async() => {   	
-     setTimeout(
-		() =>  {			
-			activatedRouteStub.setparam('id',100);  
-			activatedRouteStub.activateParams(); 
-			setTimeout(()=>expect(component.videoStudy.id).toBe(101);)			
-		},10);
+  it('should show dummy video after loaded',<any>fakeAsync((): void  => {  
+        activatedRouteStub.activateParams();
+		tick(100);
+		fixture.detectChanges();
+		expect(component.video.id).toBe(666);	 
+	})
+  );  
+  it('should show dummy studies after loaded',<any>fakeAsync((): void  => {     	  	
+	 activatedRouteStub.activateParams();
+	 tick(100);
+	 fixture.detectChanges();
+	 expect(component.studies.length).toBe(2);
   }));  
-  */
+  it('should show dummy video study after passing id',<any>fakeAsync((): void  => {   
+	 activatedRouteStub.setparam('id',100);  	
+	 activatedRouteStub.activateParams();
+	 tick(100);
+	 fixture.detectChanges();
+	 expect(component.videoStudy.id).toBe(100)
+  }));  
+  it('should show new video to edit when video study is passing  to edit function',async((): void  => {   	 		 
+	 activatedRouteStub.activateParams();
+	 fixture.whenStable().then(()=> {
+		fixture.detectChanges();						
+		component.editVS(vs);	 
+		fixture.detectChanges();				
+		expect(component.videoStudy.id).toBe(999);		
+	 }); 	 
+  }));    
 });
 
-    describe('this test', () => {
-      it('looks async but is synchronous', <any>fakeAsync((): void => {
-           let flag = false;
-           setTimeout(() => { flag = true; }, 100);
-           expect(flag).toBe(false);
-           tick(50);
-           expect(flag).toBe(false);
-           tick(50);
-           expect(flag).toBe(true);
-         }));
-    });
+    

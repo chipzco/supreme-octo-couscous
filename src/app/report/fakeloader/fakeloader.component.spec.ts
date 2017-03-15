@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async,fakeAsync,tick, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement,OnInit, Input } from '@angular/core';
 import { LoaderTexts, LoaderStatus } from './loader-texts';
@@ -25,13 +25,13 @@ describe('FakeloaderComponent', () => {
     component = fixture.componentInstance;	
 	component.startStop=startStop;
 	component.loadTexts=loadTexts;	
-	component.ngOnInit();
+	component.ngOnInit();		
 	fixture.detectChanges();
-	starStop_s.next(LoaderStatus.Start);    
+	starStop_s.next(LoaderStatus.Start);    	
+	
   });
   afterEach(()=>{
-	starStop_s.next(LoaderStatus.Stop);
-	fixture.detectChanges();
+	starStop_s.next(LoaderStatus.Stop);	
   });
 
   it('should create', () => {
@@ -44,13 +44,14 @@ describe('FakeloaderComponent', () => {
   */
   it('should show fakeloader when started',() => {  
 	  //starStop_s.next(LoaderStatus.Start);  
+	  
       expect(component.hideLoader).toBe(false);
   });  
-  it('should show start info text  when started',() => {        	  
+  it('should show start process Running info text  when started',() => {        	  
       expect(component.infotext).toBe("process Running");
   });  
-  it('should show progress after started',async(() => {        	  	
-    setTimeout(() => expect(component.progress).toBeGreaterThan(0),500);
+  it('should show progress after started',async((): void  => {          	  	     	
+    setTimeout(() => { console.log(component.progress); expect(component.progress).toBeGreaterThan(25) },5);
   }));  
    it('should show End info text  when stopped',() => {        
 	  starStop_s.next(LoaderStatus.Stop);
@@ -60,5 +61,18 @@ describe('FakeloaderComponent', () => {
 	  starStop_s.next(LoaderStatus.Stop);
       expect(component.progress).toBe(100);
   });  
+   it('should show show Error text when error is sent',() => {  
+	  fixture.detectChanges();	
+	  expect(component.infotext).toBe("process Running");
+	  starStop_s.next(LoaderStatus.Error);
+	  expect(component.infotext).toBe(loadTexts.errorText);
+  });  
+  it('should hide loader after some some time',() => {        
+	  starStop_s.next(LoaderStatus.Stop);	  
+	  fixture.detectChanges();	  
+	  expect(component.hideLoader).toBe(false); //does not hide right away
+	  setTimeout(() => expect(component.hideLoader).toBe(true),1000);	  
+  });  
+  
   
 });
