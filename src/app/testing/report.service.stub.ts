@@ -32,7 +32,6 @@ export class reportServiceStub {
 	}
 	
 	getVideo(id: number) {
-		return Observable.of(new Video(666, "X", "", patact.unassigned, 0, new Language(), []));
-	
+		return Observable.of(new Video(666, "X", "", patact.unassigned, 0, new Language(), []));	
 	}
 }
