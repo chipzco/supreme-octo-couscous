@@ -1,0 +1,55 @@
+<div class="container">
+    <div [hidden]="submitted || error">
+        <h3>Linked Study Form for Video : {{video.videoid}} {{video.filename}}</h3>
+        <form (ngSubmit)="onSubmit()" #studyForm="ngForm">
+            <div class="form-group">
+                <label for="studyid">Study Protocol</label>                
+                <select id="studyid" class="form-control" [(ngModel)]="videoStudy.study" name="study" required #protocol="ngModel">
+                    <option *ngFor="let s of studies" [ngValue]="s">{{s.protocol}}</option>
+                </select>
+                <div [hidden]="protocol.valid || protocol.pristine" class="alert alert-danger">
+                    study  protocol  is required
+                </div>
+            </div>           
+            
+            <div class="form-group">
+                <label for="purpose">Purpose</label>
+                <input type="text" class="form-control" id="purpose" required [(ngModel)]="videoStudy.purpose" name="purpose">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <input type="text" class="form-control" id="notes" required [(ngModel)]="videoStudy.notes" name="notes">
+            </div>
+
+            <div>
+
+
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!studyForm.form.valid">Save</button>
+        </form>        
+    </div>    
+ 
+    <div [hidden]="!submitted">
+        <app-fakeloader [startStop]="startStop" [loadTexts]="loadTexts"></app-fakeloader>                
+
+        <p *ngIf="postSaveLinks">
+            <a href="#" title="Add New Video-Study Links" (click)="newVideoStudy($event)">Add New Video Study</a>
+            <br />
+            <a href="#" (click)="$event.preventDefault();submitted=false">Edit this Video Study Again</a>
+        </p>
+    </div>
+
+
+
+    <div [hidden]="error">
+        <video-study-list [eventGetList]="emitVideoList" [selvsid]="selvsid" (eventEditLink)="editVS($event)"></video-study-list>
+    </div>
+
+    <div [hidden]="!error">
+        <p class="alert-danger">
+            Incorrect/Insufficient data passed to load this form.
+        </p>
+    </div>
+</div>

@@ -20,12 +20,12 @@ const enum remoteCallStates {
 
 
 @Component({
-  selector: 'app-video-study',
-  templateUrl: './video-study.component.html',
+  selector: 'app-video-try-study',
+  templateUrl: './video-study-try.component.html',
   styleUrls: ['./video-study.component.scss']
 })
 
-export class VideoStudyComponent implements OnInit {
+export class VideoStudyTryComponent implements OnInit {
     MAX_EVENTS: number=3;
     videoStudy: VideoStudy;    
     studies: Study[];

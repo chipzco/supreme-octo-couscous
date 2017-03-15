@@ -24,6 +24,15 @@ export class reportServiceStub {
         return Observable.of(id);
     }
 
+	getStudies() {
+		let studies=new Array<Study>();
+		studies.push(new Study(1,'12','3cro--1'));
+		studies.push(new Study(2,'14','4cro--1'));
+		return studies;
+	}
 	
-
+	getVideo(id: number) {
+		return Observable.of(new Video(666, "X", "", patact.unassigned, 0, new Language(), []));
+	
+	}
 }
