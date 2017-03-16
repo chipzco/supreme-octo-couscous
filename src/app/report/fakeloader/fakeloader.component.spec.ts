@@ -50,9 +50,12 @@ describe('FakeloaderComponent', () => {
   it('should show start process Running info text  when started',() => {        	  
       expect(component.infotext).toBe("process Running");
   });  
-  it('should show progress after started',async((): void  => {          	  	     	
-    setTimeout(() => { console.log(component.progress); expect(component.progress).toBeGreaterThan(25) },5);
-  }));  
+  it('should show progress after started',done => {          	  	     	    
+	setTimeout(() => { 
+		console.log(component.progress); 	
+		expect(component.progress).toBeGreaterThan(25) },5);
+		done();
+  });  
    it('should show End info text  when stopped',() => {        
 	  starStop_s.next(LoaderStatus.Stop);
       expect(component.infotext).toBe("process Finished");
@@ -67,11 +70,11 @@ describe('FakeloaderComponent', () => {
 	  starStop_s.next(LoaderStatus.Error);
 	  expect(component.infotext).toBe(loadTexts.errorText);
   });  
-  it('should hide loader after some some time',() => {        
+  it('should hide loader after some some time',(done) => {        
 	  starStop_s.next(LoaderStatus.Stop);	  
 	  fixture.detectChanges();	  
 	  expect(component.hideLoader).toBe(false); //does not hide right away
-	  setTimeout(() => expect(component.hideLoader).toBe(true),1000);	  
+	  setTimeout(() => { expect(component.hideLoader).toBe(true); done(); },1100);	  
   });  
   
   
