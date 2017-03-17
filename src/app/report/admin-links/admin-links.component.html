@@ -17,5 +17,10 @@
             <li>Backend Code: PHP using Symphony Framework</li>            
             <li>Frontend: Angular 2</li>
       </ul>
+
+
+    <button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
+    <button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
+
     
 </div>

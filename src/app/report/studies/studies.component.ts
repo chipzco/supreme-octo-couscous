@@ -62,10 +62,11 @@ export class StudiesComponent implements OnInit {
         this.studies_orig = studies;
         this.hideWhenRunning = false;
         console.log("admin is now: " + this.IsAdmin);
-        this.starStop_s.next(LoaderStatus.Stop); //finish    
+        setTimeout(() => this.starStop_s.next(LoaderStatus.Stop), 0);        
     }
     private setListError(e: any) {
-        this.starStop_s.next(LoaderStatus.Error); //finish    
+        setTimeout(()=>this.starStop_s.next(LoaderStatus.Error),1); //finish 
+        console.log('should stop for error');       
     }
 
 
