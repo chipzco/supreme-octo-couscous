@@ -19,11 +19,7 @@ import { AboutComponent } from './about.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({
-    tokenName: 'token',
-          tokenGetter: (() => localStorage.getItem('token')),
-          globalHeaders: [{'Content-Type':'application/json'}],
-     }), http, options);
+  return new AuthHttp(new AuthConfig({ tokenName: 'id_token'}), http, options);
 }
 @NgModule ({ imports: [CommonModule, BrowserModule, FormsModule, HttpModule, 
 		KnightModule, 
@@ -33,13 +29,22 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		AppRoutingModule, ], 
 		declarations: [  AppComponent, AboutComponent], 
         providers: [WatcherService,JQueryService,AuthService,AuthGuard,
-		 {
-		  provide: AuthHttp,
-		  useFactory: authHttpServiceFactory,
-		  deps: [Http, RequestOptions]
-		}], 
+				{
+					provide: AuthHttp,
+					useFactory: authHttpServiceFactory,
+					deps: [Http, RequestOptions]
+				}   
+		], 
 		bootstrap: [AppComponent] 
 })
 export class AppModule { }
+
+/*
+{
+		  provide: AuthHttp,
+		  useFactory: authHttpServiceFactory,
+		  deps: [Http, RequestOptions]
+		}  
+		  */
 
 
