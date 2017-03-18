@@ -28,12 +28,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         ReportModule,
 		AppRoutingModule, ], 
 		declarations: [  AppComponent, AboutComponent], 
-        providers: [WatcherService,JQueryService,AuthService,AuthGuard,
-				{
-					provide: AuthHttp,
-					useFactory: authHttpServiceFactory,
-					deps: [Http, RequestOptions]
-				}   
+        providers: [WatcherService,JQueryService,AuthService,AuthGuard,AUTH_PROVIDERS
 		], 
 		bootstrap: [AppComponent] 
 })

@@ -14,16 +14,9 @@ export class AuthService {
 
   constructor(public router: Router) {
     // Add callback for lock `authenticated` event
-    this.router.events
-    .filter(event => event.constructor.name === 'NavigationStart')
-    .filter(event => (/access_token|id_token|error/).test(event.url))
-    .subscribe(() => {
-      this.lock.resumeAuth(window.location.hash, (error, authResult) => {
-        if (error) return console.log(error);
-        localStorage.setItem('id_token', authResult.idToken);
-        this.router.navigate(['/']);
-      });
-	});	
+    this.lock.on("authenticated", (authResult) => {
+      localStorage.setItem('id_token', authResult.idToken);
+    });
   }
 
   public login() {
