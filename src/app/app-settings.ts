@@ -1,4 +1,4 @@
-export const IsAppLive: boolean = false;
+export const IsAppLive: boolean = true;
 
 export class AppSettings {
     public static get API_VIDEO(): string {
