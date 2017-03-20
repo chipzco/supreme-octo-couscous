@@ -13,7 +13,7 @@ import { VideoStudy } from './video-study/video-study';
 import { Language } from './videos/video';
 import { patact } from './videos/video';
 import { AppSettings } from '../app-settings';
-
+import {AuthService } from '../auth.service';
 @Injectable()
 export class ReportService {
     //private videosUrl = 'http://localhost:8000/api/video/list';  // URL to web api
@@ -24,8 +24,8 @@ export class ReportService {
     private videosUrl = AppSettings.API_VIDEO;
     private langUrl = AppSettings.API_LANG;
     private studyUrl = AppSettings.API_STUDY;
-    private videostudyUrl = AppSettings.API_VIDEOSTUDY;
-    constructor(private http: Http, private authHttp: AuthHttp) { }
+    private videostudyUrl = AppSettings.API_VIDEOSTUDY;	
+    constructor(private http: Http, private authHttp: AuthHttp, private authservice: AuthService) {  }
 	
     private videoCache: Video[];
     private langCache: Language[];
@@ -33,7 +33,7 @@ export class ReportService {
 
     getVideos(): Observable<Video[]> {
         let videos_obs = this.authHttp.get(this.videosUrl).map(response => response.json().data as Video[]).catch(this.handleError2).publishLast().refCount();	
-        videos_obs.subscribe(videos => this.videoCache = videos,e=>console.log(e));		
+        videos_obs.subscribe(videos => this.videoCache = videos,e=>this.logoutIfError(e,this.authservice));		
         return videos_obs;
     }
 	getVideosCached(): Video[] {		
@@ -63,10 +63,13 @@ export class ReportService {
     }
     getLangs(): Observable<Language[]> {        
         let lang_obs = this.authHttp.get(this.langUrl).map(response => response.json().data as Language[]).catch(this.handleError2).publishLast().refCount();		
-        lang_obs.subscribe(langs => this.langCache = langs,err=>console.log(err.json()));
+        lang_obs.subscribe(langs => this.langCache = langs,err=>console.log(err));
         return lang_obs;
     }
-
+    private logoutIfError(error: any,auth: AuthService): void {		
+		auth.logout();
+		console.log(error);		
+	}
     private handleError2(error: any): Observable<any> {
         //console.error('An error occurred', error); // for demo purposes only
         
@@ -74,12 +77,13 @@ export class ReportService {
             //return Observable.throw(error.json().error || 'backend server error');
             // if you're using lite-server, use the following line
             // instead of the line above:
-            //return Observable.throw(error.text() || 'backend server error');            
-            return Observable.throw(error || 'backend RESPONSE server error');
+            //return Observable.throw(error.text() || 'backend server error');            			
+            return Observable.throw('backend RESPONSE server error. Status Code: ' + error.status);
         }     
         else    
-            return Observable.throw(error || 'backend server error');
+            return Observable.throw(error || 'backend server error');						
     }
+	
 
     getStudy(id: number): Observable<Study> {
         let study_obs = this.authHttp.get(this.studyUrl + '/' + id).map(response => response.json().data as Study).catch(this.handleError2);
