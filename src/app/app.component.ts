@@ -59,6 +59,9 @@ export class AppComponent {
             let lent = subs.length - x-6; 
             subs = c.substr(x + 6, lent);            
         }
+		x = subs.indexOf("#");
+		if (x > -1) 
+			subs=subs.substr(0,x);
         return subs;
     }
 	ngOnInit() {		

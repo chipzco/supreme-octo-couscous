@@ -7,6 +7,7 @@ import { StudiesComponent } from './studies/studies.component';
 import { VideoStudyComponent } from './video-study/video-study.component';
 import { ReportsComponent } from './reports.component';
 import { AdminLinksComponent } from './admin-links/admin-links.component';
+import { AuthComponent } from './admin-links/autth.component';
 import { AuthGuard } from '../auth-guard.service';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { AuthGuard } from '../auth-guard.service';
             children:
             [
                 { path: '', component: AdminLinksComponent, outlet: 'admin'},
+				{ path: 'auth', component: AuthComponent, outlet: 'admin'},
                 { path: 'videoform', component: VideoFormComponent, outlet: 'admin',canActivate: [AuthGuard]  },
                 { path: 'videoform/:id', component: VideoFormComponent, outlet: 'admin',canActivate: [AuthGuard]   },
                 { path: 'studyform', component: StudyFormComponent, outlet: 'admin',canActivate: [AuthGuard]  },

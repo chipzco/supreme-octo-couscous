@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     // If user is not logged in we'll send them to the homepage 
     if (!this.auth.authenticated()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/reports', { outlets: {admin: ['auth']}} ]);
       return false;
     }
     return true;

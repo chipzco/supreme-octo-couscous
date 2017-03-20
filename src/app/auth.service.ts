@@ -3,24 +3,40 @@
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
+import { IsAppLive } from './app-settings';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 // Avoid name not found warnings
 declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
   // Configure Auth0
-  lock = new Auth0Lock('2z1Xd3I3gIIoy6DCTvog0e4hz7VNBo71', 'compwebserv.auth0.com', {
-	auth: {
-      redirect: false
-    }
-  });
+  lock = new Auth0Lock('2z1Xd3I3gIIoy6DCTvog0e4hz7VNBo71', 'compwebserv.auth0.com', {  });
 
   constructor(public router: Router) {
     // Add callback for lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
-      localStorage.setItem('id_token', authResult.idToken);
-    });
+	if (IsAppLive)   	
+		this.router.events
+		.filter(event => event.constructor.name === 'NavigationStart')
+		.filter(event => (/access_token|id_token|error/).test(event.url))
+		.map(event=>{ 
+			let subs=event.url;
+			let x = subs.indexOf("#");
+			if (x > -1) 
+				subs=subs.substr(x,subs.length-x);
+			return subs;
+		  }	
+		)	
+		.subscribe(url => {
+		  this.lock.resumeAuth(url, (error, authResult) => {
+			if (error) return console.log(error);
+			localStorage.setItem('id_token', authResult.idToken);
+			this.router.navigate(['/reports']);
+		  });
+		});	
+	else 
+	  this.lock.on("authenticated", (authResult) => { localStorage.setItem('id_token', authResult.idToken);   });
   }
 
   public login() {

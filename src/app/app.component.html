@@ -18,22 +18,9 @@
                         <li><a routerLink="/about" routerLinkActive="active" href="#">About</a></li>
                         <li><a routerLink="/tictac" routerLinkActive="active">Tic Tac</a></li>
                         <li><a routerLink="/knight" routerLinkActive="active">Knight Move</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Demo of Reports <span class="caret"></span></a>
-                            <ul class="dropdown-menu">                                
-                                <li><a href="#" routerLink="/videos">Video Report</a></li>                                              
-                                <li><a href="#" routerLink="/studies">Study Listing</a></li>                                
-								<li><a [routerLink]="['/reports']">Admin Manage Report Modules</a></li>  						
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signal R Demo<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" routerLink="/chat2">Demo Chat Application</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
+						<li><a [routerLink]="['/reports']">Admin Manage Report Modules</a></li>  						
+                        <li><a routerLink="/chat2">Demo Chat Application</a></li>    
+					</ul>
                 </div>
             </div>
         </nav>       
