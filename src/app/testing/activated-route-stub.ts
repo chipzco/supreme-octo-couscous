@@ -6,7 +6,7 @@ import { Params } from '@angular/router';
 export class ActivatedRouteStub {
 	s_params: Subject<Params>;
 	act_params: Params={};
-    snapshot={};	
+    snapshot: any={};	
 	constructor() {
 		this.s_params=new Subject<Params>();		
 		this.act_params['id']=0;
