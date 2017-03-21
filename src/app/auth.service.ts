@@ -14,7 +14,7 @@ export class AuthService {
   // Configure Auth0  
   lock = new Auth0Lock('2z1Xd3I3gIIoy6DCTvog0e4hz7VNBo71', 'compwebserv.auth0.com', {
 	auth: {
-      redirect: !IsAppLive
+      redirect: IsAppLive
     }
   });
   constructor(public router: Router) {

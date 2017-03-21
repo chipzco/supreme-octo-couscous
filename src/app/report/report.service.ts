@@ -67,21 +67,20 @@ export class ReportService {
         return lang_obs;
     }
     private logoutIfError(error: any,auth: AuthService): void {		
-		auth.logout();
+		if (error.status === 401 || error.status === 403 || error.status==0) {
+			auth.logout();
+		}
 		console.log(error);		
 	}
-    private handleError2(error: any): Observable<any> {
-        //console.error('An error occurred', error); // for demo purposes only
-        
-        if (error instanceof Response) {
-            //return Observable.throw(error.json().error || 'backend server error');
-            // if you're using lite-server, use the following line
-            // instead of the line above:
-            //return Observable.throw(error.text() || 'backend server error');            			
-            return Observable.throw('backend RESPONSE server error. Status Code: ' + error.status);
-        }     
-        else    
-            return Observable.throw(error || 'backend server error');						
+    private handleError2(error: Response): Observable<any> {     
+		if (error.status === 401 || error.status === 403) {
+			//handle authorization errors
+			//in this example I am navigating to logout route which brings the login screen				
+			console.log("FORBIDDEN/UNAUTHORIZED: "  + error.status);				
+		} 	
+		if (error.status==0) 
+			console.log("CANNOT ACCESS -- no status code: "  + error.status);		
+		return Observable.throw(error);                     
     }
 	
 
@@ -109,7 +108,7 @@ export class ReportService {
     }
     getStudies(): Observable<Study[]> {
         let study_obs = this.authHttp.get(this.studyUrl).map(response => response.json().data as Study[]).catch(this.handleError2).publishLast().refCount();		
-        study_obs.subscribe(s => this.studyCache = s, e => console.log(e.message));
+        study_obs.subscribe(s => this.studyCache = s, e=>this.logoutIfError(e,this.authservice));
         return study_obs;
     }
     getVideoStudy(id: number): Observable<VideoStudy> {
