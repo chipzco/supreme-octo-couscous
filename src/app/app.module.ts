@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard.service';
 import { JQueryService } from './jquery.service';
 import { WatcherService } from './watcher.service';
+import { HttpAuthService }  from './http-auth.service';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about.component';
 
@@ -28,7 +29,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         ReportModule,
 		AppRoutingModule, ], 
 		declarations: [  AppComponent, AboutComponent], 
-        providers: [WatcherService,JQueryService,AuthService,AuthGuard,
+        providers: [WatcherService,JQueryService,AuthService,AuthGuard,HttpAuthService,
 			{
 			  provide: AuthHttp,
 			  useFactory: authHttpServiceFactory,

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
+import { Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -14,6 +13,7 @@ import { Language } from './videos/video';
 import { patact } from './videos/video';
 import { AppSettings } from '../app-settings';
 import {AuthService } from '../auth.service';
+import { HttpAuthService }  from '../http-auth.service';
 @Injectable()
 export class ReportService {
     //private videosUrl = 'http://localhost:8000/api/video/list';  // URL to web api
@@ -25,7 +25,7 @@ export class ReportService {
     private langUrl = AppSettings.API_LANG;
     private studyUrl = AppSettings.API_STUDY;
     private videostudyUrl = AppSettings.API_VIDEOSTUDY;	
-    constructor(private http: Http, private authHttp: AuthHttp, private authservice: AuthService) {  }
+    constructor(private authHttp: HttpAuthService, private authservice: AuthService) {  }
 	
     private videoCache: Video[];
     private langCache: Language[];
